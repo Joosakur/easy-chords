@@ -119,4 +119,4 @@ function PadButton(
   )
 }
 
-export default PadButton
+export default React.memo(PadButton)

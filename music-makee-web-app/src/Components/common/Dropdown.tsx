@@ -53,4 +53,4 @@ function Dropdown<T extends boolean | number | string>(
   )
 }
 
-export default Dropdown
+export default React.memo(Dropdown)

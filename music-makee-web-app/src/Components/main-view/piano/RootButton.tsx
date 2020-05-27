@@ -71,7 +71,7 @@ export function RootDragLayerHorizontal() {
     isDragging: monitor.isDragging(),
   }))
   
-  if(!(isDragging && itemType == 'root' && initialOffset && currentOffset)) return null
+  if(!(isDragging && itemType === 'root' && initialOffset && currentOffset)) return null
   
   return (
     <DragLayer>

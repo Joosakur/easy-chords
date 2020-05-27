@@ -1,4 +1,4 @@
-import React, {useContext, useEffect, useRef} from 'react'
+import React, {useContext, useEffect} from 'react'
 import styled from 'styled-components'
 import LeftSidebar from './LeftSidebar'
 import RightSidebar from './RightSidebar'
@@ -56,7 +56,7 @@ function RootComponent() {
       window.removeEventListener('keydown', keyDownListener)
       window.removeEventListener('keyup', keyUpListener)
     }
-  }, [activeChord, playChord])
+  }, [activeChord, playChord, editorOpen, setSustainPedal, stopChord])
   
   
   return (

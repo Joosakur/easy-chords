@@ -49,10 +49,10 @@ function Settings() {
     <Col>
       <label>Output</label>
       <Gap size='xs'/>
-      <Dropdown<boolean>
+      <Dropdown
         options={outputOptions}
         value={useMidiOutput}
-        onChange={value => setUseMidiOutput(value ?? false)}
+        onChange={value => setUseMidiOutput(!!value)}
       />
       
       {useMidiOutput && <>
@@ -74,12 +74,12 @@ function Settings() {
             <Dropdown placeholder='Loading devices ...'/>
           ) : (
             midiDevices.length > 0 ? (<>
-              <Dropdown<number>
+              <Dropdown
                 placeholder='Select device'
                 options={midiDeviceOptions}
                 value={midiDeviceSelected ?? undefined}
                 onChange={value => {
-                  if(value !== undefined) selectDevice(value)
+                  if(value !== undefined) selectDevice(value as number)
                 }}
               />
             </>) : (
@@ -101,4 +101,4 @@ function Settings() {
   )
 }
 
-export default Settings
+export default React.memo(Settings)

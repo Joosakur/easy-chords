@@ -112,4 +112,4 @@ function ChordEditor() {
   )
 }
 
-export default ChordEditor
+export default React.memo(ChordEditor)

@@ -1,4 +1,4 @@
-import React, {useContext, useEffect, useRef} from 'react'
+import React, {useContext} from 'react'
 import styled from 'styled-components'
 import ActionBar from './main-view/ActionBar'
 import ChordMap from './main-view/ChordMap'
@@ -13,7 +13,6 @@ import {ChordMapContext} from '../state/chord-map-context'
 import {SettingsContext} from '../state/settings-context'
 import {faCog, faMusic} from '@fortawesome/free-solid-svg-icons'
 import {Gap} from './common/layout/whie-space'
-import {FixedSpacing} from './common/layout/flex'
 
 const Container = styled.div`
   height: 100%;

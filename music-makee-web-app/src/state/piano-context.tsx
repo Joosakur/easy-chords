@@ -1,4 +1,4 @@
-import React, {useContext, useEffect, useState} from 'react'
+import React, {useCallback, useContext, useEffect, useState} from 'react'
 import api from '../api/http-client'
 import {SettingsContext} from './settings-context'
 import SynthInstrument from '../utils/music/synth'
@@ -35,7 +35,7 @@ export function PianoContextProvider({children, synth}: PianoContextProviderProp
   const channel = 1
   const velocity = 90
   
-  const playNote = (note: number) => {
+  const playNote = useCallback((note: number) => {
     if(!useMidiOutput && synth) {
       synth.playNote(note)
     }
@@ -43,10 +43,11 @@ export function PianoContextProvider({children, synth}: PianoContextProviderProp
     if(useMidiOutput && midiDeviceSelected !== null) {
       api.playNote({ channel, note, velocity })
     }
+    
     setNotesPlaying([note])
-  }
+  }, [useMidiOutput, midiDeviceSelected, synth])
   
-  const playNotes = (notes: number[]) => {
+  const playNotes = useCallback((notes: number[]) => {
     if(!useMidiOutput && synth) {
       notes.forEach(synth.playNote)
     }
@@ -56,17 +57,18 @@ export function PianoContextProvider({children, synth}: PianoContextProviderProp
         playNotes: notes.map(note => ({ note, channel, velocity: 90 })),
         stopNotes: notesPlaying.map(note => ({ note, channel })),
       })
-      setNotesPlaying(notes)
     }
-  }
+    
+    setNotesPlaying(notes)
+  }, [useMidiOutput, midiDeviceSelected, notesPlaying, synth])
   
-  const stopNotes = () => {
+  const stopNotes = useCallback(() => {
     api.playChord({
       playNotes: [],
       stopNotes: notesPlaying.map(note => ({ note, channel })),
     })
     setNotesPlaying([])
-  }
+  }, [notesPlaying])
   
   useEffect(() => {
     sustainPedal ? api.sendCC({channel: 1, cc: 64, value: 127}) : api.sendCC({channel: 1, cc: 64, value: 0})

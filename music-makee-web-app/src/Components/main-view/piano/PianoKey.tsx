@@ -58,10 +58,11 @@ const WhiteKeyButton = styled.button<KeyButtonProps>`
   }
   
   &:active, &.pressed {
-    background: linear-gradient(80deg, rgb(154,149,145) 0%, #e7efe8 55%);
     box-shadow:
       inset 0 7px 7px -4px rgba(26,26,26,0.75),
       inset 0 -3px 3px #363433;
+      
+    background: linear-gradient(80deg, rgb(154,149,145) 0%, #e7efe8 55%);
   }
   
   &.dragging, &.below-root {

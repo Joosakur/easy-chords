@@ -68,7 +68,7 @@ function Piano() {
   const {useMidiOutput} = useContext(SettingsContext)
   const [collapsed, setCollapsed] = useState<boolean>(false)
   const [octaves, setOctaves] = useState<number>(3)
-  const [centerOctave, setCenterOctave] = useState<number>(4)
+  const [centerOctave, setCenterOctave] = useState<number>(5)
   const selfRef = useRef<HTMLDivElement>(null)
   
   function onResize() {
