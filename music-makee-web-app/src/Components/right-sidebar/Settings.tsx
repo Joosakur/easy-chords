@@ -6,10 +6,17 @@ import {SettingsContext} from '../../state/settings-context'
 import {H3} from '../common/typography'
 import Dropdown from '../common/Dropdown'
 import {Gap} from '../common/layout/whie-space'
+import {Colors} from '../common/style-constants'
 
 const Col = styled.div`
   display: flex;
   flex-direction: column;
+`
+
+const Warning = styled.div`
+  background-color: ${Colors.states.error};
+  border-radius: 8px;
+  padding: 8px;
 `
 
 function Settings() {
@@ -83,17 +90,17 @@ function Settings() {
                 }}
               />
             </>) : (
-              <div>
+              <Warning>
                 <H3>No external MIDI devices found</H3>
-                <p>
-                  Make sure you have EasyChords server application running.
+                <p className='text-high'>
+                  Make sure you have the EasyChords server application running.
                 </p>
-                <p>
+                <p className='text-medium'>
                   If using phone, make sure you are in the same network (connected to same WiFi). Then input the IP
-                  or the hostname of your computer to the field above (Piano Chords server application will tell
-                  you these).
+                  or the hostname of your computer to the field above. EasyChords server application will tell
+                  you these.
                 </p>
-              </div>
+              </Warning>
             )
           )}
       </>}

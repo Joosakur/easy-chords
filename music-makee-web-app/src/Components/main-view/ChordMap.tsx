@@ -2,6 +2,7 @@ import React, {useContext} from 'react'
 import styled from 'styled-components'
 import {ChordMapContext} from '../../state/chord-map-context'
 import PadButton from '../common/buttons/PadButton'
+import {PianoContext} from '../../state/piano-context'
 
 const Wrapper = styled.div`
   flex-grow: 1;
@@ -26,12 +27,12 @@ function ChordMap() {
     chords,
     activeChordIndex,
     setActiveChordIndex,
-    playChord,
     editorOpen,
     editState,
     finishCopy,
     finishSwap
   } = useContext(ChordMapContext)
+  const { playChord } = useContext(PianoContext)
 
   if(!chords) return null
   
@@ -44,10 +45,10 @@ function ChordMap() {
             selected={editorOpen && activeChordIndex === i}
             empty={chord === null}
             text={chord?.name ?? ''}
-            onMouseDown={() => {
+            onMouseDown={(x, y) => {
               if(editState === null) {
                 setActiveChordIndex(i)
-                if(chord) playChord(chord)
+                if(chord) playChord(chord, x, y)
               } else if(editState.mode === 'copy'){
                 finishCopy(i)
               } else if(editState.mode === 'swap'){

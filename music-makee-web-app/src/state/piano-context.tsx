@@ -2,11 +2,13 @@ import React, {useCallback, useContext, useEffect, useState} from 'react'
 import api from '../api/http-client'
 import {SettingsContext} from './settings-context'
 import SynthInstrument from '../utils/music/synth'
+import {ChordV1} from '../types'
+import {getAbsoluteNotes} from '../utils/music/chords'
 
 interface PianoState {
   notesPlaying: number[],
   playNote: (note: number) => void,
-  playNotes: (notes: number[]) => void,
+  playChord: (chord: ChordV1, x: number, y: number) => void,
   stopNotes: () => void,
   sustainPedal: boolean,
   setSustainPedal: (val: boolean) => void
@@ -15,7 +17,7 @@ interface PianoState {
 export const defaultState = {
   notesPlaying: [],
   playNote: () => {},
-  playNotes: () => {},
+  playChord: () => {},
   stopNotes: () => {},
   sustainPedal: false,
   setSustainPedal: () => {}
@@ -47,14 +49,16 @@ export function PianoContextProvider({children, synth}: PianoContextProviderProp
     setNotesPlaying([note])
   }, [useMidiOutput, midiDeviceSelected, synth])
   
-  const playNotes = useCallback((notes: number[]) => {
+  const playChord = useCallback((chord: ChordV1, x: number, y: number) => {
+    const notes = getAbsoluteNotes(chord)
     if(!useMidiOutput && synth) {
       notes.forEach(synth.playNote)
     }
   
+    const velocity = 50 + 60 * x
     if(useMidiOutput && midiDeviceSelected !== null) {
       api.playChord({
-        playNotes: notes.map(note => ({ note, channel, velocity: 90 })),
+        playNotes: notes.map(note => ({ note, channel, velocity })),
         stopNotes: notesPlaying.map(note => ({ note, channel })),
       })
     }
@@ -77,7 +81,7 @@ export function PianoContextProvider({children, synth}: PianoContextProviderProp
   const value: PianoState = {
     notesPlaying,
     playNote,
-    playNotes,
+    playChord,
     stopNotes,
     sustainPedal,
     setSustainPedal

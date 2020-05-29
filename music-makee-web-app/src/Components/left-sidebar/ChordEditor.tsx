@@ -42,7 +42,7 @@ const NarrowInput = styled(Input)`
 `
 
 function ChordEditor() {
-  const { activeChordIndex, chords, playChord, updateChord } = useContext(ChordMapContext)
+  const { activeChordIndex, chords, updateChord } = useContext(ChordMapContext)
   
   const activeChord: ChordV1 = (activeChordIndex !== null && chords[activeChordIndex])
     || { root: 0, octave: 4, voicing: [], name: '' }
@@ -52,7 +52,6 @@ function ChordEditor() {
     
     newChord.name = getChordName(newChord.root, newChord.voicing)
     
-    playChord(newChord)
     if(activeChordIndex !== null) updateChord(activeChordIndex, newChord)
   }
   

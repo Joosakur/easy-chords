@@ -35,7 +35,8 @@ const interval = [
 ]
 
 const states = {
-  active: '#64953e'
+  active: '#64953e',
+  error: '#5f2626'
 }
 
 export const Colors = {

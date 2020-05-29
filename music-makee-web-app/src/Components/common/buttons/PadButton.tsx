@@ -94,7 +94,7 @@ const StyledButton = styled.button<StyledButtonProps>`
 
 interface PadButtonProps {
   text: string
-  onMouseDown?: () => any
+  onMouseDown?: (x:number, y:number) => any
   selected?: boolean
   empty?: boolean
   color?: string
@@ -110,7 +110,13 @@ function PadButton(
   return (
     <StyledButton
       className={classNames(className, { selected, empty, thin, toggle })}
-      onMouseDown={() => onMouseDown && onMouseDown()}
+      onMouseDown={(e: React.MouseEvent) => {
+        e.persist()
+        const { x, y, width, height } = e.currentTarget.getBoundingClientRect()
+        const xr = Math.max(0, Math.min(1, (e.clientX - x) / (width + 1)))
+        const yr = Math.max(0, Math.min(1, (e.clientY - y) / (height + 1)))
+        onMouseDown && onMouseDown(xr, yr)
+      }}
       color={selected ? Colors.states.active : color || Colors.primary}
       selected={selected}
     >

@@ -104,6 +104,7 @@ function ActionBar() {
             <DropdownDivider/>
             <DropdownHeader>Songs</DropdownHeader>
             <DropdownItem onClick={() => loadChordMap('/songs/Smile')} text='Smile' description='Charlie Chaplin'/>
+            <DropdownItem onClick={() => loadChordMap('/songs/Whiter')} text='Whiter shade of pale' description='Procol Harum'/>
           </DropdownMenu>
         </Dropdown>
   

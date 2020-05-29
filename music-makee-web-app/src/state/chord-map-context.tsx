@@ -1,7 +1,5 @@
-import React, {useContext, useState} from 'react'
+import React, {useState} from 'react'
 import {ChordV1} from '../types'
-import {getAbsoluteNotes} from '../utils/music/chords'
-import {PianoContext} from './piano-context'
 
 export type EditMode = 'copy' | 'swap'
 
@@ -19,8 +17,6 @@ interface ChordMapState {
   activeChord: ChordV1 | null,
   activeChordIndex: number | null,
   setActiveChordIndex: (val: number | null) => void,
-  playChord: (chord: ChordV1) => void,
-  stopChord: () => void,
   editState: EditState | null
   setEditState: (state: EditState | null) => void,
   finishCopy: (to: number) => void,
@@ -53,8 +49,6 @@ export const defaultState: ChordMapState = {
   activeChord: null,
   activeChordIndex: null,
   setActiveChordIndex: () => {},
-  playChord: () => {},
-  stopChord: () => {},
   editState: null,
   setEditState: () => {},
   finishCopy: () => {},
@@ -67,21 +61,11 @@ export const ChordMapContext = React.createContext<ChordMapState>(defaultState)
 export function ChordMapContextProvider(
   {children}: { children: React.ReactNode, }
   ) {
-  const { playNotes, stopNotes } = useContext(PianoContext)
-  
   const [editorOpen, setEditorOpen] = useState<boolean>(false)
   const [chords, setChords] = useState<(ChordV1 | null)[]>(defaultChords)
   const [activeChordIndex, setActiveChordIndex] = useState<(number | null)>(null)
   const [editState, setEditState] = useState<EditState | null>(null)
   
-  const playChord = async (chord: ChordV1) => {
-    playNotes(getAbsoluteNotes(chord))
-  }
-
-  const stopChord = () => {
-    stopNotes()
-  }
-
   const value: ChordMapState = {
     editorOpen,
     setEditorOpen: (open: boolean) => {
@@ -98,8 +82,6 @@ export function ChordMapContextProvider(
     activeChord: (editorOpen && activeChordIndex !== null && chords[activeChordIndex]) || null,
     activeChordIndex,
     setActiveChordIndex,
-    playChord,
-    stopChord,
     editState,
     setEditState,
     finishCopy: to => {

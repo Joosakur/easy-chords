@@ -15,7 +15,7 @@ const RootContainer = styled.div`
 
 function RootComponent() {
   const { settingsOpen, setSettingsOpen } = useContext(SettingsContext)
-  const { editorOpen, activeChord, playChord, stopChord } = useContext(ChordMapContext)
+  const { editorOpen, activeChord } = useContext(ChordMapContext)
   const { setSustainPedal } = useContext(PianoContext)
   
   useEffect(() => {
@@ -29,11 +29,7 @@ function RootComponent() {
       if(event.repeat) return
       
       if(event.code === 'Space'){
-        if(editorOpen){
-          if(activeChord) playChord(activeChord)
-        } else {
-          setSustainPedal(true)
-        }
+        setSustainPedal(true)
       }
     }
   
@@ -41,11 +37,7 @@ function RootComponent() {
       if(document.activeElement && ['input'].includes(document.activeElement.tagName.toLowerCase())) return
       
       if(event.code === 'Space'){
-        if(editorOpen){
-          stopChord()
-        } else {
-          setSustainPedal(false)
-        }
+        setSustainPedal(false)
       }
     }
     
@@ -56,7 +48,7 @@ function RootComponent() {
       window.removeEventListener('keydown', keyDownListener)
       window.removeEventListener('keyup', keyUpListener)
     }
-  }, [activeChord, playChord, editorOpen, setSustainPedal, stopChord])
+  }, [activeChord, editorOpen, setSustainPedal])
   
   
   return (

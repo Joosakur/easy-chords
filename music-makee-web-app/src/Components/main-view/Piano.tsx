@@ -63,8 +63,8 @@ const calculateOctaveCount = (width: number): number => {
 }
 
 function Piano() {
-  const {sustainPedal, setSustainPedal} = useContext(PianoContext)
-  const {editorOpen, playChord, activeChord} = useContext(ChordMapContext)
+  const {sustainPedal, setSustainPedal, playChord} = useContext(PianoContext)
+  const {editorOpen, activeChord} = useContext(ChordMapContext)
   const {useMidiOutput} = useContext(SettingsContext)
   const [collapsed, setCollapsed] = useState<boolean>(false)
   const [octaves, setOctaves] = useState<number>(3)
@@ -98,24 +98,29 @@ function Piano() {
               icon={faCaretLeft}
               altText={'Scroll piano left'}
             />
-            { useMidiOutput && !editorOpen && (
-              <PadButton
-                text='Sustain (Space)'
-                toggle
-                selected={sustainPedal}
-                onMouseDown={() => setSustainPedal(!sustainPedal)}
-                color={Colors.grey.darker}
-                thin
-              />
-            )}
-            { editorOpen && activeChord && (
-              <PadButton
-                text='Play (Space)'
-                onMouseDown={() => playChord(activeChord)}
-                color={Colors.primary}
-                thin
-              />
-            )}
+            
+            <FixedSpacing>
+              { useMidiOutput && (
+                <PadButton
+                  text='Sustain [Space]'
+                  toggle
+                  selected={sustainPedal}
+                  onMouseDown={() => setSustainPedal(!sustainPedal)}
+                  color={Colors.grey.darker}
+                  thin
+                />
+              )}
+  
+              { editorOpen && activeChord && (
+                <PadButton
+                  text='Play Chord'
+                  onMouseDown={() => playChord(activeChord, 0.6, 0.6)}
+                  color={Colors.primary}
+                  thin
+                />
+              )}
+            </FixedSpacing>
+            
           </>)
           : (
             <div style={{flexGrow: 1}} />

@@ -183,16 +183,31 @@ function PianoKey({ note }: PianoKeyProps) {
   
   const onKeyPress = (e: React.MouseEvent ) => {
     e.stopPropagation()
-    if(activeChord && activeChordIndex !== null && note >= 12 * activeChord.octave + activeChord.root){
+    if(activeChord && activeChordIndex !== null){
       const newChord = cloneDeep(activeChord)
+      
+      // adjust root octave if new note is below it
+      while (note < 12 * newChord.octave + newChord.root){
+        newChord.octave = newChord.octave - 1
+        newChord.voicing = newChord.voicing.map(v => v + 12)
+      }
+      
+      // toggle note on/off
       const noteIndex = newChord.voicing.lastIndexOf(note - 12 * activeChord.octave - activeChord.root)
       if(noteIndex >= 0) {
         newChord.voicing.splice(noteIndex, 1)
       } else {
-        newChord.voicing.push(note - 12 * activeChord.octave - activeChord.root)
+        newChord.voicing.push(note - 12 * newChord.octave - newChord.root)
         newChord.voicing.sort((a, b) => a - b)
         playNote(note)
       }
+      
+      // get rid of empty octaves at start
+      while (newChord.voicing.length > 0 && newChord.voicing[0] >= 12){
+        newChord.octave = newChord.octave + 1
+        newChord.voicing = newChord.voicing.map(v => v - 12)
+      }
+      
       newChord.name = getChordName(newChord.root, newChord.voicing)
       updateChord(activeChordIndex, newChord)
     } else {

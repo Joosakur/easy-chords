@@ -30,7 +30,7 @@ const slideOut = keyframes`
 
 const SidebarContainer = styled.div`
   background: ${Colors.grey.darkest};
-  min-width: 27rem;
+  width: 27rem;
   padding: ${SPACING_LENGTHS.m};
   position: fixed;
   top: 0;
