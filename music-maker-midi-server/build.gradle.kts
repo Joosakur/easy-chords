@@ -5,6 +5,8 @@ plugins {
     id("io.spring.dependency-management") version "1.0.9.RELEASE"
     kotlin("jvm") version "1.3.72"
     kotlin("plugin.spring") version "1.3.72"
+    java
+    application
 }
 
 group = "fi.ardento.music-maker"
@@ -16,6 +18,10 @@ configurations {
     runtimeClasspath {
         extendsFrom(developmentOnly)
     }
+}
+
+application {
+    mainClassName = "org.gradle.sample.Main"
 }
 
 repositories {
@@ -42,4 +48,9 @@ tasks.withType<KotlinCompile> {
         freeCompilerArgs = listOf("-Xjsr305=strict")
         jvmTarget = "1.8"
     }
+}
+
+
+tasks.getByName<org.springframework.boot.gradle.tasks.bundling.BootJar>("bootJar") {
+    mainClassName = "fi.ardento.musicmaker.musicmakermidiserver.MusicMakerMidiServerApplicationKt"
 }
