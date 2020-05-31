@@ -1,21 +1,23 @@
-import React, {useContext, useEffect, useRef, useState} from 'react'
-import Octave from './piano/Octave'
+import React, {useEffect, useRef, useState} from 'react'
 import styled from 'styled-components'
-import {ChordMapContext} from '../../state/chord-map-context'
-import {Colors, SPACING_LENGTHS} from '../common/style-constants'
-import CircleActionButton from '../common/buttons/CircleActionButton'
+import classNames from 'classnames'
 import {
   faAngleDown,
   faAngleUp,
   faCaretLeft,
   faCaretRight
 } from '@fortawesome/free-solid-svg-icons'
+import Octave from './piano/Octave'
+import {Colors, SPACING_LENGTHS} from '../common/style-constants'
+import CircleActionButton from '../common/buttons/CircleActionButton'
 import PadButton from '../common/buttons/PadButton'
-import {PianoContext} from '../../state/piano-context'
-import {SettingsContext} from '../../state/settings-context'
 import {FixedSpacing} from '../common/layout/flex'
-import classNames from 'classnames'
 import {RootDragLayerHorizontal} from './piano/RootButton'
+import {useDispatch, useSelector} from 'react-redux'
+import {selectIsEditorOpen} from '../../state/ui/ui-slice'
+import {selectSettings} from '../../state/settings/settings-slice'
+import {playChord, setSustainPedal} from '../../state/actions'
+import {selectSustainPedal} from '../../state/piano/piano-slice'
 
 const PianoWrapper = styled.div`
   position: sticky;
@@ -63,9 +65,12 @@ const calculateOctaveCount = (width: number): number => {
 }
 
 function Piano() {
-  const {sustainPedal, setSustainPedal, playChord} = useContext(PianoContext)
-  const {editorOpen, activeChord} = useContext(ChordMapContext)
-  const {useMidiOutput} = useContext(SettingsContext)
+  const dispatch = useDispatch()
+  const { midiOutput } = useSelector(selectSettings)
+  const editorOpen = useSelector(selectIsEditorOpen)
+  
+  const sustainPedal = useSelector(selectSustainPedal)
+  
   const [collapsed, setCollapsed] = useState<boolean>(false)
   const [octaves, setOctaves] = useState<number>(3)
   const [centerOctave, setCenterOctave] = useState<number>(5)
@@ -100,21 +105,21 @@ function Piano() {
             />
             
             <FixedSpacing>
-              { useMidiOutput && (
+              { midiOutput && (
                 <PadButton
                   text='Sustain [Space]'
                   toggle
                   selected={sustainPedal}
-                  onMouseDown={() => setSustainPedal(!sustainPedal)}
+                  onMouseDown={() => dispatch(setSustainPedal(!sustainPedal))}
                   color={Colors.grey.darker}
                   thin
                 />
               )}
   
-              { editorOpen && activeChord && (
+              { editorOpen && (
                 <PadButton
                   text='Play Chord'
-                  onMouseDown={() => playChord(activeChord, 0.6, 0.6)}
+                  onMouseDown={() => dispatch(playChord())}
                   color={Colors.primary}
                   thin
                 />

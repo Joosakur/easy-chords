@@ -1,12 +1,11 @@
-import React, {useContext, useEffect} from 'react'
+import React, { useEffect } from 'react'
 import styled from 'styled-components'
 import LeftSidebar from './LeftSidebar'
 import RightSidebar from './RightSidebar'
-import {SettingsContext} from '../state/settings-context'
 import MainView from './MainView'
 import {cover} from 'polished'
-import {ChordMapContext} from '../state/chord-map-context'
-import {PianoContext} from '../state/piano-context'
+import {useDispatch} from 'react-redux'
+import {setSustainPedal} from '../state/actions'
 
 const RootContainer = styled.div`
   display: flex;
@@ -14,9 +13,7 @@ const RootContainer = styled.div`
 `
 
 function RootComponent() {
-  const { settingsOpen, setSettingsOpen } = useContext(SettingsContext)
-  const { editorOpen, activeChord } = useContext(ChordMapContext)
-  const { setSustainPedal } = useContext(PianoContext)
+  const dispatch = useDispatch()
   
   useEffect(() => {
     const keyDownListener = (event: KeyboardEvent) => {
@@ -29,7 +26,7 @@ function RootComponent() {
       if(event.repeat) return
       
       if(event.code === 'Space'){
-        setSustainPedal(true)
+        dispatch(setSustainPedal(true))
       }
     }
   
@@ -37,7 +34,7 @@ function RootComponent() {
       if(document.activeElement && ['input'].includes(document.activeElement.tagName.toLowerCase())) return
       
       if(event.code === 'Space'){
-        setSustainPedal(false)
+        dispatch(setSustainPedal(false))
       }
     }
     
@@ -48,14 +45,14 @@ function RootComponent() {
       window.removeEventListener('keydown', keyDownListener)
       window.removeEventListener('keyup', keyUpListener)
     }
-  }, [activeChord, editorOpen, setSustainPedal])
+  }, [dispatch])
   
   
   return (
     <RootContainer>
       <LeftSidebar/>
       <MainView/>
-      <RightSidebar open={settingsOpen} toggle={() => setSettingsOpen(!setSettingsOpen)}/>
+      <RightSidebar/>
     </RootContainer>
   )
 }

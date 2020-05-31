@@ -1,14 +1,21 @@
-import React, {useContext, useMemo, useRef} from 'react'
+import React, {useMemo, useRef} from 'react'
 import styled from 'styled-components'
 import {DropdownDivider, DropdownHeader, DropdownItem, DropdownMenu} from 'semantic-ui-react'
 import {faCopy, faExchangeAlt, faFileExport, faFileImport, faTrashAlt} from '@fortawesome/free-solid-svg-icons'
 import {ChordMapDefinitionV1} from '../../types'
-import {ChordMapContext} from '../../state/chord-map-context'
 import {FixedSpacing} from '../common/layout/flex'
 import ActionButton from '../common/buttons/ActionButton'
 import Dropdown from '../common/Dropdown'
-import api from '../../api/http-client'
 import {FadedColors, SPACING_LENGTHS} from '../common/style-constants'
+import {
+  clearChord,
+  selectChords,
+  selectEditMode, selectIsChordButtonSelected,
+  setEditMode
+} from '../../state/chord-map/chord-map-slice'
+import {useDispatch, useSelector} from 'react-redux'
+import {selectIsEditorOpen} from '../../state/ui/ui-slice'
+import {importChordMap, loadChordMap} from '../../state/actions'
 
 const ActionBarContainer = styled.div`
   display: flex;
@@ -32,19 +39,11 @@ const ActionBarContainer = styled.div`
 `
 
 function ActionBar() {
-  const {
-    chords, setChords,
-    activeChord, activeChordIndex, setActiveChordIndex,
-    editorOpen,
-    editState, setEditState, clear
-  } = useContext(ChordMapContext)
-  
-  const loadChordMap = (path: string) => {
-    api.getChordMapPreset(path).then(chordMap => {
-      setActiveChordIndex(null)
-      setChords(chordMap.chords)
-    })
-  }
+  const dispatch = useDispatch()
+  const chords = useSelector(selectChords)
+  const editorOpen = useSelector(selectIsEditorOpen)
+  const chordButtonSelected = useSelector(selectIsChordButtonSelected)
+  const editMode = useSelector(selectEditMode)
   
   const exportHref = useMemo(() => {
     const chordMap: ChordMapDefinitionV1 = { chords, version: 1 }
@@ -59,37 +58,37 @@ function ActionBar() {
   return (
     <ActionBarContainer>
       <FixedSpacing style={{justifyContent: 'flex-start'}}>
-        { editorOpen && activeChordIndex !== null && activeChord !== null && !editState && (<>
+        { editorOpen && chordButtonSelected && !editMode && (<>
           <ActionButton
             icon={faCopy}
             text='Copy'
             hideText='1600px'
             color={FadedColors.secondary}
-            onClick={() => {setEditState({ mode: 'copy', target: activeChordIndex })}}
+            onClick={() => dispatch(setEditMode('copy'))}
           />
           <ActionButton
             icon={faExchangeAlt}
             text='Swap'
             hideText='1600px'
             color={FadedColors.secondary}
-            onClick={() => {setEditState({ mode: 'swap', target: activeChordIndex })}}
+            onClick={() => dispatch(setEditMode('swap'))}
           />
           <ActionButton
             icon={faTrashAlt}
             text='Clear chord'
             hideText='1600px'
             color={FadedColors.secondary}
-            onClick={() => clear()}
+            onClick={() => dispatch(clearChord())}
           />
         </>) }
         
-        { editorOpen && activeChordIndex !== null && editState && (
+        { editorOpen && chordButtonSelected && editMode && (
           <FixedSpacing>
-            { editState.mode === 'copy' && <span className='text-high'>Copy to...</span>}
-            { editState.mode === 'swap' && <span className='text-high'>Swap with...</span>}
+            { editMode === 'copy' && <span className='text-high'>Copy to...</span>}
+            { editMode === 'swap' && <span className='text-high'>Swap with...</span>}
             <ActionButton
               text='Cancel'
-              onClick={() => {setEditState(null)}}
+              onClick={() => dispatch(setEditMode(null))}
             />
           </FixedSpacing>
         )}
@@ -99,16 +98,17 @@ function ActionBar() {
         <Dropdown placeholder='Load preset'>
           <DropdownMenu>
             <DropdownHeader>Basic and substitute chords</DropdownHeader>
-            <DropdownItem onClick={() => loadChordMap('/disub/C')}>C / Am</DropdownItem>
+            <DropdownItem onClick={() => dispatch(loadChordMap('/disub/C'))}>C / Am</DropdownItem>
             <DropdownItem disabled>G / Em</DropdownItem>
             <DropdownDivider/>
             <DropdownHeader>Songs</DropdownHeader>
-            <DropdownItem onClick={() => loadChordMap('/songs/Smile')} text='Smile' description='Charlie Chaplin'/>
-            <DropdownItem onClick={() => loadChordMap('/songs/Whiter')} text='Whiter shade of pale' description='Procol Harum'/>
+            <DropdownItem onClick={() => dispatch(loadChordMap('/songs/Smile'))} text='Smile' description='Charlie Chaplin'/>
+            <DropdownItem onClick={() => dispatch(loadChordMap('/songs/Whiter'))} text='Whiter shade of pale' description='Procol Harum'/>
           </DropdownMenu>
         </Dropdown>
   
         <a style={{display: 'none'}} ref={exportLink} href={exportHref} download='My Chords.json'>Export</a>
+        
         <ActionButton
           text='Export'
           icon={faFileExport}
@@ -117,14 +117,18 @@ function ActionBar() {
           color={FadedColors.secondary}
         />
   
-        <input style={{display: 'none'}} ref={fileSelector} type='file' accept='application/json'
-               onChange={() => {
-                 if(fileSelector.current) {
-                   setActiveChordIndex(null)
-                   readFile(fileSelector.current, (chordMap) => setChords(chordMap.chords))
-                 }
-               }}
+        <input
+          style={{display: 'none'}}
+          ref={fileSelector}
+          type='file'
+          accept='application/json'
+          onChange={() => {
+            if(fileSelector.current) {
+              readFile(fileSelector.current, (json) => dispatch(importChordMap(json)))
+            }
+          }}
         />
+        
         <ActionButton
           text='Import'
           icon={faFileImport}
@@ -137,29 +141,16 @@ function ActionBar() {
   )
 }
 
-function readFile(input: HTMLInputElement, onSuccess: (chordMap: ChordMapDefinitionV1) => void) {
+function readFile(input: HTMLInputElement, onSuccess: (json: string) => void) {
   const file = input.files?.item(0)
   const reader = new FileReader();
   
   reader.onload = function(event) {
     const contents = event.target?.result;
-    if(!contents){
-      console.error('No contents')
+    if(contents){
+      onSuccess(contents.toString())
     } else {
-      let chordMap: any
-      try {
-        chordMap = JSON.parse(contents.toString())
-      } catch (e) {
-        console.error(e)
-        return
-      }
-      
-      if(chordMap.version === 1) {
-        const v1: ChordMapDefinitionV1 = { ...chordMap }
-        onSuccess(v1)
-      } else {
-        throw new Error(`Version of chord map definition not supported: ${chordMap.version}`)
-      }
+      console.error('No contents')
     }
   }
   

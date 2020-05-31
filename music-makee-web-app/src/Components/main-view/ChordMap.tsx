@@ -1,8 +1,8 @@
-import React, {useContext} from 'react'
+import React from 'react'
 import styled from 'styled-components'
-import {ChordMapContext} from '../../state/chord-map-context'
-import PadButton from '../common/buttons/PadButton'
-import {PianoContext} from '../../state/piano-context'
+import {selectChords} from '../../state/chord-map/chord-map-slice'
+import {useSelector} from 'react-redux'
+import ChordButton from './chord-map/ChordButton'
 
 const Wrapper = styled.div`
   flex-grow: 1;
@@ -23,39 +23,13 @@ const ChordGrid = styled.div`
 `
 
 function ChordMap() {
-  const {
-    chords,
-    activeChordIndex,
-    setActiveChordIndex,
-    editorOpen,
-    editState,
-    finishCopy,
-    finishSwap
-  } = useContext(ChordMapContext)
-  const { playChord } = useContext(PianoContext)
-
-  if(!chords) return null
+  const chords = useSelector(selectChords)
   
   return (
     <Wrapper>
       <ChordGrid>
-        { chords.map((chord, i) => (
-          <PadButton
-            key={i}
-            selected={editorOpen && activeChordIndex === i}
-            empty={chord === null}
-            text={chord?.name ?? ''}
-            onMouseDown={(x, y) => {
-              if(editState === null) {
-                setActiveChordIndex(i)
-                if(chord) playChord(chord, x, y)
-              } else if(editState.mode === 'copy'){
-                finishCopy(i)
-              } else if(editState.mode === 'swap'){
-                finishSwap(i)
-              }
-            }}
-          />
+        { chords.map((chord, index) => (
+          <ChordButton chord={chord} index={index}/>
         ))}
       </ChordGrid>
     </Wrapper>

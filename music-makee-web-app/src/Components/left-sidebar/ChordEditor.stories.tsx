@@ -3,7 +3,6 @@ import QualitySelector from './chord-editor/QualitySelector'
 import {action} from '@storybook/addon-actions'
 import styled from 'styled-components'
 import {Colors} from '../common/style-constants'
-import {ChordMapContext, defaultState} from '../../state/chord-map-context'
 import RootSelector from './chord-editor/RootSelector'
 import VoicingEditor from './chord-editor/VoicingEditor'
 import OctaveSelector from './chord-editor/OctaveSelector'
@@ -29,42 +28,20 @@ const SidebarBackground = styled.div`
 `
 
 export const qualitySelector = () => (
-  <ChordMapContext.Provider value={{
-    ...defaultState,
-    chords: [{
-      root: 0,
-      octave: 3,
-      voicing: [0, 4, 7],
-      name: ''
-    }],
-    activeChordIndex: 0
-  }}>
-    <SidebarBackground>
-      <QualitySelector onChange={voicingChanged}/>
-    </SidebarBackground>
-  </ChordMapContext.Provider>
+  <SidebarBackground>
+    <QualitySelector onChange={voicingChanged}/>
+  </SidebarBackground>
 )
 
 export const rootSelector = () => (
-  <ChordMapContext.Provider value={{
-    ...defaultState,
-    chords: [{
-      root: 0,
-      octave: 3,
-      voicing: [0, 4, 7],
-      name: ''
-    }],
-    activeChordIndex: 0
-  }}>
-    <SidebarBackground>
-      <div>
-        <RootSelector
-          root={0}
-          onChange={rootChanged}
-        />
-      </div>
-    </SidebarBackground>
-  </ChordMapContext.Provider>
+  <SidebarBackground>
+    <div>
+      <RootSelector
+        root={0}
+        onChange={rootChanged}
+      />
+    </div>
+  </SidebarBackground>
 )
 
 export const voicingSelector = () => (

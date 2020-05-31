@@ -1,12 +1,13 @@
-import React, {useContext} from 'react'
+import React from 'react'
+import {useDispatch, useSelector} from 'react-redux'
 import styled from 'styled-components'
 import classNames from 'classnames'
 import {faAngleLeft} from '@fortawesome/free-solid-svg-icons'
 import {Colors, SPACING_LENGTHS} from './common/style-constants'
-import {ChordMapContext} from '../state/chord-map-context'
 import ChordEditor from './left-sidebar/ChordEditor'
 import {H2} from './common/typography'
 import CircleActionButton from './common/buttons/CircleActionButton'
+import {closeEditor, selectIsEditorOpen} from '../state/ui/ui-slice'
 
 const SidebarContainer = styled.div`
   background: ${Colors.grey.darker};
@@ -41,7 +42,9 @@ const TopRow = styled.div`
 `
 
 function LeftSidebar() {
-  const { editorOpen, setEditorOpen } = useContext(ChordMapContext)
+  const dispatch = useDispatch()
+  const editorOpen = useSelector(selectIsEditorOpen)
+  
   return editorOpen ? (
     <SidebarContainer className={classNames({ open: editorOpen })}>
       <InnerWrapper>
@@ -50,7 +53,7 @@ function LeftSidebar() {
           <CircleActionButton
             icon={faAngleLeft}
             altText='Close sidebar'
-            onClick={() => setEditorOpen(false)}
+            onClick={() => dispatch(closeEditor())}
             color={Colors.grey.darker}
           />
         </TopRow>

@@ -7,6 +7,8 @@ import Settings from './right-sidebar/Settings'
 import {Gap} from './common/layout/whie-space'
 import {H2} from './common/typography'
 import CircleActionButton from './common/buttons/CircleActionButton'
+import {useDispatch, useSelector} from 'react-redux'
+import {closeSettings, selectIsSettingsOpen} from '../state/ui/ui-slice'
 
 const slideIn = keyframes`
   from {
@@ -59,12 +61,10 @@ const TopRow = styled.div`
   margin-top: -${SPACING_LENGTHS.m};
 `
 
-interface RightSidebarProps {
-  open: boolean
-  toggle: () => any
-}
-
-function RightSidebar({open, toggle}: RightSidebarProps) {
+function RightSidebar() {
+  const dispatch = useDispatch()
+  const open = useSelector(selectIsSettingsOpen)
+  
   const [initial, setInitial] = useState<boolean>(true)
   useEffect(() => {
     if(open) setInitial(false)
@@ -78,7 +78,7 @@ function RightSidebar({open, toggle}: RightSidebarProps) {
         <CircleActionButton
           icon={faAngleRight}
           altText='Close sidebar'
-          onClick={toggle}
+          onClick={() => dispatch(closeSettings())}
           color={Colors.grey.darker}
         />
         <H2 fitted>Settings</H2>

@@ -1,16 +1,17 @@
-import React, {useContext} from 'react'
-import {ChordMapContext} from '../../state/chord-map-context'
+import React from 'react'
+import {useDispatch, useSelector} from 'react-redux'
+import styled from 'styled-components'
+import {Input} from 'semantic-ui-react'
 import {ChordV1, IntervalNumber, Voicing} from '../../types'
 import {getChordName} from '../../utils/music/chords'
 import RootSelector from './chord-editor/RootSelector'
 import QualitySelector from './chord-editor/QualitySelector'
-import styled from 'styled-components'
 import {Gap} from '../common/layout/whie-space'
 import VoicingEditor from './chord-editor/VoicingEditor'
 import OctaveSelector from './chord-editor/OctaveSelector'
-import {Input} from 'semantic-ui-react'
 import {CenteredDiv} from '../common/layout/flex'
 import {SPACING_LENGTHS} from '../common/style-constants'
+import {selectActiveChord, selectActiveChordIndex, setChord} from '../../state/chord-map/chord-map-slice'
 
 const Wrapper = styled.div`
   display: flex;
@@ -42,17 +43,16 @@ const NarrowInput = styled(Input)`
 `
 
 function ChordEditor() {
-  const { activeChordIndex, chords, updateChord } = useContext(ChordMapContext)
-  
-  const activeChord: ChordV1 = (activeChordIndex !== null && chords[activeChordIndex])
-    || { root: 0, octave: 4, voicing: [], name: '' }
+  const dispatch = useDispatch()
+  const activeChord = useSelector(selectActiveChord) || { root: 0, octave: 4, voicing: [], name: '' }
+  const activeChordIndex = useSelector(selectActiveChordIndex)
   
   const onRootChanged = (root: IntervalNumber) => {
     const newChord: ChordV1 = { ...activeChord, root }
     
     newChord.name = getChordName(newChord.root, newChord.voicing)
     
-    if(activeChordIndex !== null) updateChord(activeChordIndex, newChord)
+    if(activeChordIndex !== null) dispatch(setChord({ chord: newChord }))
   }
   
   const onVoicingChanged = (voicing: Voicing) => {
@@ -60,18 +60,18 @@ function ChordEditor() {
     
     newChord.name = getChordName(newChord.root, newChord.voicing)
     
-    if(activeChordIndex !== null) updateChord(activeChordIndex, newChord)
+    if(activeChordIndex !== null) dispatch(setChord({ chord: newChord }))
   }
   
   const onOctaveChanged = (octave: number) => {
     if(activeChord && activeChordIndex !== null){
-      updateChord(activeChordIndex, { ...activeChord, octave })
+      dispatch(setChord({ chord: { ...activeChord, octave } }))
     }
   }
   
   const onChordRenamed = (name: string) => {
     if(activeChord && activeChordIndex !== null) {
-      updateChord(activeChordIndex, {...activeChord, name: name.substr(0, 10)})
+      dispatch(setChord({ chord: {...activeChord, name: name.substr(0, 10)} }))
     }
   }
   

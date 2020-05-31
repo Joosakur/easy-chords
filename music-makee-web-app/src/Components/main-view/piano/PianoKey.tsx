@@ -1,15 +1,18 @@
-import React, {useContext} from 'react'
+import React from 'react'
 import styled from 'styled-components'
 import classNames from 'classnames'
 import {lighten} from 'polished'
-import { cloneDeep } from 'lodash'
 import { useDrop } from 'react-dnd'
-import {PianoContext} from '../../../state/piano-context'
-import {ChordMapContext} from '../../../state/chord-map-context'
 import {Colors} from '../../common/style-constants'
-import {getChordName} from '../../../utils/music/chords'
 import {BWWR} from '../../../constants'
 import RootButton from './RootButton'
+import {connect, useDispatch} from 'react-redux'
+import {selectActiveChord} from '../../../state/chord-map/chord-map-slice'
+import {selectIsKeyDown} from '../../../state/piano/piano-slice'
+import {pianoKeyClicked} from '../../../state/piano/piano-saga-actions'
+import {selectIsEditorOpen} from '../../../state/ui/ui-slice'
+import {RootState} from '../../../state/root-reducer'
+import {ChordV1} from '../../../types'
 
 interface KeyButtonProps {
   interval?: number
@@ -158,10 +161,13 @@ const RootPositioner = styled.div`
 interface PianoKeyProps {
   note: number
 }
-
-function PianoKey({ note }: PianoKeyProps) {
-  const { notesPlaying, playNote } = useContext(PianoContext)
-  const { activeChord, activeChordIndex, updateChord } = useContext(ChordMapContext)
+interface MappedProps {
+  editorOpen: boolean
+  pressed: boolean
+  activeChord: ChordV1 | null
+}
+function PianoKey({ note, editorOpen, pressed, activeChord }: PianoKeyProps & MappedProps) {
+  const dispatch = useDispatch()
   
   const [{ canDrop, isOver }, drop] = useDrop({
     accept: 'root',
@@ -172,47 +178,18 @@ function PianoKey({ note }: PianoKeyProps) {
     })
   })
   
-  const interval = activeChord ? (note - activeChord.root) % 12 : undefined
+  const interval = editorOpen && activeChord ? (note - activeChord.root) % 12 : undefined
   const state = {
-    pressed: notesPlaying.includes(note),
-    active: activeChord?.voicing?.includes(note - (activeChord?.root ?? 0) - 12 * (activeChord?.octave ?? 0)),
-    dragging: canDrop && !isOver,
-    dropping: canDrop && isOver,
+    pressed,
+    active: editorOpen && activeChord?.voicing?.includes(note - (activeChord?.root ?? 0) - 12 * (activeChord?.octave ?? 0)),
+    dragging: editorOpen && canDrop && !isOver,
+    dropping: editorOpen && canDrop && isOver,
     'below-root': activeChord && note < 12 * activeChord.octave + activeChord.root
   }
   
   const onKeyPress = (e: React.MouseEvent ) => {
     e.stopPropagation()
-    if(activeChord && activeChordIndex !== null){
-      const newChord = cloneDeep(activeChord)
-      
-      // adjust root octave if new note is below it
-      while (note < 12 * newChord.octave + newChord.root){
-        newChord.octave = newChord.octave - 1
-        newChord.voicing = newChord.voicing.map(v => v + 12)
-      }
-      
-      // toggle note on/off
-      const noteIndex = newChord.voicing.lastIndexOf(note - 12 * activeChord.octave - activeChord.root)
-      if(noteIndex >= 0) {
-        newChord.voicing.splice(noteIndex, 1)
-      } else {
-        newChord.voicing.push(note - 12 * newChord.octave - newChord.root)
-        newChord.voicing.sort((a, b) => a - b)
-        playNote(note)
-      }
-      
-      // get rid of empty octaves at start
-      while (newChord.voicing.length > 0 && newChord.voicing[0] >= 12){
-        newChord.octave = newChord.octave + 1
-        newChord.voicing = newChord.voicing.map(v => v - 12)
-      }
-      
-      newChord.name = getChordName(newChord.root, newChord.voicing)
-      updateChord(activeChordIndex, newChord)
-    } else {
-      playNote(note)
-    }
+    dispatch(pianoKeyClicked(note))
   }
   
   const black = [1, 3, 6, 8, 10].includes(note % 12)
@@ -233,7 +210,7 @@ function PianoKey({ note }: PianoKeyProps) {
         />
       )
     }
-    { activeChord && note === 12 * activeChord.octave + activeChord.root && (
+    { editorOpen && activeChord && note === 12 * activeChord.octave + activeChord.root && (
       <RootPositioner className={classNames({ black })}>
         <RootButton/>
       </RootPositioner>
@@ -241,4 +218,16 @@ function PianoKey({ note }: PianoKeyProps) {
   </Wrapper>
 }
 
-export default PianoKey
+const makeMapStateToProps = () => {
+  const memoizedSelector = (key: number) => selectIsKeyDown(key)
+  return (state: RootState, props: PianoKeyProps) => {
+    const editorOpen = selectIsEditorOpen(state)
+    return {
+      editorOpen,
+      pressed: memoizedSelector(props.note)(state),
+      activeChord: editorOpen ? selectActiveChord(state) : null
+    }
+  }
+}
+
+export default connect(makeMapStateToProps)(PianoKey)
