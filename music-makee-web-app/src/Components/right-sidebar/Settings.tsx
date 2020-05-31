@@ -1,12 +1,13 @@
-import React, {useContext, useEffect} from 'react'
+import React from 'react'
+import {useDispatch, useSelector} from 'react-redux'
 import styled from 'styled-components'
 import {Input} from 'semantic-ui-react'
-import api from '../../api/http-client'
-import {SettingsContext} from '../../state/settings-context'
 import {H3} from '../common/typography'
 import Dropdown from '../common/Dropdown'
 import {Gap} from '../common/layout/whie-space'
 import {Colors} from '../common/style-constants'
+import {selectSettings, setHost, setMidiOutput} from '../../state/settings/settings-slice'
+import {chooseMidiDevice} from '../../state/actions'
 
 const Col = styled.div`
   display: flex;
@@ -20,28 +21,8 @@ const Warning = styled.div`
 `
 
 function Settings() {
-  const {
-    useMidiOutput, setUseMidiOutput,
-    host, setHost,
-    midiDevices, setMidiDevices,
-    midiDeviceSelected, setMidiDeviceSelected
-  } = useContext(SettingsContext)
-  
-  useEffect(() => {
-    api.setHostName(host)
-    
-    if(useMidiOutput && host) {
-      setMidiDevices(null)
-      api.getDevices().then(setMidiDevices).catch(() => setMidiDevices([]))
-    }
-  }, [useMidiOutput, host, setMidiDevices])
-  
-  const selectDevice = (value: number) => {
-    if(midiDevices === null) return
-    setMidiDeviceSelected(null)
-    api.setDevice(midiDevices[value]).then(() => setMidiDeviceSelected(value))
-  }
-  
+  const dispatch = useDispatch()
+  const { midiDevices, midiOutput, host, midiDeviceIndex } = useSelector(selectSettings)
   const outputOptions = [
     { value: false, text: 'Play on browser (default piano)' },
     { value: true, text: 'Use external MIDI'}
@@ -58,11 +39,11 @@ function Settings() {
       <Gap size='xs'/>
       <Dropdown
         options={outputOptions}
-        value={useMidiOutput}
-        onChange={value => setUseMidiOutput(!!value)}
+        value={midiOutput}
+        onChange={value => dispatch(setMidiOutput(!!value))}
       />
       
-      {useMidiOutput && <>
+      {midiOutput && <>
           <Gap/>
 
           <label>Your local EasyChords server hostname or IP</label>
@@ -70,7 +51,7 @@ function Settings() {
           <Input
               fluid
               value={host}
-              onChange={(e, data) => setHost(data.value)}
+              onChange={(e, data) => dispatch(setHost(data.value))}
           />
 
           <Gap/>
@@ -84,9 +65,9 @@ function Settings() {
               <Dropdown
                 placeholder='Select device'
                 options={midiDeviceOptions}
-                value={midiDeviceSelected ?? undefined}
+                value={midiDeviceIndex !== null ? midiDeviceIndex : undefined}
                 onChange={value => {
-                  if(value !== undefined) selectDevice(value as number)
+                  if(value !== undefined) dispatch(chooseMidiDevice(value as number))
                 }}
               />
             </>) : (

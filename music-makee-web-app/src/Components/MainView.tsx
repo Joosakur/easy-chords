@@ -1,18 +1,18 @@
-import React, {useContext} from 'react'
+import React from 'react'
 import styled from 'styled-components'
+import {useDispatch, useSelector} from 'react-redux'
+import {darken, lighten, math, rem} from 'polished'
+import {faCog, faMusic} from '@fortawesome/free-solid-svg-icons'
 import ActionBar from './main-view/ActionBar'
 import ChordMap from './main-view/ChordMap'
 import {Colors, SPACING_LENGTHS} from './common/style-constants'
 import {H1} from './common/typography'
-import {darken, lighten, math, rem} from 'polished'
 import bg from '../images/bg.png'
 import Piano from './main-view/Piano'
-import {PianoContext} from '../state/piano-context'
 import ActionButton from './common/buttons/ActionButton'
-import {ChordMapContext} from '../state/chord-map-context'
-import {SettingsContext} from '../state/settings-context'
-import {faCog, faMusic} from '@fortawesome/free-solid-svg-icons'
 import {Gap} from './common/layout/whie-space'
+import {stopNotes, toggleEditor, toggleSettings} from '../state/actions'
+import {selectIsEditorOpen} from '../state/ui/ui-slice'
 
 const Container = styled.div`
   height: 100%;
@@ -69,19 +69,18 @@ const Content = styled.div<ContentProps>`
 `
 
 function MainView() {
-  const { settingsOpen, setSettingsOpen } = useContext(SettingsContext)
-  const { stopNotes } = useContext(PianoContext)
-  const { editorOpen, setEditorOpen } = useContext(ChordMapContext)
+  const dispatch = useDispatch()
+  const editorOpen = useSelector(selectIsEditorOpen)
   
   return (
-    <Container onMouseUp={() => stopNotes()} >
+    <Container onMouseUp={() => dispatch(stopNotes())} >
       <TitleBar>
         { !editorOpen ? (
           <ActionButton
             text='Edit Chords'
             icon={faMusic}
             hideText='650px'
-            onClick={() => setEditorOpen(!editorOpen)}
+            onClick={() => dispatch(toggleEditor())}
           />
         ) : (
           <div/>
@@ -93,7 +92,7 @@ function MainView() {
           text='Settings'
           icon={faCog}
           hideText='1200px'
-          onClick={() => setSettingsOpen(!settingsOpen)}
+          onClick={() => dispatch(toggleSettings())}
         />
       </TitleBar>
   

@@ -1,14 +1,15 @@
-import React, {useContext, useEffect} from 'react'
+import React, {useEffect} from 'react'
 import styled from 'styled-components'
+import classNames from 'classnames'
 import {useDrag, DragSourceMonitor, useDragLayer} from 'react-dnd'
+import {getEmptyImage} from 'react-dnd-html5-backend'
 import { cloneDeep } from 'lodash'
-import {ChordMapContext} from '../../../state/chord-map-context'
+import {darken} from 'polished'
 import {IntervalNumber} from '../../../types'
 import {getChordName} from '../../../utils/music/chords'
-import {getEmptyImage} from 'react-dnd-html5-backend'
-import classNames from 'classnames'
 import {Colors} from '../../common/style-constants'
-import {darken} from 'polished'
+import {selectActiveChord, setChord} from '../../../state/chord-map/chord-map-slice'
+import {useDispatch, useSelector} from 'react-redux'
 
 
 const Root = styled.div`
@@ -82,10 +83,11 @@ export function RootDragLayerHorizontal() {
 
 
 function RootButton() {
-  const { activeChord, activeChordIndex, updateChord } = useContext(ChordMapContext)
+  const dispatch = useDispatch()
+  const activeChord = useSelector(selectActiveChord)
   
   const updateRoot = (note: number) => {
-    if(!activeChord || activeChordIndex == null) return
+    if(!activeChord) return
     const octave = Math.floor(note / 12)
     const root = (note % 12) as IntervalNumber
     const newChord = {
@@ -94,7 +96,7 @@ function RootButton() {
       root,
       name: getChordName(root, activeChord.voicing)
     }
-    updateChord(activeChordIndex, newChord)
+    dispatch(setChord({ chord: newChord }))
   }
   
   const [{isDragging}, drag, preview] = useDrag({
