@@ -26,7 +26,8 @@ function ChordMap() {
   const chords = useSelector(selectChords)
 
   return (
-    <Wrapper>
+    <Wrapper
+      onDragStart={e => e.preventDefault()}>
       <ChordGrid>
         {chords.map((chord, index) => (
           <ChordButton chord={chord} index={index} />

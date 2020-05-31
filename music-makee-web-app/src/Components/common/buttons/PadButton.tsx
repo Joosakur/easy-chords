@@ -76,6 +76,10 @@ const StyledButton = styled.button<StyledButtonProps>`
   }
 
   cursor: pointer;
+  
+  span {
+    user-select: none;
+  }
 
   @media screen and (max-width: 800px) {
     padding: 0 ${SPACING_LENGTHS.xs};
@@ -115,6 +119,7 @@ function PadButton({
         const yr = Math.max(0, Math.min(1, (e.clientY - y) / (height + 1)))
         onMouseDown && onMouseDown(xr, yr)
       }}
+      onDragStart={e => e.preventDefault()}
       color={selected ? Colors.states.active : color || Colors.primary}
       selected={selected}
     >
