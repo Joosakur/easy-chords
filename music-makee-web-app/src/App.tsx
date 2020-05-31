@@ -9,7 +9,7 @@ function App() {
   return (
     <DndProvider backend={HTML5Backend}>
       <GlobalStyles>
-        <RootComponent/>
+        <RootComponent />
       </GlobalStyles>
     </DndProvider>
   )

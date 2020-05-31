@@ -1,14 +1,14 @@
-import React, {useEffect, useState} from 'react'
-import styled, {keyframes} from 'styled-components'
-import {Colors, SPACING_LENGTHS} from './common/style-constants'
+import React, { useEffect, useState } from 'react'
+import styled, { keyframes } from 'styled-components'
+import { Colors, SPACING_LENGTHS } from './common/style-constants'
 import classNames from 'classnames'
-import {faAngleRight} from '@fortawesome/free-solid-svg-icons'
+import { faAngleRight } from '@fortawesome/free-solid-svg-icons'
 import Settings from './right-sidebar/Settings'
-import {Gap} from './common/layout/whie-space'
-import {H2} from './common/typography'
+import { Gap } from './common/layout/whie-space'
+import { H2 } from './common/typography'
 import CircleActionButton from './common/buttons/CircleActionButton'
-import {useDispatch, useSelector} from 'react-redux'
-import {closeSettings, selectIsSettingsOpen} from '../state/ui/ui-slice'
+import { useDispatch, useSelector } from 'react-redux'
+import { closeSettings, selectIsSettingsOpen } from '../state/ui/ui-slice'
 
 const slideIn = keyframes`
   from {
@@ -38,18 +38,19 @@ const SidebarContainer = styled.div`
   top: 0;
   right: 0;
   bottom: 0;
-  
+
   animation: 250ms ${slideOut} ease-out forwards;
   visibility: hidden;
-  
+
   &.initial {
     animation: none;
   }
-  
+
   &.open {
     animation: 250ms ${slideIn} ease-out forwards;
     visibility: visible;
-    box-shadow: -20px 0 16px -15px rgba(0,0,0,0.7), inset 14px 0 5px -10px rgba(255,255,255,0.22);
+    box-shadow: -20px 0 16px -15px rgba(0, 0, 0, 0.7),
+      inset 14px 0 5px -10px rgba(255, 255, 255, 0.22);
   }
 `
 
@@ -64,27 +65,25 @@ const TopRow = styled.div`
 function RightSidebar() {
   const dispatch = useDispatch()
   const open = useSelector(selectIsSettingsOpen)
-  
+
   const [initial, setInitial] = useState<boolean>(true)
   useEffect(() => {
-    if(open) setInitial(false)
+    if (open) setInitial(false)
   }, [open])
-  
+
   return (
-    <SidebarContainer
-      className={classNames({ open, initial })}
-    >
+    <SidebarContainer className={classNames({ open, initial })}>
       <TopRow>
         <CircleActionButton
           icon={faAngleRight}
-          altText='Close sidebar'
+          altText="Close sidebar"
           onClick={() => dispatch(closeSettings())}
           color={Colors.grey.darker}
         />
         <H2 fitted>Settings</H2>
       </TopRow>
-      <Gap/>
-      <Settings/>
+      <Gap />
+      <Settings />
     </SidebarContainer>
   )
 }

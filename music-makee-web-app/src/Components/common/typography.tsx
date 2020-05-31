@@ -7,15 +7,15 @@ interface HeadingProps {
 export const H1 = styled.h1<HeadingProps>`
   font-size: 3.5rem;
   font-family: 'Tangerine', cursive;
-  ${p => p.fitted ? 'margin: 0;' : ''}
+  ${(p) => (p.fitted ? 'margin: 0;' : '')}
 `
 
 export const H2 = styled.h2<HeadingProps>`
-  ${p => p.fitted ? 'margin: 0;' : ''}
+  ${(p) => (p.fitted ? 'margin: 0;' : '')}
 `
 
 export const H3 = styled.h3<HeadingProps>`
-  ${p => p.fitted ? 'margin: 0;' : ''}
+  ${(p) => (p.fitted ? 'margin: 0;' : '')}
 `
 
 export const SuperScript = styled.span`

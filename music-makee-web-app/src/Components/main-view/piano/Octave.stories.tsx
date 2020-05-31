@@ -1,5 +1,5 @@
-import React from 'react';
-import {Resizer} from '../../../utils/story-utils'
+import React from 'react'
+import { Resizer } from '../../../utils/story-utils'
 import Octave from './Octave'
 
 export default {
@@ -7,7 +7,7 @@ export default {
 }
 
 export const octave = () => (
-  <Resizer style={{height: '20rem'}}>
+  <Resizer style={{ height: '20rem' }}>
     <Octave octave={4} />
   </Resizer>
 )

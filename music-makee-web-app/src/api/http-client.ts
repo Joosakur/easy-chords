@@ -1,5 +1,5 @@
 import axios from 'axios'
-import {ChordMapDefinitionV1} from '../types'
+import { ChordMapDefinitionV1 } from '../types'
 
 let instance = axios.create({
   baseURL: 'http://localhost:8080'
@@ -56,7 +56,7 @@ export interface MidiDevice {
 }
 
 async function getDevices(): Promise<MidiDevice[]> {
-  return instance.get<MidiDevice[]>("/devices").then(res => res.data)
+  return instance.get<MidiDevice[]>('/devices').then((res) => res.data)
 }
 
 async function setDevice(device: MidiDevice) {
@@ -64,7 +64,7 @@ async function setDevice(device: MidiDevice) {
 }
 
 async function getChordMapPreset(path: string): Promise<ChordMapDefinitionV1> {
-  return s3Loader.get(`/maps${path}.json`).then(res => res.data)
+  return s3Loader.get(`/maps${path}.json`).then((res) => res.data)
 }
 
 const api = {

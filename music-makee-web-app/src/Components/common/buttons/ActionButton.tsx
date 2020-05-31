@@ -1,11 +1,11 @@
 import React from 'react'
 import styled from 'styled-components'
-import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
-import {IconProp} from '@fortawesome/fontawesome-svg-core'
-import {Colors, SPACING_LENGTHS} from '../style-constants'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { IconProp } from '@fortawesome/fontawesome-svg-core'
+import { Colors, SPACING_LENGTHS } from '../style-constants'
 import classNames from 'classnames'
-import {FixedSpacing} from '../layout/flex'
-import {shade, tint} from 'polished'
+import { FixedSpacing } from '../layout/flex'
+import { shade, tint } from 'polished'
 
 interface StyledButtonProps {
   color: string
@@ -17,30 +17,34 @@ const StyledButton = styled.button<StyledButtonProps>`
   justify-content: center;
   height: 2.75rem;
   padding: 0 ${SPACING_LENGTHS.s};
-  
+
   font-size: 1.2rem;
   font-weight: 600;
-  
-  background: ${p => p.color};
+
+  background: ${(p) => p.color};
   border: none;
   border-radius: 3px;
   outline: none;
   cursor: pointer;
-  
+
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.3), inset 0 -1px 0.4rem 2px rgba(0, 0, 0, 0.4);
-  
-  &.disabled, &.disabled:hover, &.disabled:active {
+
+  &.disabled,
+  &.disabled:hover,
+  &.disabled:active {
     background: ${Colors.grey.darker};
     cursor: unset;
   }
   &:hover {
-    background: ${p => tint(0.06, p.color)};
+    background: ${(p) => tint(0.06, p.color)};
   }
   &:active {
-    background: ${p => shade(0.06, p.color)};
+    background: ${(p) => shade(0.06, p.color)};
   }
-  
-  ${p => p.hideTextThreshold ? `
+
+  ${(p) =>
+    p.hideTextThreshold
+      ? `
     @media screen and (max-width: ${p.hideTextThreshold}) {
       span {
         display: none;
@@ -49,7 +53,8 @@ const StyledButton = styled.button<StyledButtonProps>`
         margin: 0
       }
     }
-  ` : ''}
+  `
+      : ''}
 `
 
 interface ActionButtonProps {
@@ -59,21 +64,19 @@ interface ActionButtonProps {
   hideText?: boolean | string
   color?: string
   disabled?: boolean
-  
+
   className?: string
 }
 
-function ActionButton(
-  {
-    onClick,
-    text,
-    icon,
-    color = Colors.grey.darker,
-    hideText = false,
-    disabled,
-    className
-  }: ActionButtonProps
-) {
+function ActionButton({
+  onClick,
+  text,
+  icon,
+  color = Colors.grey.darker,
+  hideText = false,
+  disabled,
+  className
+}: ActionButtonProps) {
   return (
     <StyledButton
       className={classNames(className, { disabled })}
@@ -82,9 +85,9 @@ function ActionButton(
       color={color}
       hideTextThreshold={typeof hideText === 'string' ? hideText : undefined}
     >
-      <FixedSpacing spacing='s' className={disabled ? 'text-disabled' : 'text-high'}>
-        { icon && <FontAwesomeIcon icon={icon}/> }
-        { hideText !== true && <span>{text}</span>}
+      <FixedSpacing spacing="s" className={disabled ? 'text-disabled' : 'text-high'}>
+        {icon && <FontAwesomeIcon icon={icon} />}
+        {hideText !== true && <span>{text}</span>}
       </FixedSpacing>
     </StyledButton>
   )

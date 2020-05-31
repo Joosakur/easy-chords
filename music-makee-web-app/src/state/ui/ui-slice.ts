@@ -1,8 +1,8 @@
-import {createSlice} from '@reduxjs/toolkit'
-import {RootState} from '../root-reducer'
+import { createSlice } from '@reduxjs/toolkit'
+import { RootState } from '../root-reducer'
 
 export interface UIState {
-  settingsOpen: boolean,
+  settingsOpen: boolean
   editorOpen: boolean
 }
 
@@ -15,22 +15,22 @@ const uiSlice = createSlice({
   name: 'ui',
   initialState: initialUIState,
   reducers: {
-    openSettings: state => {
+    openSettings: (state) => {
       state.settingsOpen = true
     },
-    closeSettings: state => {
+    closeSettings: (state) => {
       state.settingsOpen = false
     },
-    toggleSettings: state => {
+    toggleSettings: (state) => {
       state.settingsOpen = !state.settingsOpen
     },
-    openEditor: state => {
+    openEditor: (state) => {
       state.editorOpen = true
     },
-    closeEditor: state => {
+    closeEditor: (state) => {
       state.editorOpen = false
     },
-    toggleEditor: state => {
+    toggleEditor: (state) => {
       state.editorOpen = !state.editorOpen
     }
   }

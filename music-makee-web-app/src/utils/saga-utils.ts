@@ -1,8 +1,10 @@
 import { createAction, PayloadActionCreator } from '@reduxjs/toolkit'
 
-export function createAsyncAction<I, R, E>(type: string): {
-  requested: PayloadActionCreator<I>,
-  fulfilled: PayloadActionCreator<R>,
+export function createAsyncAction<I, R, E>(
+  type: string
+): {
+  requested: PayloadActionCreator<I>
+  fulfilled: PayloadActionCreator<R>
   rejected: PayloadActionCreator<E>
 } {
   return {

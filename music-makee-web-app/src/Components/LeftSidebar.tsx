@@ -1,20 +1,20 @@
 import React from 'react'
-import {useDispatch, useSelector} from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import styled from 'styled-components'
 import classNames from 'classnames'
-import {faAngleLeft} from '@fortawesome/free-solid-svg-icons'
-import {Colors, SPACING_LENGTHS} from './common/style-constants'
+import { faAngleLeft } from '@fortawesome/free-solid-svg-icons'
+import { Colors, SPACING_LENGTHS } from './common/style-constants'
 import ChordEditor from './left-sidebar/ChordEditor'
-import {H2} from './common/typography'
+import { H2 } from './common/typography'
 import CircleActionButton from './common/buttons/CircleActionButton'
-import {closeEditor, selectIsEditorOpen} from '../state/ui/ui-slice'
+import { closeEditor, selectIsEditorOpen } from '../state/ui/ui-slice'
 
 const SidebarContainer = styled.div`
   background: ${Colors.grey.darker};
   display: none;
   z-index: 2;
   max-height: 100%;
-  
+
   &.open {
     min-width: 30rem;
     display: flex;
@@ -44,7 +44,7 @@ const TopRow = styled.div`
 function LeftSidebar() {
   const dispatch = useDispatch()
   const editorOpen = useSelector(selectIsEditorOpen)
-  
+
   return editorOpen ? (
     <SidebarContainer className={classNames({ open: editorOpen })}>
       <InnerWrapper>
@@ -52,13 +52,13 @@ function LeftSidebar() {
           <H2 fitted>Chord Editor</H2>
           <CircleActionButton
             icon={faAngleLeft}
-            altText='Close sidebar'
+            altText="Close sidebar"
             onClick={() => dispatch(closeEditor())}
             color={Colors.grey.darker}
           />
         </TopRow>
-        <ChordEditor/>
-        <div style={{ flexGrow: 1 }}/>
+        <ChordEditor />
+        <div style={{ flexGrow: 1 }} />
       </InnerWrapper>
     </SidebarContainer>
   ) : null

@@ -1,18 +1,18 @@
 import React from 'react'
 import styled from 'styled-components'
-import {useDispatch, useSelector} from 'react-redux'
-import {darken, lighten, math, rem} from 'polished'
-import {faCog, faMusic} from '@fortawesome/free-solid-svg-icons'
+import { useDispatch, useSelector } from 'react-redux'
+import { darken, lighten, math, rem } from 'polished'
+import { faCog, faMusic } from '@fortawesome/free-solid-svg-icons'
 import ActionBar from './main-view/ActionBar'
 import ChordMap from './main-view/ChordMap'
-import {Colors, SPACING_LENGTHS} from './common/style-constants'
-import {H1} from './common/typography'
+import { Colors, SPACING_LENGTHS } from './common/style-constants'
+import { H1 } from './common/typography'
 import bg from '../images/bg.png'
 import Piano from './main-view/Piano'
 import ActionButton from './common/buttons/ActionButton'
-import {Gap} from './common/layout/whie-space'
-import {stopNotes, toggleEditor, toggleSettings} from '../state/actions'
-import {selectIsEditorOpen} from '../state/ui/ui-slice'
+import { Gap } from './common/layout/whie-space'
+import { stopNotes, toggleEditor, toggleSettings } from '../state/actions'
+import { selectIsEditorOpen } from '../state/ui/ui-slice'
 
 const Container = styled.div`
   height: 100%;
@@ -22,7 +22,10 @@ const Container = styled.div`
   justify-content: space-between;
   align-items: stretch;
   background-color: ${Colors.grey.dark};
-  background: linear-gradient(${lighten(0.05, Colors.grey.dark)}, ${darken(0.05, Colors.grey.dark)});
+  background: linear-gradient(
+    ${lighten(0.05, Colors.grey.dark)},
+    ${darken(0.05, Colors.grey.dark)}
+  );
   background-image: url(${bg});
   background-size: cover;
   background-position-y: 30px;
@@ -55,12 +58,14 @@ const Content = styled.div<ContentProps>`
   flex-grow: 1;
   margin: 0 auto;
   padding: ${SPACING_LENGTHS.m};
-  
-  @media screen and (max-width: ${p => p.editorOpen ? math(`${rem('2200px')} + 33rem`) : '2200px'}) {
+
+  @media screen and (max-width: ${(p) =>
+      p.editorOpen ? math(`${rem('2200px')} + 33rem`) : '2200px'}) {
     max-width: 80%;
   }
-  
-  @media screen and (max-width: ${p => p.editorOpen ? math(`${rem('1600px')} + 33rem`) : '1600px'}) {
+
+  @media screen and (max-width: ${(p) =>
+      p.editorOpen ? math(`${rem('1600px')} + 33rem`) : '1600px'}) {
     width: unset;
     max-width: 100%;
     margin: 0;
@@ -71,42 +76,42 @@ const Content = styled.div<ContentProps>`
 function MainView() {
   const dispatch = useDispatch()
   const editorOpen = useSelector(selectIsEditorOpen)
-  
+
   return (
-    <Container onMouseUp={() => dispatch(stopNotes())} >
+    <Container onMouseUp={() => dispatch(stopNotes())}>
       <TitleBar>
-        { !editorOpen ? (
+        {!editorOpen ? (
           <ActionButton
-            text='Edit Chords'
+            text="Edit Chords"
             icon={faMusic}
-            hideText='650px'
+            hideText="650px"
             onClick={() => dispatch(toggleEditor())}
           />
         ) : (
-          <div/>
+          <div />
         )}
-    
+
         <H1 fitted>EasyChords</H1>
-    
+
         <ActionButton
-          text='Settings'
+          text="Settings"
           icon={faCog}
-          hideText='1200px'
+          hideText="1200px"
           onClick={() => dispatch(toggleSettings())}
         />
       </TitleBar>
-  
+
       <Padded>
         <Content editorOpen={editorOpen}>
-          <ActionBar/>
+          <ActionBar />
           <Gap />
-          <div style={{flexGrow: 3}}/>
-          <ChordMap/>
-          <div style={{flexGrow: 4}}/>
+          <div style={{ flexGrow: 3 }} />
+          <ChordMap />
+          <div style={{ flexGrow: 4 }} />
         </Content>
       </Padded>
-      
-      <Piano/>
+
+      <Piano />
     </Container>
   )
 }

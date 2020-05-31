@@ -1,11 +1,11 @@
-import {desaturate, mix, shade, tint} from 'polished'
+import { desaturate, mix, shade, tint } from 'polished'
 
 export const SPACING_LENGTHS = {
   xs: '6px',
   s: '12px',
   m: '24px',
   L: '48px',
-  XL: '96px',
+  XL: '96px'
 }
 
 export type SpacingSize = 'xs' | 's' | 'm' | 'L' | 'XL'
@@ -42,7 +42,7 @@ const states = {
 export const Colors = {
   primary,
   secondary,
-  primaryDark: mix(0.70, '#000000', primary) ,
+  primaryDark: mix(0.7, '#000000', primary),
   grey,
   states,
   interval

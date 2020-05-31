@@ -1,6 +1,6 @@
-import {createSelector, createSlice, PayloadAction} from '@reduxjs/toolkit'
-import {RootState} from '../root-reducer'
-import {setSustainPedal} from './piano-saga-actions'
+import { createSelector, createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { RootState } from '../root-reducer'
+import { setSustainPedal } from './piano-saga-actions'
 
 export interface PianoState {
   keysDown: number[]
@@ -20,7 +20,7 @@ const pianoSlice = createSlice({
       state.keysDown.push(action.payload)
     },
     pianoKeyUp: (state, action: PayloadAction<number>) => {
-      state.keysDown = state.keysDown.filter(n => n !== action.payload)
+      state.keysDown = state.keysDown.filter((n) => n !== action.payload)
     },
     pianoKeysUp: (state) => {
       state.keysDown = []
@@ -34,14 +34,11 @@ const pianoSlice = createSlice({
 })
 
 export const selectPiano = (state: RootState) => state.piano
-export const selectKeysDown = createSelector(selectPiano, piano => piano.keysDown)
-export const selectIsKeyDown = (key: number) => createSelector(selectKeysDown, keys => keys.includes(key))
-export const selectSustainPedal = createSelector(selectPiano, piano => piano.sustainPedal)
+export const selectKeysDown = createSelector(selectPiano, (piano) => piano.keysDown)
+export const selectIsKeyDown = (key: number) =>
+  createSelector(selectKeysDown, (keys) => keys.includes(key))
+export const selectSustainPedal = createSelector(selectPiano, (piano) => piano.sustainPedal)
 
-export const {
-  pianoKeyDown,
-  pianoKeyUp,
-  pianoKeysUp
-} = pianoSlice.actions
+export const { pianoKeyDown, pianoKeyUp, pianoKeysUp } = pianoSlice.actions
 
 export default pianoSlice.reducer

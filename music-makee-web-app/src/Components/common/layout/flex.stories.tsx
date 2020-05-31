@@ -1,7 +1,7 @@
-import React from 'react';
+import React from 'react'
 import { boolean, select } from '@storybook/addon-knobs'
 import styled from 'styled-components'
-import {FixedSpacing} from './flex'
+import { FixedSpacing } from './flex'
 
 export default {
   title: 'layout/flex'
@@ -15,11 +15,11 @@ const Element = styled.div`
 
 export const fixedSpacing = () => (
   <FixedSpacing
-    column={boolean("column", false)}
+    column={boolean('column', false)}
     spacing={select('spacing', ['xs', 's', 'm', 'L', 'XL'], 'm')}
   >
-    <Element/>
-    <Element/>
-    <Element/>
+    <Element />
+    <Element />
+    <Element />
   </FixedSpacing>
 )

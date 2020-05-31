@@ -1,7 +1,7 @@
 import React from 'react'
-import {Dropdown as SemanticDropdown, StrictDropdownProps} from 'semantic-ui-react'
+import { Dropdown as SemanticDropdown, StrictDropdownProps } from 'semantic-ui-react'
 import styled from 'styled-components'
-import {Colors} from './style-constants'
+import { Colors } from './style-constants'
 
 import 'semantic-ui-dropdown/dropdown.css'
 
@@ -11,18 +11,18 @@ const StyledDropdown = styled(SemanticDropdown)`
     min-height: unset;
     height: calc(2.75rem - 1.5em);
     color: ${Colors.grey.dark};
-    
-    >div.text{
+
+    > div.text {
       color: rgba(0, 0, 0, 0.87);
     }
-    
+
     .menu.visible {
       display: block;
       width: 100%;
       min-width: 100%;
       max-height: 20rem;
     }
-    
+
     @media screen and (max-width: 650px) {
       min-width: 8rem;
     }
@@ -32,14 +32,18 @@ const StyledDropdown = styled(SemanticDropdown)`
 interface DropdownProps<T extends boolean | number | string> {
   children?: React.ReactNode
   placeholder?: string
-  options?: { value: T, text: string }[]
+  options?: { value: T; text: string }[]
   value?: T
   onChange?: (value?: T) => any
 }
 
-function Dropdown<T extends boolean | number | string>(
-  {children, placeholder, options, value, onChange}: DropdownProps<T>
-) {
+function Dropdown<T extends boolean | number | string>({
+  children,
+  placeholder,
+  options,
+  value,
+  onChange
+}: DropdownProps<T>) {
   return (
     <StyledDropdown
       className={'selection'}

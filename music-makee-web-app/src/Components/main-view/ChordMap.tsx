@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
-import {selectChords} from '../../state/chord-map/chord-map-slice'
-import {useSelector} from 'react-redux'
+import { selectChords } from '../../state/chord-map/chord-map-slice'
+import { useSelector } from 'react-redux'
 import ChordButton from './chord-map/ChordButton'
 
 const Wrapper = styled.div`
@@ -15,7 +15,7 @@ const ChordGrid = styled.div`
   grid-template-columns: repeat(7, 1fr);
   column-gap: 2em;
   row-gap: 2em;
-  
+
   @media screen and (max-width: 1100px) {
     column-gap: 0.5em;
     row-gap: 1em;
@@ -24,12 +24,12 @@ const ChordGrid = styled.div`
 
 function ChordMap() {
   const chords = useSelector(selectChords)
-  
+
   return (
     <Wrapper>
       <ChordGrid>
-        { chords.map((chord, index) => (
-          <ChordButton chord={chord} index={index}/>
+        {chords.map((chord, index) => (
+          <ChordButton chord={chord} index={index} />
         ))}
       </ChordGrid>
     </Wrapper>

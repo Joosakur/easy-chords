@@ -1,14 +1,14 @@
 import React from 'react'
 import ActionButton from './ActionButton'
-import {FixedSpacing} from '../layout/flex'
-import {faAngleLeft, faAngleRight, faCog, faFileImport} from '@fortawesome/free-solid-svg-icons'
-import {action} from '@storybook/addon-actions'
-import {H2, H3} from '../typography'
-import {Gap} from '../layout/whie-space'
+import { FixedSpacing } from '../layout/flex'
+import { faAngleLeft, faAngleRight, faCog, faFileImport } from '@fortawesome/free-solid-svg-icons'
+import { action } from '@storybook/addon-actions'
+import { H3 } from '../typography'
+import { Gap } from '../layout/whie-space'
 import PadButton from './PadButton'
-import {Colors} from '../style-constants'
+import { Colors } from '../style-constants'
 import styled from 'styled-components'
-import {StorySegment} from '../../../utils/story-utils'
+import { StorySegment } from '../../../utils/story-utils'
 import SelectionButton from './SelectionButton'
 import CircleActionButton from './CircleActionButton'
 
@@ -18,14 +18,13 @@ const onMouseDown = action('mouse down')
 const Row = styled.div`
   display: flex;
   flex-direction: row;
-  >* {
+  > * {
     flex-grow: 2;
     &:first-child {
       flex-grow: 1;
     }
   }
 `
-
 
 const PadGrid = styled.div`
   width: 30rem;
@@ -70,10 +69,10 @@ export const buttons = () => (
             <span>maj7</span>
           </SelectionButton>
         </SelectionGrid>
-        <Gap/>
-  
+        <Gap />
+
         <label>circular (default, selected)</label>
-        <Gap size='s'/>
+        <Gap size="s" />
         <SelectionGrid2>
           <SelectionButton onClick={onClick} circular>
             <span>E♭</span>
@@ -83,48 +82,48 @@ export const buttons = () => (
           </SelectionButton>
         </SelectionGrid2>
       </div>
-      <Gap/>
-    
+      <Gap />
+
       <div>
         <H3>CircleActionButton (default, disabled)</H3>
         <FixedSpacing>
-          <CircleActionButton onClick={onClick} altText='decrease' icon={faAngleLeft}/>
-          <CircleActionButton onClick={onClick} altText='increase' icon={faAngleRight} disabled/>
+          <CircleActionButton onClick={onClick} altText="decrease" icon={faAngleLeft} />
+          <CircleActionButton onClick={onClick} altText="increase" icon={faAngleRight} disabled />
         </FixedSpacing>
       </div>
     </StorySegment>
-    
+
     <StorySegment color={Colors.grey.dark}>
       <div>
         <H3>ActionButton</H3>
         <label>default</label>
-        <Gap size='s'/>
+        <Gap size="s" />
         <FixedSpacing>
-          <ActionButton onClick={onClick} text='Open editor'/>
-          <ActionButton onClick={onClick} text='Import' icon={faFileImport}/>
-          <ActionButton onClick={onClick} text='Settings' hideText icon={faCog}/>
+          <ActionButton onClick={onClick} text="Open editor" />
+          <ActionButton onClick={onClick} text="Import" icon={faFileImport} />
+          <ActionButton onClick={onClick} text="Settings" hideText icon={faCog} />
         </FixedSpacing>
-        
-        <Gap/>
-        
+
+        <Gap />
+
         <label>disabled</label>
-        <Gap size='s'/>
+        <Gap size="s" />
         <FixedSpacing>
-          <ActionButton onClick={onClick} text='Open editor' disabled/>
-          <ActionButton onClick={onClick} text='Import' icon={faFileImport} disabled/>
-          <ActionButton onClick={onClick} text='Settings' hideText icon={faCog} disabled/>
+          <ActionButton onClick={onClick} text="Open editor" disabled />
+          <ActionButton onClick={onClick} text="Import" icon={faFileImport} disabled />
+          <ActionButton onClick={onClick} text="Settings" hideText icon={faCog} disabled />
         </FixedSpacing>
       </div>
-      
-      <Gap size='L'/>
-      
+
+      <Gap size="L" />
+
       <H3>PadButton (default, selected, empty)</H3>
       <PadGrid>
-        <PadButton onMouseDown={onMouseDown} text='Gmaj7'/>
-        <PadButton onMouseDown={onMouseDown} selected text='C add9 / G'/>
-        <PadButton onMouseDown={onMouseDown} empty text=''/>
+        <PadButton onMouseDown={onMouseDown} text="Gmaj7" />
+        <PadButton onMouseDown={onMouseDown} selected text="C add9 / G" />
+        <PadButton onMouseDown={onMouseDown} empty text="" />
       </PadGrid>
     </StorySegment>
-    <Gap/>
+    <Gap />
   </Row>
 )

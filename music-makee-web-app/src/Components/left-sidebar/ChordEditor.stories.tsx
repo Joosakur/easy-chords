@@ -1,8 +1,8 @@
-import React from 'react';
+import React from 'react'
 import QualitySelector from './chord-editor/QualitySelector'
-import {action} from '@storybook/addon-actions'
+import { action } from '@storybook/addon-actions'
 import styled from 'styled-components'
-import {Colors} from '../common/style-constants'
+import { Colors } from '../common/style-constants'
 import RootSelector from './chord-editor/RootSelector'
 import VoicingEditor from './chord-editor/VoicingEditor'
 import OctaveSelector from './chord-editor/OctaveSelector'
@@ -29,17 +29,14 @@ const SidebarBackground = styled.div`
 
 export const qualitySelector = () => (
   <SidebarBackground>
-    <QualitySelector onChange={voicingChanged}/>
+    <QualitySelector onChange={voicingChanged} />
   </SidebarBackground>
 )
 
 export const rootSelector = () => (
   <SidebarBackground>
     <div>
-      <RootSelector
-        root={0}
-        onChange={rootChanged}
-      />
+      <RootSelector root={0} onChange={rootChanged} />
     </div>
   </SidebarBackground>
 )
@@ -47,10 +44,7 @@ export const rootSelector = () => (
 export const voicingSelector = () => (
   <SidebarBackground>
     <div>
-      <VoicingEditor
-        onChange={voicingChanged}
-        voicing={[0, 4, 7]}
-      />
+      <VoicingEditor onChange={voicingChanged} voicing={[0, 4, 7]} />
     </div>
   </SidebarBackground>
 )
@@ -58,12 +52,7 @@ export const voicingSelector = () => (
 export const octaveSelector = () => (
   <SidebarBackground>
     <div>
-      <OctaveSelector
-        octave={3}
-        min={3}
-        max={6}
-        onChange={octaveChange}
-      />
+      <OctaveSelector octave={3} min={3} max={6} onChange={octaveChange} />
     </div>
   </SidebarBackground>
 )
