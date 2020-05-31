@@ -14,6 +14,7 @@ import {
   setSustainPedal,
   stopNotes
 } from './piano-saga-actions'
+import { selectIsEditorOpen } from '../ui/ui-slice'
 
 const channel = 1
 
@@ -31,8 +32,9 @@ const synth = new SynthInstrument()
 const defaultVelocity = 80
 
 function* pianoKeyClickedSaga({ payload: note }: ReturnType<typeof pianoKeyClicked>) {
+  const editorOpen: boolean = yield select(selectIsEditorOpen)
   const activeChord: ChordV1 | null = yield select(selectActiveChord)
-  if (activeChord) {
+  if (editorOpen && activeChord) {
     const newChord = cloneDeep(activeChord)
 
     // adjust root octave if new note is below it
