@@ -1,4 +1,5 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import org.springframework.boot.gradle.tasks.bundling.BootJar
 
 plugins {
     id("org.springframework.boot") version "2.2.7.RELEASE"
@@ -9,7 +10,7 @@ plugins {
     application
 }
 
-group = "fi.ardento.music-maker"
+group = "fi.ardento.easy-chords"
 version = "0.0.1-SNAPSHOT"
 java.sourceCompatibility = JavaVersion.VERSION_11
 
@@ -21,7 +22,7 @@ configurations {
 }
 
 application {
-    mainClassName = "org.gradle.sample.Main"
+    mainClassName = "fi.ardento.easychords.midiserver.MainKt"
 }
 
 repositories {
@@ -51,6 +52,6 @@ tasks.withType<KotlinCompile> {
 }
 
 
-tasks.getByName<org.springframework.boot.gradle.tasks.bundling.BootJar>("bootJar") {
-    mainClassName = "fi.ardento.musicmaker.musicmakermidiserver.MusicMakerMidiServerApplicationKt"
+tasks.getByName<BootJar>("bootJar") {
+    mainClassName = "fi.ardento.easychords.midiserver.MainKt"
 }

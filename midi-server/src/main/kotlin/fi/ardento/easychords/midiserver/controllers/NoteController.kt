@@ -1,6 +1,6 @@
-package fi.ardento.musicmaker.musicmakermidiserver.controllers
+package fi.ardento.easychords.midiserver.controllers
 
-import fi.ardento.musicmaker.musicmakermidiserver.services.*
+import fi.ardento.easychords.midiserver.services.*
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 

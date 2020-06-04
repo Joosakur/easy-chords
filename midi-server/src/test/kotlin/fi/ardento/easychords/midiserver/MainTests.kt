@@ -1,10 +1,10 @@
-package fi.ardento.musicmaker.musicmakermidiserver
+package fi.ardento.easychords.midiserver
 
 import org.junit.jupiter.api.Test
 import org.springframework.boot.test.context.SpringBootTest
 
 @SpringBootTest
-class MusicMakerMidiServerApplicationTests {
+class MainTests {
 
     @Test
     fun contextLoads() {

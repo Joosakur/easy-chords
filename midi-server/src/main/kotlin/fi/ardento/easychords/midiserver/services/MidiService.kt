@@ -1,4 +1,4 @@
-package fi.ardento.musicmaker.musicmakermidiserver.services
+package fi.ardento.easychords.midiserver.services
 
 import org.springframework.stereotype.Service
 import java.lang.Long.max

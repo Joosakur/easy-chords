@@ -1,4 +1,4 @@
-package fi.ardento.musicmaker.musicmakermidiserver
+package fi.ardento.easychords.midiserver
 
 import org.springframework.boot.CommandLineRunner
 import org.springframework.boot.autoconfigure.SpringBootApplication
@@ -7,7 +7,7 @@ import java.net.InetAddress
 import javax.swing.*
 
 @SpringBootApplication
-class MusicMakerMidiServerApplication: CommandLineRunner {
+class EasyChordsMidiServer: CommandLineRunner {
 
     override fun run(vararg args: String?) {
         val inetAddress = InetAddress.getLocalHost()
@@ -30,5 +30,5 @@ class MusicMakerMidiServerApplication: CommandLineRunner {
 }
 
 fun main(args: Array<String>) {
-    SpringApplicationBuilder(MusicMakerMidiServerApplication::class.java).headless(false).run(*args)
+    SpringApplicationBuilder(EasyChordsMidiServer::class.java).headless(false).run(*args)
 }
