@@ -57,7 +57,7 @@ export const selectIsUsingMidi = createSelector(
       host &&
       midiDeviceIndex !== null &&
       midiDevices &&
-      midiDeviceIndex < midiDevices.length - 1
+      midiDeviceIndex <= midiDevices.length - 1
     )
   }
 )
