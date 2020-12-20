@@ -7,6 +7,7 @@ import { Route, Switch, Link, useRouteMatch } from "react-router-dom"
 import classNames from "classnames"
 import Downloads from "./help/Downloads"
 import SetupWin from "./help/SetupWin"
+import SetupMac from "./help/SetupMac"
 
 const RootContainer = styled.div`
   display: flex;
@@ -94,7 +95,7 @@ export default function Help(){
               <SetupWin/>
             </Route>
             <Route exact path="/help/mac">
-              <H2>MIDI Connection Setup on Mac</H2>
+              <SetupMac/>
             </Route>
             <Route exact path="/help/downloads">
               <Downloads/>
