@@ -35,6 +35,8 @@ function Settings() {
       }))
     : []
 
+  const isMac = window.navigator.appVersion.includes('Mac')
+
   return (
     <Col>
       <label>Output</label>
@@ -74,7 +76,7 @@ function Settings() {
             <Warning>
               <H3>No external MIDI devices found</H3>
               <p className="text-high">
-                Make sure you have the EasyChords server application running.
+                Get the EasyChords server application from <a href="/help/downloads" target="_blank" rel="noopener noreferrer">downloads</a> and make sure it's open.
               </p>
               <p className="text-medium">
                 If using phone, make sure you are in the same network (connected to same WiFi). Then
@@ -83,6 +85,11 @@ function Settings() {
               </p>
             </Warning>
           )}
+
+          <Gap />
+
+          <label>Instructions</label>
+          <a href={`/help/${isMac ? 'mac' : 'windows'}`} target="_blank" rel="noopener noreferrer">Setting up connection</a>
         </>
       )}
     </Col>

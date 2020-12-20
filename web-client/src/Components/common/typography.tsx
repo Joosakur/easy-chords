@@ -18,6 +18,10 @@ export const H3 = styled.h3<HeadingProps>`
   ${(p) => (p.fitted ? 'margin: 0;' : '')}
 `
 
+export const H4 = styled.h4<HeadingProps>`
+  ${(p) => (p.fitted ? 'margin: 0;' : '')}
+`
+
 export const SuperScript = styled.span`
   vertical-align: super;
   font-size: 0.8em;

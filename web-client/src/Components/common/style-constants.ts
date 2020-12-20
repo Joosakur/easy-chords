@@ -43,6 +43,7 @@ export const Colors = {
   primary,
   secondary,
   primaryDark: mix(0.7, '#000000', primary),
+  link: '#abd2f6',
   grey,
   states,
   interval

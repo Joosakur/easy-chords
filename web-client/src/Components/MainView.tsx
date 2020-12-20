@@ -1,20 +1,19 @@
-import React, { useState } from 'react'
+import React from 'react'
 import styled from 'styled-components'
 import { useDispatch, useSelector } from 'react-redux'
 import { darken, lighten, math, rem } from 'polished'
-import { faCog, faMusic } from '@fortawesome/free-solid-svg-icons'
+import { faCog, faMusic, faQuestion } from "@fortawesome/free-solid-svg-icons"
 import ActionBar from './main-view/ActionBar'
 import ChordMap from './main-view/ChordMap'
 import { Colors, SPACING_LENGTHS } from './common/style-constants'
 import { H1 } from './common/typography'
 import bg from '../images/bg.png'
-import bg2 from '../images/rickroll.gif'
 import Piano from './main-view/Piano'
 import ActionButton from './common/buttons/ActionButton'
 import { Gap } from './common/layout/whie-space'
 import { stopNotes, toggleEditor, toggleSettings } from '../state/actions'
 import { selectIsEditorOpen } from '../state/ui/ui-slice'
-import classNames from 'classnames'
+import { FixedSpacing } from './common/layout/flex'
 
 const Container = styled.div`
   height: 100%;
@@ -31,12 +30,6 @@ const Container = styled.div`
   background-image: url(${bg});
   background-size: cover;
   background-position-y: 30px;
-  
-  &.rr {
-    background-image: url(${bg2});
-    background-size: auto;
-    background-position-y: 72px;
-  }
 `
 
 const TitleBar = styled.div`
@@ -84,10 +77,9 @@ const Content = styled.div<ContentProps>`
 function MainView() {
   const dispatch = useDispatch()
   const editorOpen = useSelector(selectIsEditorOpen)
-  const [rickRoll, setRickRoll] = useState<boolean>(false)
 
   return (
-    <Container onMouseUp={() => dispatch(stopNotes())} className={classNames({rr: rickRoll})}>
+    <Container onMouseUp={() => dispatch(stopNotes())} >
       <TitleBar>
         {!editorOpen ? (
           <ActionButton
@@ -100,14 +92,24 @@ function MainView() {
           <div />
         )}
 
-        <H1 fitted onClick={() => setRickRoll(!rickRoll)}>EasyChords</H1>
+        <H1 fitted>EasyChords</H1>
 
-        <ActionButton
-          text="Settings"
-          icon={faCog}
-          hideText="1200px"
-          onClick={() => dispatch(toggleSettings())}
-        />
+        <FixedSpacing>
+          <ActionButton
+            text="Settings"
+            icon={faCog}
+            hideText="1200px"
+            onClick={() => dispatch(toggleSettings())}
+          />
+          <a href="/help" target="_blank">
+            <ActionButton
+              text="Help"
+              icon={faQuestion}
+              hideText="1200px"
+              onClick={() => undefined}
+            />
+          </a>
+        </FixedSpacing>
       </TitleBar>
 
       <Padded>

@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+import { Colors } from "./style-constants"
 
 const GlobalStyles = styled.div`
   // notice color for missing classname
@@ -38,6 +39,10 @@ const GlobalStyles = styled.div`
     color: #ffffff !important;
     font-weight: normal;
     opacity: 0.87;
+  }
+  
+  a {
+    color: ${Colors.link};
   }
 `
 

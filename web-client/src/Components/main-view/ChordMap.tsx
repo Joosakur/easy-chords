@@ -30,7 +30,7 @@ function ChordMap() {
       onDragStart={e => e.preventDefault()}>
       <ChordGrid>
         {chords.map((chord, index) => (
-          <ChordButton chord={chord} index={index} />
+          <ChordButton key={index} chord={chord} index={index} />
         ))}
       </ChordGrid>
     </Wrapper>
