@@ -1,10 +1,10 @@
 import styled from 'styled-components'
-import { Colors } from "./style-constants"
+import { Colors } from './style-constants'
 
 const GlobalStyles = styled.div`
   // notice color for missing classname
   color: #ff0000;
-  
+
   a {
     color: inherit;
     text-decoration: inherit;
@@ -49,7 +49,6 @@ const GlobalStyles = styled.div`
     font-weight: normal;
     opacity: 0.87;
   }
-  
 `
 
 export default GlobalStyles

@@ -1,14 +1,14 @@
-import React from "react"
-import styled from "styled-components"
-import { Colors, SPACING_LENGTHS } from "./common/style-constants"
-import { cover } from "polished"
-import { H1 } from "./common/typography"
-import { Route, Switch, Link, useRouteMatch } from "react-router-dom"
-import classNames from "classnames"
-import SetupWin from "./help/SetupWin"
-import SetupMac from "./help/SetupMac"
-import Introduction from "./help/Introduction"
-import About from "./help/About"
+import React from 'react'
+import styled from 'styled-components'
+import { Colors, SPACING_LENGTHS } from './common/style-constants'
+import { cover } from 'polished'
+import { H1 } from './common/typography'
+import { Route, Switch, Link, useRouteMatch } from 'react-router-dom'
+import classNames from 'classnames'
+import SetupWin from './help/SetupWin'
+import SetupMac from './help/SetupMac'
+import Introduction from './help/Introduction'
+import About from './help/About'
 
 const RootContainer = styled.div`
   display: flex;
@@ -47,7 +47,7 @@ const TabLink = styled(Link)`
   margin-right: 30px;
   text-decoration: underline;
   cursor: pointer;
-  
+
   &.active {
     font-weight: bold;
     text-decoration: none;
@@ -62,47 +62,53 @@ const ContentContainer = styled.div`
   padding: 20px;
   border-radius: 8px;
   background-color: ${Colors.grey.dark};
-  overflow-y: auto; 
+  overflow-y: auto;
   margin-bottom: 30px;
 `
 
-function NavTab({label, to}: { label: string, to: string }){
+function NavTab({ label, to }: { label: string; to: string }) {
   const match = useRouteMatch({
     path: to,
     exact: true
   })
 
   return (
-    <TabLink to={to} className={classNames({active: match, link: !match})}>{label}</TabLink>
+    <TabLink to={to} className={classNames({ active: match, link: !match })}>
+      {label}
+    </TabLink>
   )
 }
 
-export default function Help(){
+export default function Help() {
   return (
     <RootContainer>
       <TitleBar>
-        <H1 fitted><Link to="/app" className="plain-link">EasyChords</Link></H1>
+        <H1 fitted>
+          <Link to="/app" className="plain-link">
+            EasyChords
+          </Link>
+        </H1>
       </TitleBar>
       <WidthContainer>
         <TabBar>
-          <NavTab to="/" label="Introduction"/>
-          <NavTab to="/setup-on-windows" label="Setup (Win)"/>
-          <NavTab to="/setup-on-mac" label="Setup (Mac)"/>
-          <NavTab to="/about" label="About"/>
+          <NavTab to="/" label="Introduction" />
+          <NavTab to="/setup-on-windows" label="Setup (Win)" />
+          <NavTab to="/setup-on-mac" label="Setup (Mac)" />
+          <NavTab to="/about" label="About" />
         </TabBar>
         <ContentContainer>
           <Switch>
             <Route exact path="/setup-on-windows">
-              <SetupWin/>
+              <SetupWin />
             </Route>
             <Route exact path="/setup-on-mac">
-              <SetupMac/>
+              <SetupMac />
             </Route>
             <Route exact path="/about">
-              <About/>
+              <About />
             </Route>
             <Route path="/">
-              <Introduction/>
+              <Introduction />
             </Route>
           </Switch>
         </ContentContainer>

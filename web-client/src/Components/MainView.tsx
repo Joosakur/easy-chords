@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { useDispatch, useSelector } from 'react-redux'
 import { darken, lighten, math, rem } from 'polished'
-import { faCog, faMusic, faQuestion } from "@fortawesome/free-solid-svg-icons"
+import { faCog, faMusic, faQuestion } from '@fortawesome/free-solid-svg-icons'
 import ActionBar from './main-view/ActionBar'
 import ChordMap from './main-view/ChordMap'
 import { Colors, SPACING_LENGTHS } from './common/style-constants'
@@ -79,7 +79,7 @@ function MainView() {
   const editorOpen = useSelector(selectIsEditorOpen)
 
   return (
-    <Container onMouseUp={() => dispatch(stopNotes())} >
+    <Container onMouseUp={() => dispatch(stopNotes())}>
       <TitleBar>
         {!editorOpen ? (
           <ActionButton
