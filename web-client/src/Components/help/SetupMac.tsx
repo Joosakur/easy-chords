@@ -62,7 +62,7 @@ export default function SetupMac(){
         <img src={imgMac2} alt="Screenshot" width="80%"/>
       </CenteredDiv>
       <Gap/>
-      <p className="text-high">Under the Ports tab (4) create a MIDI bus by clicking he plus icon (5). Finally click Apply (6) and then you may close these settings windows.</p>
+      <p className="text-high">Under the Ports tab (4) create a MIDI bus by clicking the plus icon (5). Finally click Apply (6) and then you may close these settings windows.</p>
       <CenteredDiv>
         <img src={imgMac3} alt="Screenshot"/>
       </CenteredDiv>

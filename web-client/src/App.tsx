@@ -16,11 +16,11 @@ function App() {
       <GlobalStyles>
         <Router>
           <Switch>
-            <Route path="/help">
-              <Help />
+            <Route exact path="/app">
+              <RootComponent />
             </Route>
             <Route path="/">
-              <RootComponent />
+              <Help />
             </Route>
           </Switch>
         </Router>

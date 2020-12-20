@@ -2,12 +2,13 @@ import React from "react"
 import styled from "styled-components"
 import { Colors, SPACING_LENGTHS } from "./common/style-constants"
 import { cover } from "polished"
-import { H1, H2 } from "./common/typography"
+import { H1 } from "./common/typography"
 import { Route, Switch, Link, useRouteMatch } from "react-router-dom"
 import classNames from "classnames"
-import Downloads from "./help/Downloads"
 import SetupWin from "./help/SetupWin"
 import SetupMac from "./help/SetupMac"
+import Introduction from "./help/Introduction"
+import About from "./help/About"
 
 const RootContainer = styled.div`
   display: flex;
@@ -72,7 +73,7 @@ function NavTab({label, to}: { label: string, to: string }){
   })
 
   return (
-    <TabLink to={to} className={classNames({active: match})}>{label}</TabLink>
+    <TabLink to={to} className={classNames({active: match, link: !match})}>{label}</TabLink>
   )
 }
 
@@ -80,28 +81,28 @@ export default function Help(){
   return (
     <RootContainer>
       <TitleBar>
-        <H1 fitted>EasyChords</H1>
+        <H1 fitted><Link to="/app" className="plain-link">EasyChords</Link></H1>
       </TitleBar>
       <WidthContainer>
         <TabBar>
-          <NavTab to="/help" label="Introduction"/>
-          <NavTab to="/help/windows" label="Setup (Win)"/>
-          <NavTab to="/help/mac" label="Setup (Mac)"/>
-          <NavTab to="/help/downloads" label="Downloads"/>
+          <NavTab to="/" label="Introduction"/>
+          <NavTab to="/setup-on-windows" label="Setup (Win)"/>
+          <NavTab to="/setup-on-mac" label="Setup (Mac)"/>
+          <NavTab to="/about" label="About"/>
         </TabBar>
         <ContentContainer>
           <Switch>
-            <Route exact path="/help/windows">
+            <Route exact path="/setup-on-windows">
               <SetupWin/>
             </Route>
-            <Route exact path="/help/mac">
+            <Route exact path="/setup-on-mac">
               <SetupMac/>
             </Route>
-            <Route exact path="/help/downloads">
-              <Downloads/>
+            <Route exact path="/about">
+              <About/>
             </Route>
-            <Route path="/help">
-              <H2>Introduction</H2>
+            <Route path="/">
+              <Introduction/>
             </Route>
           </Switch>
         </ContentContainer>

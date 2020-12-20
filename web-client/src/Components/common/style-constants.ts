@@ -42,6 +42,7 @@ const states = {
 export const Colors = {
   primary,
   secondary,
+  action: '#e5731f',
   primaryDark: mix(0.7, '#000000', primary),
   link: '#abd2f6',
   grey,

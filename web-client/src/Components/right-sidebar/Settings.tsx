@@ -76,22 +76,22 @@ function Settings() {
             <Warning>
               <H3>No external MIDI devices found</H3>
               <p className="text-high">
-                Get the EasyChords server application from <a href="/help/downloads" target="_blank" rel="noopener noreferrer">downloads</a> and make sure it's open.
+                Download the <a href={`/setup-on-${isMac ? 'mac' : 'windows'}`} target="_blank" rel="noopener noreferrer" className="link">EasyChords server application</a> and make sure it's open.
               </p>
-              <p className="text-medium">
+{/*              <p className="text-medium">
                 If using phone, make sure you are in the same network (connected to same WiFi). Then
                 input the IP or the hostname of your computer to the field above. EasyChords server
                 application will tell you these.
-              </p>
+              </p>*/}
             </Warning>
           )}
 
-          <Gap />
-
-          <label>Instructions</label>
-          <a href={`/help/${isMac ? 'mac' : 'windows'}`} target="_blank" rel="noopener noreferrer">Setting up connection</a>
         </>
       )}
+      <Gap />
+
+      <label>Instructions</label>
+      <a href={`/setup-on-${isMac ? 'mac' : 'windows'}`} target="_blank" rel="noopener noreferrer" className="link">Setting up connection</a>
     </Col>
   )
 }

@@ -4,6 +4,15 @@ import { Colors } from "./style-constants"
 const GlobalStyles = styled.div`
   // notice color for missing classname
   color: #ff0000;
+  
+  a {
+    color: inherit;
+    text-decoration: inherit;
+    &.link {
+      color: ${Colors.link};
+      text-decoration: underline;
+    }
+  }
 
   .text-high {
     color: #ffffff;
@@ -41,9 +50,6 @@ const GlobalStyles = styled.div`
     opacity: 0.87;
   }
   
-  a {
-    color: ${Colors.link};
-  }
 `
 
 export default GlobalStyles

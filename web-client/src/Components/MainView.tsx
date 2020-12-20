@@ -101,7 +101,7 @@ function MainView() {
             hideText="1200px"
             onClick={() => dispatch(toggleSettings())}
           />
-          <a href="/help" target="_blank">
+          <a href="/help" target="_blank" rel="noopener noreferrer" className="plain-link">
             <ActionButton
               text="Help"
               icon={faQuestion}
