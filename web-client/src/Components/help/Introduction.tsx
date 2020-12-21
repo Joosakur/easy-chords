@@ -75,7 +75,8 @@ export default function Introduction() {
       <H2>Playing chords</H2>
       <p className="text-high">
         Just click on them! When using external MIDI, the chord is played until you release the
-        mouse button, and the Space bar will work as a sustain pedal.
+        mouse button, velocity is controlled by horizontal position of the click, and space bar will
+        work as a sustain pedal.
       </p>
 
       <Gap />

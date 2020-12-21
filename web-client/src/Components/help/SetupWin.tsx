@@ -41,7 +41,10 @@ export default function SetupWin() {
           </p>
           <p className="text-high">
             Download the latest version of EasyChords Server from{' '}
-            <a href="https://s3-eu-west-1.amazonaws.com/easy-chords.io/server-downloads/EasyChords+Server+0.1.0.jar">
+            <a
+              href="https://s3-eu-west-1.amazonaws.com/easy-chords.io/server-downloads/EasyChords+Server+0.1.0.jar"
+              className="link"
+            >
               here
             </a>{' '}
             and open it.
@@ -74,6 +77,7 @@ export default function SetupWin() {
               href="https://www.tobias-erichsen.de/software/loopmidi.html"
               target="_blank"
               rel="noopener noreferrer"
+              className="link"
             >
               loopMIDI
             </a>{' '}
