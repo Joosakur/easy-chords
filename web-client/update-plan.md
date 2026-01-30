@@ -77,27 +77,23 @@
 
 ---
 
-## Phase 4: Replace react-router with wouter
+## Phase 4: Replace react-router with wouter - COMPLETE
 
 **Goal:** Lighter-weight routing
 
-**Remove:**
+**Removed:**
 - `react-router-dom`
 - `@types/react-router-dom`
 
-**Add:**
+**Added:**
 - `wouter`
 
-**Tasks:**
-1. Install wouter
-2. Replace imports and components:
-   - `BrowserRouter` → `Router` (or remove, wouter auto-detects)
-   - `Switch` → `Switch` (similar API)
-   - `Route` → `Route`
-   - `useHistory` → `useLocation`
-   - `useParams` → `useParams`
-   - `Link` → `Link`
-3. Update any programmatic navigation
+**Completed:**
+1. Installed wouter, removed react-router-dom (net -9 packages)
+2. Updated App.tsx - removed BrowserRouter wrapper, updated Switch/Route
+3. Updated Help.tsx - replaced useRouteMatch with useRoute, updated imports
+4. Updated Introduction.tsx - replaced Link import
+5. Bundle size reduced from 617KB to 599KB
 
 ---
 

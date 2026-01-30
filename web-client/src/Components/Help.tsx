@@ -1,9 +1,8 @@
-import React from 'react'
 import styled from 'styled-components'
 import { Colors, SPACING_LENGTHS } from './common/style-constants'
 import { cover } from 'polished'
 import { H1 } from './common/typography'
-import { Route, Switch, Link, useRouteMatch } from 'react-router-dom'
+import { Route, Switch, Link, useRoute } from 'wouter'
 import classNames from 'classnames'
 import SetupWin from './help/SetupWin'
 import SetupMac from './help/SetupMac'
@@ -67,10 +66,7 @@ const ContentContainer = styled.div`
 `
 
 function NavTab({ label, to }: { label: string; to: string }) {
-  const match = useRouteMatch({
-    path: to,
-    exact: true
-  })
+  const [match] = useRoute(to)
 
   return (
     <TabLink to={to} className={classNames({ active: match, link: !match })}>
@@ -98,16 +94,16 @@ export default function Help() {
         </TabBar>
         <ContentContainer>
           <Switch>
-            <Route exact path="/setup-on-windows">
+            <Route path="/setup-on-windows">
               <SetupWin />
             </Route>
-            <Route exact path="/setup-on-mac">
+            <Route path="/setup-on-mac">
               <SetupMac />
             </Route>
-            <Route exact path="/about">
+            <Route path="/about">
               <About />
             </Route>
-            <Route path="/">
+            <Route>
               <Introduction />
             </Route>
           </Switch>
