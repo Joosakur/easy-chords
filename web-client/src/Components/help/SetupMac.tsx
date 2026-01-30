@@ -43,7 +43,7 @@ export default function SetupMac() {
           <p className="text-high">
             Download the latest version of EasyChords Server from{' '}
             <a
-              href="https://s3-eu-west-1.amazonaws.com/easy-chords.io/server-downloads/EasyChords+Server+0.1.0.jar"
+              href="https://s3.eu-west-1.amazonaws.com/www.easy-chords.io/server-downloads/EasyChords+Server+0.1.0.jar"
               className="link"
             >
               here
