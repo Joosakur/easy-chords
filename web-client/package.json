@@ -34,10 +34,15 @@
     "@types/node": "^22.0.0",
     "@types/react": "^18.3.27",
     "@types/react-dom": "^18.3.7",
+    "@types/redux-mock-store": "^1.5.0",
     "@vitejs/plugin-react": "^4.3.4",
+    "@vitest/coverage-v8": "^4.0.18",
+    "redux-mock-store": "^1.5.5",
+    "redux-saga-test-plan": "^4.0.6",
     "storybook": "^8.6.15",
     "typescript": "^5.9.3",
-    "vite": "^6.0.7"
+    "vite": "^6.0.7",
+    "vitest": "^4.0.18"
   },
   "scripts": {
     "dev": "vite",
@@ -49,6 +54,9 @@
     "format": "biome format src --write",
     "check": "biome check src",
     "check-fix": "biome check src --fix",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build"
   },
