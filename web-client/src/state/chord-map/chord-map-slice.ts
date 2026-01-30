@@ -94,12 +94,7 @@ const chordMapSlice = createSlice({
   }
 })
 
-export const {
-  setEditMode,
-  setChords,
-  setChord,
-  setActiveChordIndex,
-  clearChord
-} = chordMapSlice.actions
+export const { setEditMode, setChords, setChord, setActiveChordIndex, clearChord } =
+  chordMapSlice.actions
 
 export default chordMapSlice.reducer

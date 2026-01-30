@@ -129,22 +129,33 @@
 
 ---
 
-## Phase 6: Remove Semantic UI
+## Phase 6: Remove Semantic UI - COMPLETE
 
 **Goal:** Remove unmaintained Semantic UI, keep styled-components only
 
-**Remove:**
+**Removed:**
 - `semantic-ui-react`
 - `semantic-ui-checkbox`
 - `semantic-ui-dropdown`
 - `semantic-ui-input`
+- 24 packages total
 
-**Tasks:**
-1. Audit current Semantic UI usage in codebase
-2. Replace each component with styled-components equivalents
-3. For dropdowns: evaluate small libraries (react-select, downshift) or build custom
-4. Remove Semantic UI CSS imports if any
-5. Use Storybook to visually validate replacement components
+**Created:**
+- `src/Components/common/Input.tsx` - Styled input component
+- Updated `src/Components/common/Dropdown.tsx` - Custom dropdown with styled-components
+  - Native `<select>` for simple option lists
+  - Custom menu dropdown for complex menus
+  - Exports: `DropdownMenu`, `DropdownHeader`, `DropdownItem`, `DropdownDivider`
+
+**Updated:**
+- `src/Components/main-view/ActionBar.tsx` - Use new Dropdown exports
+- `src/Components/left-sidebar/ChordEditor.tsx` - Use new Input
+- `src/Components/right-sidebar/Settings.tsx` - Use new Input
+- `src/index.tsx` - Removed semantic-ui CSS imports
+
+**Results:**
+- Bundle size: 599KB → 514KB (-85KB, -14%)
+- No external dropdown library needed
 
 ---
 

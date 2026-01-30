@@ -1,6 +1,6 @@
 import React, { useMemo, useRef } from 'react'
 import styled from 'styled-components'
-import { DropdownDivider, DropdownHeader, DropdownItem, DropdownMenu } from 'semantic-ui-react'
+import { DropdownDivider, DropdownHeader, DropdownItem, DropdownMenu } from '../common/Dropdown'
 import {
   faCopy,
   faExchangeAlt,

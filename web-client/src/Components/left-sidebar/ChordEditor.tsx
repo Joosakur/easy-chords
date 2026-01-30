@@ -1,7 +1,7 @@
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import styled from 'styled-components'
-import { Input } from 'semantic-ui-react'
+import { Input } from '../common/Input'
 import { ChordV1, IntervalNumber, Voicing } from '../../types'
 import { getChordName } from '../../utils/music/chords'
 import RootSelector from './chord-editor/RootSelector'

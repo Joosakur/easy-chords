@@ -15,9 +15,9 @@ const meta: Meta<typeof FixedSpacing> = {
     column: { control: 'boolean' },
     spacing: {
       control: 'select',
-      options: ['xs', 's', 'm', 'L', 'XL'],
-    },
-  },
+      options: ['xs', 's', 'm', 'L', 'XL']
+    }
+  }
 }
 
 export default meta
@@ -26,7 +26,7 @@ type Story = StoryObj<typeof FixedSpacing>
 export const fixedSpacing: Story = {
   args: {
     column: false,
-    spacing: 'm',
+    spacing: 'm'
   },
   render: (args) => (
     <FixedSpacing {...args}>
@@ -34,5 +34,5 @@ export const fixedSpacing: Story = {
       <Element />
       <Element />
     </FixedSpacing>
-  ),
+  )
 }

@@ -11,7 +11,7 @@ export const FixedSpacing = styled.div<FixedSpacingProps>`
   display: flex;
   flex-direction: ${(p) => (p.column ? 'column' : 'row')};
   align-items: center;
-  
+
   ${(p) => (p.column ? 'width: fit-content;' : '')}
   ${(p) => (p.grow ? `flex-grow: ${p.grow};` : '')}
 

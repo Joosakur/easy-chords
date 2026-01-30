@@ -10,10 +10,10 @@ function ChordButton({ chord, index }: { chord: ChordV1 | null; index: number })
   const dispatch = useDispatch()
   const editorOpen = useSelector(selectIsEditorOpen)
   const activeChordIndex = useSelector(selectActiveChordIndex)
-  const onMouseDown = useCallback((x, y) => dispatch(chordClicked({ index, x, y })), [
-    dispatch,
-    index
-  ])
+  const onMouseDown = useCallback(
+    (x, y) => dispatch(chordClicked({ index, x, y })),
+    [dispatch, index]
+  )
 
   return (
     <PadButton

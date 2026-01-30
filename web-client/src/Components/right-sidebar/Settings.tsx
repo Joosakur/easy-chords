@@ -1,7 +1,7 @@
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import styled from 'styled-components'
-import { Input } from 'semantic-ui-react'
+import { Input } from '../common/Input'
 import { H3 } from '../common/typography'
 import Dropdown from '../common/Dropdown'
 import { Gap } from '../common/layout/whie-space'

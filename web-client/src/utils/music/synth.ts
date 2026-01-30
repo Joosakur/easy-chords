@@ -1,4 +1,4 @@
-declare var Synth: AudioSynth
+declare const Synth: AudioSynth
 
 interface AudioSynth {
   createInstrument: (id: string | number) => Instrument
