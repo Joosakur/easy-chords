@@ -1,6 +1,6 @@
 import React from 'react'
 import { H2 } from '../common/typography'
-import { Gap } from 'Components/common/layout/whie-space'
+import { Gap } from '../common/layout/whie-space'
 import imgMainScreenshot from '../../images/main-screenshot.png'
 import { CenteredDiv } from '../common/layout/flex'
 import { Link } from 'react-router-dom'

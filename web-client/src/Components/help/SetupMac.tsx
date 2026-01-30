@@ -6,7 +6,7 @@ import imgMac1 from '../../images/mac1-open-midi-studio.png'
 import imgMac2 from '../../images/mac2-activate-device.png'
 import imgMac3 from '../../images/mac3-create-bus.png'
 import imgMidiOutput from '../../images/midi-output-mac.png'
-import { CenteredDiv } from 'Components/common/layout/flex'
+import { CenteredDiv } from '../common/layout/flex'
 import styled from 'styled-components'
 
 const Splits = styled.div`

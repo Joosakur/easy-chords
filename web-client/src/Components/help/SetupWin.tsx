@@ -5,7 +5,7 @@ import imgEasyChordsServer from '../../images/easy-chords-server.png'
 import imgLoopMidi from '../../images/loop-midi.png'
 import imgMidiOutput from '../../images/midi-output.png'
 import imgCubase from '../../images/cubase.png'
-import { CenteredDiv, FixedSpacing } from 'Components/common/layout/flex'
+import { CenteredDiv, FixedSpacing } from '../common/layout/flex'
 import styled from 'styled-components'
 
 const Splits = styled.div`

@@ -1,38 +1,47 @@
 # Dependency Update Plan
 
-## Phase 1: Migrate to Vite
+## Phase 1: Migrate to Vite - COMPLETE
 
 **Goal:** Replace Create React App with Vite
 
-**Remove:**
+**Removed:**
 - `react-scripts`
-- `@storybook/preset-create-react-app`
 
-**Add:**
-- `vite`
-- `@vitejs/plugin-react`
+**Added:**
+- `vite` ^6.0.7
+- `@vitejs/plugin-react` ^4.3.4
 
-**Tasks:**
-1. Create `vite.config.ts`
-2. Update `index.html` (move to root, add script entry point)
-3. Update `tsconfig.json` for Vite
-4. Replace `react-scripts` scripts in package.json
-5. Update environment variable usage (`REACT_APP_` → `VITE_`)
-6. Remove CRA-specific files
+**Also updated (required for Vite compatibility):**
+- `typescript` 3.7.5 → 5.x
+- `@types/node` 12.x → 22.x
+
+**Completed:**
+1. Created `vite.config.ts`
+2. Moved `index.html` to root with module script entry
+3. Updated `tsconfig.json` for Vite/TS5
+4. Replaced `react-scripts` scripts with vite commands
+5. No `REACT_APP_` variables were in use
+6. Removed CRA-specific files (`react-app-env.d.ts`, `setupTests.ts`)
+7. Added `src/vite-env.d.ts` for Vite types
+8. Fixed absolute imports in help pages to relative imports
+
+**Notes:**
+- Storybook scripts won't work until Phase 5
+- Build produces chunk size warning (can address with code-splitting later)
 
 ---
 
-## Phase 2: Update React & TypeScript
+## Phase 2: Update React
 
-**Goal:** Update core framework
+**Goal:** Update React to v18
 
 **Update:**
 - `react` 16.13.1 → 18.x
 - `react-dom` 16.13.1 → 18.x
-- `typescript` 3.7.5 → 5.x
 - `@types/react` → 18.x
 - `@types/react-dom` → 18.x
-- `@types/node` → latest
+
+*Note: `typescript` and `@types/node` already updated in Phase 1*
 
 **Tasks:**
 1. Update packages
