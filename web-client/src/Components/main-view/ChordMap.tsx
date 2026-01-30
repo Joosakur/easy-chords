@@ -3,6 +3,8 @@ import styled from 'styled-components'
 import { selectChords } from '../../state/chord-map/chord-map-slice'
 import ChordButton from './chord-map/ChordButton'
 
+const NUM_COLS = 7
+
 const Wrapper = styled.div`
   flex-grow: 1;
   overflow-y: auto;
@@ -11,7 +13,7 @@ const Wrapper = styled.div`
 
 const ChordGrid = styled.div`
   display: grid;
-  grid-template-columns: repeat(7, 1fr);
+  grid-template-columns: repeat(${NUM_COLS}, 1fr);
   column-gap: 2em;
   row-gap: 2em;
 
@@ -28,7 +30,7 @@ function ChordMap() {
     <Wrapper onDragStart={(e) => e.preventDefault()}>
       <ChordGrid>
         {chords.map((chord, index) => (
-          <ChordButton key={index} chord={chord} index={index} />
+          <ChordButton key={index} chord={chord} index={index} numCols={NUM_COLS} />
         ))}
       </ChordGrid>
     </Wrapper>

@@ -63,8 +63,8 @@ interface ActionButtonProps {
   hideText?: boolean | string
   color?: string
   disabled?: boolean
-
   className?: string
+  'data-test'?: string
 }
 
 function ActionButton({
@@ -75,6 +75,7 @@ function ActionButton({
   hideText = false,
   disabled,
   className,
+  'data-test': dataTest,
 }: ActionButtonProps) {
   return (
     <StyledButton
@@ -83,6 +84,7 @@ function ActionButton({
       onClick={() => onClick()}
       color={color}
       hideTextThreshold={typeof hideText === 'string' ? hideText : undefined}
+      data-test={dataTest}
     >
       <FixedSpacing spacing="s" className={disabled ? 'text-disabled' : 'text-high'}>
         {icon && <FontAwesomeIcon icon={icon} />}

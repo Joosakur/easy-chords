@@ -6,7 +6,13 @@ import { selectIsEditorOpen } from '../../../state/ui/ui-slice'
 import type { ChordV1 } from '../../../types'
 import PadButton from '../../common/buttons/PadButton'
 
-function ChordButton({ chord, index }: { chord: ChordV1 | null; index: number }) {
+interface ChordButtonProps {
+  chord: ChordV1 | null
+  index: number
+  numCols: number
+}
+
+function ChordButton({ chord, index, numCols }: ChordButtonProps) {
   const dispatch = useDispatch()
   const editorOpen = useSelector(selectIsEditorOpen)
   const activeChordIndex = useSelector(selectActiveChordIndex)
@@ -15,6 +21,9 @@ function ChordButton({ chord, index }: { chord: ChordV1 | null; index: number })
     [dispatch, index],
   )
 
+  const row = Math.floor(index / numCols)
+  const col = index % numCols
+
   return (
     <PadButton
       key={index}
@@ -22,6 +31,7 @@ function ChordButton({ chord, index }: { chord: ChordV1 | null; index: number })
       empty={chord === null}
       text={chord?.name ?? ''}
       onMouseDown={onMouseDown}
+      data-test={`chord-slot-${row}-${col}`}
     />
   )
 }

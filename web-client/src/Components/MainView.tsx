@@ -86,6 +86,7 @@ function MainView() {
             icon={faMusic}
             hideText="650px"
             onClick={() => dispatch(toggleEditor())}
+            data-test="edit-chords-button"
           />
         ) : (
           <div />

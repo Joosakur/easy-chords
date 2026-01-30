@@ -50,8 +50,8 @@ interface SelectionButtonProps {
   children: React.ReactNode
   circular?: boolean
   selected?: boolean
-
   className?: string
+  'data-test'?: string
 }
 
 function SelectionButton({
@@ -60,12 +60,14 @@ function SelectionButton({
   circular,
   selected,
   className,
+  'data-test': dataTest,
 }: SelectionButtonProps) {
   return (
     <StyledButton
       className={classNames(className, { circular, selected })}
       onClick={() => onClick()}
       color={selected ? FadedColors.states.active : FadedColors.primary}
+      data-test={dataTest}
     >
       <div className="text-high">{children}</div>
     </StyledButton>
