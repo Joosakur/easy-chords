@@ -49,7 +49,7 @@ const StyledButton = styled.button<StyledButtonProps>`
 `
 
 interface CircleActionButtonProps {
-  onClick: () => any
+  onClick: () => void
   icon: IconProp
   altText: string
   disabled?: boolean

@@ -46,7 +46,7 @@ const StyledButton = styled.button<StyledButtonProps>`
 `
 
 interface SelectionButtonProps {
-  onClick: () => any
+  onClick: () => void
   children: React.ReactNode
   circular?: boolean
   selected?: boolean

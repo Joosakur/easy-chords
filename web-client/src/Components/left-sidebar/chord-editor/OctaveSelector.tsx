@@ -12,7 +12,7 @@ interface OctaveSelectorProps {
   octave?: number
   min: number
   max: number
-  onChange: (val: number) => any
+  onChange: (val: number) => void
 }
 
 function OctaveSelector({ octave, min, max, onChange }: OctaveSelectorProps) {

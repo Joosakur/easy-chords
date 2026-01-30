@@ -19,7 +19,7 @@ interface QualityButtonProps {
   mainText: string
   superScript?: string
   voicing: Voicing
-  onChange: (voicing: Voicing) => any
+  onChange: (voicing: Voicing) => void
   'data-test': string
 }
 function QualityButton({
@@ -53,7 +53,7 @@ function QualityButton({
 }
 
 interface QualitySelectorProps {
-  onChange: (voicing: Voicing) => any
+  onChange: (voicing: Voicing) => void
 }
 
 function QualitySelector({ onChange }: QualitySelectorProps) {

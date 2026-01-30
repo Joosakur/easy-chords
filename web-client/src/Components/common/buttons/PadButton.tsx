@@ -89,7 +89,7 @@ const StyledButton = styled.button<StyledButtonProps>`
 
 interface PadButtonProps {
   text: string
-  onMouseDown?: (x: number, y: number) => any
+  onMouseDown?: (x: number, y: number) => void
   selected?: boolean
   empty?: boolean
   color?: string

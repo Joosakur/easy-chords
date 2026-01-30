@@ -57,7 +57,7 @@ const StyledButton = styled.button<StyledButtonProps>`
 `
 
 interface ActionButtonProps {
-  onClick: () => any
+  onClick: () => void
   text: string
   icon?: IconProp
   hideText?: boolean | string
