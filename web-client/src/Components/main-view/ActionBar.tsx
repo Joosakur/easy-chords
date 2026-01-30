@@ -134,6 +134,7 @@ function ActionBar() {
           onClick={() => exportLink.current?.click()}
           hideText={BREAKPOINTS.lg}
           color={FadedColors.secondary}
+          data-test="export-button"
         />
 
         <input
@@ -141,6 +142,7 @@ function ActionBar() {
           ref={fileSelector}
           type="file"
           accept="application/json"
+          data-test="import-file-input"
           onChange={() => {
             if (fileSelector.current) {
               readFile(fileSelector.current, (json) => dispatch(importChordMap(json)))
@@ -154,6 +156,7 @@ function ActionBar() {
           onClick={() => fileSelector.current?.click()}
           hideText={BREAKPOINTS.lg}
           color={FadedColors.secondary}
+          data-test="import-button"
         />
       </FixedSpacing>
     </ActionBarContainer>
