@@ -1,6 +1,6 @@
 import { select } from 'redux-saga/effects'
 import { expectSaga } from 'redux-saga-test-plan'
-import { describe, expect, it } from 'vitest'
+import { beforeEach, describe, expect, it, vi } from 'vitest'
 import type { ChordV1 } from '../../types'
 import { chordClicked, importChordMap } from './chord-map-saga-actions'
 import { chordClickedSaga, importChordMapSaga } from './chord-map-sagas'
@@ -30,6 +30,10 @@ const anotherChord: ChordV1 = {
 }
 
 describe('chord-map sagas', () => {
+  beforeEach(() => {
+    vi.stubGlobal('alert', vi.fn())
+  })
+
   describe('chordClickedSaga', () => {
     describe('normal mode (editMode === null)', () => {
       it('plays chord and sets active index when chord exists', async () => {
