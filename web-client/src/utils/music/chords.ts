@@ -1,3 +1,15 @@
+/**
+ * Music theory utilities for chord manipulation and naming.
+ *
+ * Key concepts:
+ * - Voicing: Array of semitone intervals from root, used for storage and playback.
+ *   Values can exceed 11 to span multiple octaves (e.g., 16 = octave + major 3rd).
+ * - GridVoicing: 7-element array for the VoicingEditor UI. Each element is an
+ *   interval (0-11) or null. Null values represent octave boundaries.
+ *
+ * @module utils/music/chords
+ */
+
 import type { ChordV1, GridVoicing, IntervalNumber, Voicing } from '../../types'
 
 const setsEqual = <T>(a: Set<T>, b: Set<T>): boolean =>
@@ -8,6 +20,16 @@ export const getAbsoluteNotes = (chord: ChordV1): number[] => {
   return voicing.map((v) => root + v + 12 * octave)
 }
 
+/**
+ * Converts a Voicing to GridVoicing for display in the VoicingEditor.
+ *
+ * Inserts null entries when consecutive notes span more than one octave,
+ * representing empty columns in the editor grid.
+ *
+ * @example
+ * voicingToGridVoicing([0, 7, 16]) // [0, 7, null, 4]
+ * // 0 and 7 are in same octave, 16 is in next octave (16 % 12 = 4)
+ */
 export const voicingToGridVoicing = (voicing: Voicing): GridVoicing => {
   const gridVoicing: GridVoicing = []
 
@@ -37,6 +59,15 @@ export const voicingToGridVoicing = (voicing: Voicing): GridVoicing => {
   return gridVoicing
 }
 
+/**
+ * Converts a GridVoicing back to a Voicing for storage and playback.
+ *
+ * Null entries add 12 semitones (one octave). Non-null entries find the
+ * next note that matches the given interval, ensuring notes always ascend.
+ *
+ * @example
+ * gridVoicingToVoicing([0, 7, null, 4]) // [0, 7, 16]
+ */
 export const gridVoicingToVoicing = (gridVoicing: GridVoicing): Voicing => {
   const voicing: Voicing = []
 
@@ -57,6 +88,16 @@ export const gridVoicingToVoicing = (gridVoicing: GridVoicing): Voicing => {
   return voicing
 }
 
+/**
+ * Generates a chord name from root and voicing.
+ *
+ * The name consists of: root note + quality + optional slash bass.
+ * Quality is determined by matching the set of intervals (mod 12) against
+ * known chord types. If the lowest note is not the root, a slash notation
+ * is added (e.g., "Am7 / C" for Am7 with C in the bass).
+ *
+ * Returns "?" for the quality if no match is found.
+ */
 export const getChordName = (root: IntervalNumber, voicing: Voicing) => {
   const rootName = rootNames[root]
 
@@ -68,6 +109,10 @@ export const getChordName = (root: IntervalNumber, voicing: Voicing) => {
   return `${rootName}${qualityName}${bass !== rootName ? ` / ${bass}` : ''}`
 }
 
+/**
+ * Chord quality lookup table. Order matters: first match wins.
+ * Each entry maps a set of intervals (semitones from root, mod 12) to a quality suffix.
+ */
 const qualityNames: { voices: Set<IntervalNumber>; name: string }[] = [
   { voices: new Set<IntervalNumber>([0, 2, 7]), name: 'sus2' },
   { voices: new Set<IntervalNumber>([0, 3, 6]), name: 'dim' },
@@ -117,4 +162,5 @@ const qualityNames: { voices: Set<IntervalNumber>; name: string }[] = [
   { voices: new Set<IntervalNumber>([0, 4, 7, 9, 2, 5]), name: '6/9/11' },
 ]
 
+/** Note names indexed by semitone (0=C, 1=Db, ... 11=B). Uses flats except for F#. */
 const rootNames: string[] = ['C', 'Db', 'D', 'Eb', 'E', 'F', 'F#', 'G', 'Ab', 'A', 'Bb', 'B']

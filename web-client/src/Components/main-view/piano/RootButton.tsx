@@ -1,3 +1,13 @@
+/**
+ * Draggable root indicator that appears on piano keys.
+ *
+ * Dragging to a new key changes the chord's root and octave, which effectively
+ * transposes the chord (since voicing intervals are relative to root).
+ *
+ * Note: This behavior can be confusing - see docs/future-ideas.md for planned
+ * UX improvement to separate "change root interpretation" from "transpose".
+ */
+
 import { DragOverlay, useDndMonitor, useDraggable } from '@dnd-kit/core'
 import classNames from 'classnames'
 import { darken } from 'polished'
@@ -106,10 +116,11 @@ function RootButton() {
     },
   })
 
+  // Adjust position on keys adjacent to black keys so the indicator doesn't overlap
   const className = classNames({
     dragging: isDragging,
-    'adjust-left': activeChord && [0, 5].includes(activeChord.root),
-    'adjust-right': activeChord && [4, 11].includes(activeChord.root),
+    'adjust-left': activeChord && [0, 5].includes(activeChord.root), // C, F
+    'adjust-right': activeChord && [4, 11].includes(activeChord.root), // E, B
   })
 
   return (

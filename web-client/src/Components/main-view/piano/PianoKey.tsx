@@ -182,17 +182,20 @@ function PianoKey({ note }: PianoKeyProps) {
 
   const isDragging = active?.id === 'root'
 
+  // Interval from root (0-11) determines the color band shown on the key
   const interval = editorOpen && activeChord ? (note - activeChord.root) % 12 : undefined
+
+  // Visual states for CSS classes
   const state = {
-    pressed,
-    active:
+    pressed, // Currently sounding (in keysDown)
+    active: // Part of the active chord's voicing
       editorOpen &&
       activeChord?.voicing?.includes(
         note - (activeChord?.root ?? 0) - 12 * (activeChord?.octave ?? 0),
       ),
-    dragging: editorOpen && isDragging && !isOver,
-    dropping: editorOpen && isDragging && isOver,
-    'below-root': activeChord && note < 12 * activeChord.octave + activeChord.root,
+    dragging: editorOpen && isDragging && !isOver, // Root is being dragged, not over this key
+    dropping: editorOpen && isDragging && isOver, // Root is being dragged over this key
+    'below-root': activeChord && note < 12 * activeChord.octave + activeChord.root, // Dimmed
   }
 
   const onKeyPress = (e: React.MouseEvent) => {
