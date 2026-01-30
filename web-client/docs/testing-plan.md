@@ -81,13 +81,14 @@ This document outlines the multi-phase plan for adding unit test coverage to the
 
 ---
 
-## Phase 5: GitHub Actions CI
+## Phase 5: GitHub Actions CI (COMPLETED)
 
-Create `.github/workflows/test.yml`:
-- Trigger on push to master and PRs
-- Node.js setup
-- `npm ci` → `npm run test:coverage`
-- Fail on test failures
+- [x] Create `.github/workflows/ci.yml`
+- [x] Trigger on push to master and PRs
+- [x] Node.js 20 setup with npm caching
+- [x] Run lint and format check (`npm run check`)
+- [x] Run tests with coverage (`npm run test:coverage`)
+- [x] Fail on any check/test failures
 
 ---
 
