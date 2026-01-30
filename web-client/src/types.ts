@@ -46,7 +46,7 @@ export interface ChordV1 {
  * Import should support both V1 and V2; export should use the latest version.
  */
 export interface ChordMapDefinitionV1 {
-  /** Array of 35 chord slots (7 columns x 5 rows). Null for empty slots. */
+  /** Chord slots array. Length must be divisible by 7 (columns). Null for empty slots. */
   chords: (ChordV1 | null)[]
   /** Format version. Must be 1 for this interface. */
   version: 1

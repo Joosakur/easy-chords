@@ -32,7 +32,7 @@ Research: Tone.js, Howler.js, or Web Audio API directly for better synthesis opt
 
 ### Configurable chord grid size
 
-Currently the chord grid is fixed at 7x5 (35 slots). Users may want:
+Currently the chord grid has 7 fixed columns (for diatonic chords). Row count varies by import/preset but there's no UI to change it. Users may want:
 - Add/remove rows
 - Add/remove columns
 - Different layouts for different use cases (e.g., 4x4 for simpler songs, larger grids for complex arrangements)

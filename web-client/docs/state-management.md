@@ -45,11 +45,11 @@ The `editorOpen` state also affects piano behavior: when true, clicking keys edi
 
 ### chordMap
 
-Manages the 7x5 chord grid and editing operations.
+Manages the chord grid and editing operations.
 
 ```typescript
 interface ChordMapState {
-  chords: (ChordV1 | null)[]   // 35-element array (7 columns x 5 rows)
+  chords: (ChordV1 | null)[]   // 7 columns, variable rows (length divisible by 7)
   activeChordIndex: number     // Currently selected chord slot
   editMode: 'copy' | 'swap' | null
 }

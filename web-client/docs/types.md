@@ -9,7 +9,7 @@ Chord maps are stored and exported as JSON files with the `ChordMapDefinitionV1`
 ```typescript
 interface ChordMapDefinitionV1 {
   version: 1
-  chords: (ChordV1 | null)[]  // Array of 35 slots (7 columns x 5 rows)
+  chords: (ChordV1 | null)[]  // Length must be divisible by 7 (7 columns)
 }
 
 interface ChordV1 {
@@ -39,7 +39,7 @@ type IntervalNumber = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11
 ### Backwards Compatibility Notes
 
 - The `version` field must be `1` for current format
-- The `chords` array must have exactly 35 elements (nulls for empty slots)
+- The `chords` array length must be divisible by 7 (for 7 columns). Default is 28 (4 rows), presets use 42 (6 rows).
 - `voicing` values are **absolute semitone intervals from the root**, not scale degrees
   - Example: `[0, 7, 16, 24]` means root + perfect fifth + major third (octave up) + root (two octaves up)
 - The `name` field is for display only; the actual chord is determined by `root` + `voicing`
