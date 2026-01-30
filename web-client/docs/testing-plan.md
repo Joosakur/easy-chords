@@ -26,23 +26,25 @@ This document outlines the multi-phase plan for adding unit test coverage to the
 
 ---
 
-## Phase 2: Music Utility Tests (`src/utils/music/`)
+## Phase 2: Music Utility Tests (`src/utils/music/`) (COMPLETED)
+
+- [x] `chords.ts` - 73 tests, 100% coverage
+- [x] `synth.ts` - 18 tests for `numberToTone`
 
 ### `chords.ts`
 
 | Function | Test Cases |
 |----------|-----------|
-| `getAbsoluteNotes` | Single note, multi-octave voicing, various roots/octaves |
-| `voicingToGridVoicing` | Simple voicing, multi-octave spans, null insertion for large gaps |
-| `gridVoicingToVoicing` | Round-trip verification, null handling, octave boundary detection |
-| `getChordName` | All chord qualities (major, minor, dim, aug, 7ths, etc.), inversions with slash notation, unrecognized patterns |
-| `setsEqual` | Equal sets, different sizes, different elements |
+| `getAbsoluteNotes` | Single note, multi-octave voicing, various roots/octaves, empty voicing |
+| `voicingToGridVoicing` | Simple voicing, multi-octave spans, null insertion for large gaps, high first note |
+| `gridVoicingToVoicing` | Round-trip verification, null handling, octave boundary detection, ascending notes |
+| `getChordName` | All 37 chord qualities, all 12 roots, inversions with slash notation, unrecognized patterns |
 
 ### `synth.ts`
 
 | Function | Test Cases |
 |----------|-----------|
-| `numberToTone` | MIDI notes 0-127, correct tone names, octave wrapping |
+| `numberToTone` | All 12 tones, octave wrapping, MIDI note range (0-127) |
 
 ---
 
@@ -80,14 +82,14 @@ Create `.github/workflows/test.yml`:
 
 ---
 
-## Estimated Coverage
+## Test Coverage
 
-| Phase | Focus | Estimated Tests |
-|-------|-------|-----------------|
-| 1 | Setup | 1 (placeholder) |
-| 2 | Music utils | ~30-40 |
+| Phase | Focus | Tests |
+|-------|-------|-------|
+| 1 | Setup | - |
+| 2 | Music utils | 91 |
 | 3 | Redux slices | ~25-30 |
 | 4 | Sagas | ~15-20 |
 | 5 | CI | (workflow file) |
 
-**Total:** ~70-90 unit tests
+**Current total:** 91 tests
