@@ -80,7 +80,7 @@ function ChordEditor() {
 
   const onChordRenamed = (name: string) => {
     if (activeChord && activeChordIndex !== null) {
-      dispatch(setChord({ chord: { ...activeChord, name: name.substr(0, 10) } }))
+      dispatch(setChord({ chord: { ...activeChord, name: name.slice(0, 10) } }))
     }
   }
 

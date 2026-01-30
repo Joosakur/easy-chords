@@ -1,6 +1,5 @@
 import { DragOverlay, useDndMonitor, useDraggable } from '@dnd-kit/core'
 import classNames from 'classnames'
-import { cloneDeep } from 'lodash'
 import { darken } from 'polished'
 import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
@@ -96,7 +95,7 @@ function RootButton() {
           const octave = Math.floor(note / 12)
           const root = (note % 12) as IntervalNumber
           const newChord = {
-            ...cloneDeep(activeChord),
+            ...structuredClone(activeChord),
             octave,
             root,
             name: getChordName(root, activeChord.voicing),

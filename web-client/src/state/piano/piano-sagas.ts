@@ -1,4 +1,3 @@
-import { cloneDeep } from 'lodash'
 import { call, put, select, takeEvery, takeLatest } from 'redux-saga/effects'
 import api, { type CCEvent, type ChordEvent, type NoteEvent } from '../../api/http-client'
 import type { ChordV1 } from '../../types'
@@ -35,7 +34,7 @@ function* pianoKeyClickedSaga({ payload: note }: ReturnType<typeof pianoKeyClick
   const editorOpen: boolean = yield select(selectIsEditorOpen)
   const activeChord: ChordV1 | null = yield select(selectActiveChord)
   if (editorOpen && activeChord) {
-    const newChord = cloneDeep(activeChord)
+    const newChord = structuredClone(activeChord)
 
     // adjust root octave if new note is below it
     while (note < 12 * newChord.octave + newChord.root) {

@@ -1,4 +1,3 @@
-import isEqual from 'lodash/isEqual'
 import { useSelector } from 'react-redux'
 import styled from 'styled-components'
 import { selectActiveChord } from '../../../state/chord-map/chord-map-slice'
@@ -25,12 +24,12 @@ interface QualityButtonProps {
 function QualityButton({ mainText, superScript, voicing, onChange }: QualityButtonProps) {
   const activeVoicing = useSelector(selectActiveChord)?.voicing ?? []
 
+  const voicingSet = new Set(voicing.filter((v) => v !== null).map((v) => v % 12))
+  const activeSet = new Set(activeVoicing.filter((v) => v !== null).map((v) => v % 12))
   const matchesCurrent =
     activeVoicing &&
-    isEqual(
-      new Set(voicing.filter((v) => v !== null).map((v) => v % 12)),
-      new Set(activeVoicing.filter((v) => v !== null).map((v) => v % 12)),
-    )
+    voicingSet.size === activeSet.size &&
+    [...voicingSet].every((v) => activeSet.has(v))
 
   return (
     <SelectionButton onClick={() => onChange(voicing)} selected={matchesCurrent}>

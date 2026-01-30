@@ -113,7 +113,6 @@ function PadButton({
     <StyledButton
       className={classNames(className, { selected, empty, thin, toggle })}
       onMouseDown={(e: React.MouseEvent) => {
-        e.persist()
         const { x, y, width, height } = e.currentTarget.getBoundingClientRect()
         const xr = Math.max(0, Math.min(1, (e.clientX - x) / (width + 1)))
         const yr = Math.max(0, Math.min(1, (e.clientY - y) / (height + 1)))
