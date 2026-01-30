@@ -8,6 +8,7 @@ import {
 import { useMemo, useRef } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import styled from 'styled-components'
+import { BREAKPOINTS } from '../../config/constants'
 import { importChordMap, loadChordMap } from '../../state/actions'
 import {
   clearChord,
@@ -37,7 +38,7 @@ const ActionBarContainer = styled.div`
     margin-right: ${SPACING_LENGTHS.m};
   }
 
-  @media screen and (max-width: 650px) {
+  @media screen and (max-width: ${BREAKPOINTS.sm}) {
     .presets {
       flex-grow: 1;
     }
@@ -72,21 +73,21 @@ function ActionBar() {
             <ActionButton
               icon={faCopy}
               text="Copy"
-              hideText="1600px"
+              hideText={BREAKPOINTS.xl}
               color={FadedColors.secondary}
               onClick={() => dispatch(setEditMode('copy'))}
             />
             <ActionButton
               icon={faExchangeAlt}
               text="Swap"
-              hideText="1600px"
+              hideText={BREAKPOINTS.xl}
               color={FadedColors.secondary}
               onClick={() => dispatch(setEditMode('swap'))}
             />
             <ActionButton
               icon={faTrashAlt}
               text="Clear chord"
-              hideText="1600px"
+              hideText={BREAKPOINTS.xl}
               color={FadedColors.secondary}
               onClick={() => dispatch(clearChord())}
             />
@@ -131,7 +132,7 @@ function ActionBar() {
           text="Export"
           icon={faFileExport}
           onClick={() => exportLink.current?.click()}
-          hideText="1200px"
+          hideText={BREAKPOINTS.lg}
           color={FadedColors.secondary}
         />
 
@@ -151,7 +152,7 @@ function ActionBar() {
           text="Import"
           icon={faFileImport}
           onClick={() => fileSelector.current?.click()}
-          hideText="1200px"
+          hideText={BREAKPOINTS.lg}
           color={FadedColors.secondary}
         />
       </FixedSpacing>

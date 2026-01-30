@@ -2,6 +2,7 @@ import { faCog, faMusic, faQuestion } from '@fortawesome/free-solid-svg-icons'
 import { darken, lighten, math, rem } from 'polished'
 import { useDispatch, useSelector } from 'react-redux'
 import styled from 'styled-components'
+import { BREAKPOINTS } from '../config/constants'
 import bg from '../images/bg.png'
 import { stopNotes, toggleEditor, toggleSettings } from '../state/actions'
 import { selectIsEditorOpen } from '../state/ui/ui-slice'
@@ -84,7 +85,7 @@ function MainView() {
           <ActionButton
             text="Edit Chords"
             icon={faMusic}
-            hideText="650px"
+            hideText={BREAKPOINTS.sm}
             onClick={() => dispatch(toggleEditor())}
             data-test="edit-chords-button"
           />
@@ -98,14 +99,14 @@ function MainView() {
           <ActionButton
             text="Settings"
             icon={faCog}
-            hideText="1200px"
+            hideText={BREAKPOINTS.lg}
             onClick={() => dispatch(toggleSettings())}
           />
           <a href="/" target="_blank" rel="noopener noreferrer">
             <ActionButton
               text="Help"
               icon={faQuestion}
-              hideText="1200px"
+              hideText={BREAKPOINTS.lg}
               onClick={() => undefined}
             />
           </a>

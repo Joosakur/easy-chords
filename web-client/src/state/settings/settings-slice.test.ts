@@ -75,7 +75,10 @@ describe('settings slice', () => {
       })
 
       it('handles getMidiDevices.fulfilled', () => {
-        const devices = [{ name: 'Device 1', description: 'Test Device 1' }, { name: 'Device 2', description: 'Test Device 2' }]
+        const devices = [
+          { name: 'Device 1', description: 'Test Device 1' },
+          { name: 'Device 2', description: 'Test Device 2' },
+        ]
         const state = reducer(initialSettingsState, getMidiDevices.fulfilled(devices))
         expect(state.midiDevices).toEqual(devices)
       })
@@ -159,7 +162,10 @@ describe('settings slice', () => {
         const rootState = createRootState({
           midiOutput: true,
           host: 'localhost',
-          midiDevices: [{ name: 'Device 1', description: 'Test Device 1' }, { name: 'Device 2', description: 'Test Device 2' }],
+          midiDevices: [
+            { name: 'Device 1', description: 'Test Device 1' },
+            { name: 'Device 2', description: 'Test Device 2' },
+          ],
           midiDeviceIndex: 1,
         })
         expect(selectIsUsingMidi(rootState)).toBe(true)
