@@ -1,11 +1,10 @@
-import React from 'react'
-import styled from 'styled-components'
 import isEqual from 'lodash/isEqual'
-import { Voicing } from '../../../types'
-import { SuperScript } from '../../common/typography'
-import SelectionButton from '../../common/buttons/SelectionButton'
-import { selectActiveChord } from '../../../state/chord-map/chord-map-slice'
 import { useSelector } from 'react-redux'
+import styled from 'styled-components'
+import { selectActiveChord } from '../../../state/chord-map/chord-map-slice'
+import type { Voicing } from '../../../types'
+import SelectionButton from '../../common/buttons/SelectionButton'
+import { SuperScript } from '../../common/typography'
 
 const ButtonGrid = styled.div`
   display: grid;
@@ -30,7 +29,7 @@ function QualityButton({ mainText, superScript, voicing, onChange }: QualityButt
     activeVoicing &&
     isEqual(
       new Set(voicing.filter((v) => v !== null).map((v) => v % 12)),
-      new Set(activeVoicing.filter((v) => v !== null).map((v) => v % 12))
+      new Set(activeVoicing.filter((v) => v !== null).map((v) => v % 12)),
     )
 
   return (

@@ -1,9 +1,8 @@
-import React from 'react'
 import { Resizer } from '../../../utils/story-utils'
 import Octave from './Octave'
 
 export default {
-  title: 'molecules/piano'
+  title: 'molecules/piano',
 }
 
 export const octave = () => (

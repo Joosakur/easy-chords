@@ -1,6 +1,6 @@
-import { ChordV1 } from '../../types'
-import { createSelector, createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { RootState } from '../root-reducer'
+import { createSelector, createSlice, type PayloadAction } from '@reduxjs/toolkit'
+import type { ChordV1 } from '../../types'
+import type { RootState } from '../root-reducer'
 
 export type EditMode = 'copy' | 'swap' | null
 
@@ -41,13 +41,13 @@ const defaultChords: (ChordV1 | null)[] = [
   null,
   null,
   null,
-  null
+  null,
 ]
 
 export const initialChordMapState: ChordMapState = {
   chords: defaultChords,
   activeChordIndex: null,
-  editMode: null
+  editMode: null,
 }
 
 export const selectChordMap = (state: RootState) => state.chordMap
@@ -55,18 +55,18 @@ export const selectEditMode = createSelector(selectChordMap, (chordMap) => chord
 export const selectChords = createSelector(selectChordMap, (chordMap) => chordMap.chords)
 export const selectActiveChordIndex = createSelector(
   selectChordMap,
-  (chordMap) => chordMap.activeChordIndex
+  (chordMap) => chordMap.activeChordIndex,
 )
 export const selectIsChordButtonSelected = createSelector(
   selectChordMap,
-  (chordMap) => chordMap.activeChordIndex !== null
+  (chordMap) => chordMap.activeChordIndex !== null,
 )
 export const selectActiveChord = createSelector(
   selectChords,
   selectActiveChordIndex,
   (chords, activeChordIndex) => {
     return chords && activeChordIndex !== null ? chords[activeChordIndex] : null
-  }
+  },
 )
 
 const chordMapSlice = createSlice({
@@ -90,8 +90,8 @@ const chordMapSlice = createSlice({
     },
     clearChord: (state) => {
       if (state.activeChordIndex !== null) state.chords[state.activeChordIndex] = null
-    }
-  }
+    },
+  },
 })
 
 export const { setEditMode, setChords, setChord, setActiveChordIndex, clearChord } =

@@ -1,14 +1,14 @@
-import React, { useEffect, useState } from 'react'
-import styled, { keyframes } from 'styled-components'
-import { Colors, SPACING_LENGTHS } from './common/style-constants'
-import classNames from 'classnames'
 import { faAngleRight } from '@fortawesome/free-solid-svg-icons'
-import Settings from './right-sidebar/Settings'
-import { Gap } from './common/layout/whie-space'
-import { H2 } from './common/typography'
-import CircleActionButton from './common/buttons/CircleActionButton'
+import classNames from 'classnames'
+import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import styled, { keyframes } from 'styled-components'
 import { closeSettings, selectIsSettingsOpen } from '../state/ui/ui-slice'
+import CircleActionButton from './common/buttons/CircleActionButton'
+import { Gap } from './common/layout/whie-space'
+import { Colors, SPACING_LENGTHS } from './common/style-constants'
+import { H2 } from './common/typography'
+import Settings from './right-sidebar/Settings'
 
 const slideIn = keyframes`
   from {

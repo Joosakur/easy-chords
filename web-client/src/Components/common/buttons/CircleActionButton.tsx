@@ -1,10 +1,9 @@
-import React from 'react'
-import styled from 'styled-components'
-import { Colors, FadedColors } from '../style-constants'
+import type { IconProp } from '@fortawesome/fontawesome-svg-core'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import classNames from 'classnames'
 import { shade, tint } from 'polished'
-import { IconProp } from '@fortawesome/fontawesome-svg-core'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import styled from 'styled-components'
+import { Colors, FadedColors } from '../style-constants'
 
 interface StyledButtonProps {
   color: string
@@ -65,7 +64,7 @@ function CircleActionButton({
   altText,
   disabled,
   color = FadedColors.secondary,
-  className
+  className,
 }: CircleActionButtonProps) {
   return (
     <StyledButton

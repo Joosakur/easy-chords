@@ -1,12 +1,11 @@
-import React from 'react'
-import { H2, H3 } from '../common/typography'
-import { Gap } from '../common/layout/whie-space'
+import styled from 'styled-components'
+import imgCubase from '../../images/cubase.png'
 import imgEasyChordsServer from '../../images/easy-chords-server.png'
 import imgLoopMidi from '../../images/loop-midi.png'
 import imgMidiOutput from '../../images/midi-output.png'
-import imgCubase from '../../images/cubase.png'
 import { CenteredDiv, FixedSpacing } from '../common/layout/flex'
-import styled from 'styled-components'
+import { Gap } from '../common/layout/whie-space'
+import { H2, H3 } from '../common/typography'
 
 const Splits = styled.div`
   display: flex;

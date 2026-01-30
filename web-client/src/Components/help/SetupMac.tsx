@@ -1,13 +1,12 @@
-import React from 'react'
-import { H2, H3 } from '../common/typography'
-import { Gap } from '../common/layout/whie-space'
+import styled from 'styled-components'
 import imgEasyChordsServer from '../../images/easy-chords-server-mac.png'
 import imgMac1 from '../../images/mac1-open-midi-studio.png'
 import imgMac2 from '../../images/mac2-activate-device.png'
 import imgMac3 from '../../images/mac3-create-bus.png'
 import imgMidiOutput from '../../images/midi-output-mac.png'
 import { CenteredDiv } from '../common/layout/flex'
-import styled from 'styled-components'
+import { Gap } from '../common/layout/whie-space'
+import { H2, H3 } from '../common/typography'
 
 const Splits = styled.div`
   display: flex;

@@ -1,11 +1,10 @@
-import React from 'react'
-import { H1, H2, H3, SubScript, SuperScript } from './typography'
 import { LoremParagraph, StorySegment } from '../../utils/story-utils'
 import { Gap } from './layout/whie-space'
 import { Colors } from './style-constants'
+import { H1, H2, H3, SubScript, SuperScript } from './typography'
 
 export default {
-  title: 'typography'
+  title: 'typography',
 }
 
 export const headings = () => (

@@ -1,7 +1,6 @@
-import React from 'react'
+import { useSelector } from 'react-redux'
 import styled from 'styled-components'
 import { selectChords } from '../../state/chord-map/chord-map-slice'
-import { useSelector } from 'react-redux'
 import ChordButton from './chord-map/ChordButton'
 
 const Wrapper = styled.div`

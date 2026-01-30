@@ -1,13 +1,13 @@
-import styled from 'styled-components'
-import { Colors, SPACING_LENGTHS } from './common/style-constants'
-import { cover } from 'polished'
-import { H1 } from './common/typography'
-import { Route, Switch, Link, useRoute } from 'wouter'
 import classNames from 'classnames'
-import SetupWin from './help/SetupWin'
-import SetupMac from './help/SetupMac'
-import Introduction from './help/Introduction'
+import { cover } from 'polished'
+import styled from 'styled-components'
+import { Link, Route, Switch, useRoute } from 'wouter'
+import { Colors, SPACING_LENGTHS } from './common/style-constants'
+import { H1 } from './common/typography'
 import About from './help/About'
+import Introduction from './help/Introduction'
+import SetupMac from './help/SetupMac'
+import SetupWin from './help/SetupWin'
 
 const RootContainer = styled.div`
   display: flex;

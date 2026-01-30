@@ -1,15 +1,15 @@
-import React, { useEffect } from 'react'
-import styled from 'styled-components'
 import classNames from 'classnames'
-import { useDrag, useDragLayer } from 'react-dnd'
-import { getEmptyImage } from 'react-dnd-html5-backend'
 import { cloneDeep } from 'lodash'
 import { darken } from 'polished'
-import { IntervalNumber } from '../../../types'
+import { useEffect } from 'react'
+import { useDrag, useDragLayer } from 'react-dnd'
+import { getEmptyImage } from 'react-dnd-html5-backend'
+import { useDispatch, useSelector } from 'react-redux'
+import styled from 'styled-components'
+import { selectActiveChord, setChord } from '../../../state/chord-map/chord-map-slice'
+import type { IntervalNumber } from '../../../types'
 import { getChordName } from '../../../utils/music/chords'
 import { Colors } from '../../common/style-constants'
-import { selectActiveChord, setChord } from '../../../state/chord-map/chord-map-slice'
-import { useDispatch, useSelector } from 'react-redux'
 
 const Root = styled.div`
   position: absolute;
@@ -65,7 +65,7 @@ export function RootDragLayerHorizontal() {
     itemType: monitor.getItemType(),
     initialOffset: monitor.getInitialSourceClientOffset(),
     currentOffset: monitor.getSourceClientOffset(),
-    isDragging: monitor.isDragging()
+    isDragging: monitor.isDragging(),
   }))
 
   if (!(isDragging && itemType === 'root' && initialOffset && currentOffset)) return null
@@ -91,7 +91,7 @@ function RootButton() {
       ...cloneDeep(activeChord),
       octave,
       root,
-      name: getChordName(root, activeChord.voicing)
+      name: getChordName(root, activeChord.voicing),
     }
     dispatch(setChord({ chord: newChord }))
   }
@@ -106,8 +106,8 @@ function RootButton() {
       }
     },
     collect: (monitor) => ({
-      isDragging: monitor.isDragging()
-    })
+      isDragging: monitor.isDragging(),
+    }),
   })
 
   useEffect(() => {
@@ -117,7 +117,7 @@ function RootButton() {
   const className = classNames({
     dragging: isDragging,
     'adjust-left': activeChord && [0, 5].includes(activeChord.root),
-    'adjust-right': activeChord && [4, 11].includes(activeChord.root)
+    'adjust-right': activeChord && [4, 11].includes(activeChord.root),
   })
 
   return (

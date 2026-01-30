@@ -1,14 +1,13 @@
-import React from 'react'
-import QualitySelector from './chord-editor/QualitySelector'
 import { action } from '@storybook/addon-actions'
 import styled from 'styled-components'
 import { Colors } from '../common/style-constants'
+import OctaveSelector from './chord-editor/OctaveSelector'
+import QualitySelector from './chord-editor/QualitySelector'
 import RootSelector from './chord-editor/RootSelector'
 import VoicingEditor from './chord-editor/VoicingEditor'
-import OctaveSelector from './chord-editor/OctaveSelector'
 
 export default {
-  title: 'molecules/ChordEditor'
+  title: 'molecules/ChordEditor',
 }
 
 const voicingChanged = action('voicing changed')

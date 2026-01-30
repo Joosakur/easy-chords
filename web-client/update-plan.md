@@ -222,15 +222,98 @@
 
 ---
 
+## Tooling: Replace ESLint + Prettier with Biome - COMPLETE
+
+**Goal:** Simplify linting/formatting tooling
+
+**Removed:**
+- `eslint` and related plugins
+- `prettier`
+- 167 packages total
+
+**Added:**
+- `@biomejs/biome` ^2.3.13
+
+**Completed:**
+1. Installed Biome, removed ESLint + Prettier
+2. Created `biome.json` with project-appropriate rules
+3. Updated package.json scripts: lint, lint-fix, format, check, check-fix
+4. Ran `biome check --write --unsafe` to format/lint entire codebase
+5. Removed unused React imports (new JSX transform doesn't need them)
+6. Converted string concatenation to template literals
+
+---
+
+## Phase 7: Update Redux Ecosystem
+
+**Goal:** Update Redux packages (keep redux-saga)
+
+**Update:**
+- `@reduxjs/toolkit` 1.3.6 → 2.x
+- `redux` 4.0.5 → 5.x
+- `react-redux` 7.2.0 → 9.x
+- `redux-saga` 1.1.3 → 1.4.x
+
+**Remove:**
+- `@types/react-redux` (included in react-redux 8+)
+
+**Tasks:**
+1. Update packages
+2. Fix any API changes in RTK 2.x
+3. Verify saga functionality still works
+
+---
+
+## Phase 8: Update Remaining Dependencies
+
+**Update:**
+- `axios` 0.19.2 → 1.x
+- `styled-components` 5.1.0 → 6.x
+- `@fortawesome/fontawesome-svg-core` → 6.x
+- `@fortawesome/free-solid-svg-icons` → 6.x
+- `@fortawesome/react-fontawesome` → 0.2.x
+- `classnames` → latest
+- `lodash` → latest
+- `polished` → 4.x
+- `@types/lodash` → latest
+- `@types/styled-components` → latest
+
+**Tasks:**
+1. Update axios, handle any request/response interceptor changes
+2. Update styled-components, fix any API changes
+3. Update Font Awesome, check for renamed icons
+4. Update utility libraries
+
+---
+
+## Phase 9: Migrate react-dnd to dnd-kit
+
+**Goal:** Modern drag-and-drop (low priority feature)
+
+**Remove:**
+- `react-dnd`
+- `react-dnd-html5-backend`
+
+**Add:**
+- `@dnd-kit/core`
+- `@dnd-kit/sortable` (if needed)
+- `@dnd-kit/utilities` (if needed)
+
+**Tasks:**
+1. Audit current drag-and-drop usage
+2. Replace DndProvider with DndContext
+3. Update draggable/droppable components to dnd-kit API
+4. Update drag handlers
+
+---
+
 ## Phase 10: Cleanup
 
 **Tasks:**
 1. Run `npm audit fix`
-2. Remove unused imports throughout codebase
-3. Update eslint config if needed (remove react-app extends if CRA-specific)
-4. Verify build works
-5. Verify dev server works
-6. Test all functionality manually
+2. Verify build works
+3. Verify dev server works
+4. Test all functionality manually
 
 ---
 
@@ -258,8 +341,11 @@ dependencies:
   wouter ^3.x
 
 devDependencies:
-  @storybook/addon-actions ^8.x
-  @storybook/addon-links ^8.x
+  @biomejs/biome ^2.x
+  @storybook/addon-essentials ^8.x
+  @storybook/addon-interactions ^8.x
+  @storybook/blocks ^8.x
+  @storybook/manager-api ^8.x
   @storybook/react ^8.x
   @storybook/react-vite ^8.x
   @storybook/theming ^8.x
@@ -269,18 +355,18 @@ devDependencies:
   @types/react-dom
   @types/styled-components
   @vitejs/plugin-react
-  lint-staged (evaluate)
-  prettier ^3.x
+  storybook ^8.x
   typescript ^5.x
-  vite
+  vite ^6.x
 ```
 
 ### Removed
 - react-scripts (CRA)
 - react-router-dom
-- react-dnd, react-dnd-html5-backend
+- react-dnd, react-dnd-html5-backend (pending Phase 9)
 - semantic-ui-react, semantic-ui-checkbox, semantic-ui-dropdown, semantic-ui-input
-- husky
+- husky, lint-staged
+- eslint, prettier (replaced by Biome)
 - All @testing-library packages
 - @storybook/addon-knobs
 - @storybook/preset-create-react-app

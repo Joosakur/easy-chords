@@ -1,30 +1,30 @@
-import { call, put, select, takeEvery, takeLatest } from 'redux-saga/effects'
 import { cloneDeep } from 'lodash'
-import api, { CCEvent, ChordEvent, NoteEvent } from '../../api/http-client'
-import { pianoKeyDown, pianoKeysUp, selectKeysDown } from './piano-slice'
-import { ChordV1 } from '../../types'
+import { call, put, select, takeEvery, takeLatest } from 'redux-saga/effects'
+import api, { type CCEvent, type ChordEvent, type NoteEvent } from '../../api/http-client'
+import type { ChordV1 } from '../../types'
 import { getAbsoluteNotes, getChordName } from '../../utils/music/chords'
-import { selectIsUsingMidi } from '../settings/settings-slice'
 import SynthInstrument from '../../utils/music/synth'
 import { selectActiveChord, setChord } from '../chord-map/chord-map-slice'
+import { selectIsUsingMidi } from '../settings/settings-slice'
+import { selectIsEditorOpen } from '../ui/ui-slice'
 import {
   pianoKeyClicked,
   playChord,
   playNote,
   setSustainPedal,
-  stopNotes
+  stopNotes,
 } from './piano-saga-actions'
-import { selectIsEditorOpen } from '../ui/ui-slice'
+import { pianoKeyDown, pianoKeysUp, selectKeysDown } from './piano-slice'
 
 const channel = 1
 
 const ccCodes = {
-  sustain: 64
+  sustain: 64,
 }
 
 const ccValues = {
   on: 127,
-  off: 0
+  off: 0,
 }
 
 const synth = new SynthInstrument()
@@ -45,7 +45,7 @@ function* pianoKeyClickedSaga({ payload: note }: ReturnType<typeof pianoKeyClick
 
     // toggle note on/off
     const noteIndex = newChord.voicing.lastIndexOf(
-      note - 12 * activeChord.octave - activeChord.root
+      note - 12 * activeChord.octave - activeChord.root,
     )
     if (noteIndex >= 0) {
       newChord.voicing.splice(noteIndex, 1)
@@ -75,7 +75,7 @@ function* playNoteSaga({ payload: { note, velocity } }: ReturnType<typeof playNo
     try {
       const event: NoteEvent = { note, channel, velocity }
       yield call(api.playNote, event)
-    } catch (e) {
+    } catch (_e) {
       console.warn('could not play the note')
     }
   } else {
@@ -94,8 +94,8 @@ function* playChordSaga({ payload }: ReturnType<typeof playChord>) {
       chord = {
         notes: getAbsoluteNotes(activeChord).map((note) => ({
           note,
-          velocity: defaultVelocity
-        }))
+          velocity: defaultVelocity,
+        })),
       }
     } else {
       return
@@ -110,14 +110,16 @@ function* playChordSaga({ payload }: ReturnType<typeof playChord>) {
     try {
       const event: ChordEvent = {
         playNotes: chord.notes.map(({ note, velocity }) => ({ note, channel, velocity })),
-        stopNotes: previousNotes.map((note) => ({ note, channel }))
+        stopNotes: previousNotes.map((note) => ({ note, channel })),
       }
       yield call(api.playChord, event)
-    } catch (e) {
+    } catch (_e) {
       console.warn('could not play the chord')
     }
   } else {
-    chord.notes.forEach(({ note }) => synth.playNote(note))
+    chord.notes.forEach(({ note }) => {
+      synth.playNote(note)
+    })
   }
 }
 
@@ -127,10 +129,10 @@ function* stopNotesSaga() {
       const keysDown: number[] = yield select(selectKeysDown)
       const event: ChordEvent = {
         playNotes: [],
-        stopNotes: keysDown.map((note) => ({ note, channel }))
+        stopNotes: keysDown.map((note) => ({ note, channel })),
       }
       yield call(api.playChord, event)
-    } catch (e) {
+    } catch (_e) {
       console.warn('could not stop the notes')
     }
   }
@@ -145,10 +147,10 @@ function* setSustainPedalSaga(action: ReturnType<typeof setSustainPedal>) {
     const event: CCEvent = {
       cc: ccCodes.sustain,
       value: action.payload ? ccValues.on : ccValues.off,
-      channel
+      channel,
     }
     yield call(api.sendCC, event)
-  } catch (e) {
+  } catch (_e) {
     console.warn('could not send CC')
   }
 }

@@ -1,7 +1,7 @@
+import classNames from 'classnames'
+import { lighten, shade, tint, transparentize } from 'polished'
 import React from 'react'
 import styled from 'styled-components'
-import { lighten, shade, tint, transparentize } from 'polished'
-import classNames from 'classnames'
 import { Colors, SPACING_LENGTHS } from '../style-constants'
 
 interface StyledButtonProps {
@@ -107,7 +107,7 @@ function PadButton({
   thin = false,
   toggle = false,
   color,
-  className
+  className,
 }: PadButtonProps) {
   return (
     <StyledButton

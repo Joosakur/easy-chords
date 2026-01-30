@@ -1,8 +1,7 @@
-import React from 'react'
-import styled from 'styled-components'
-import { FixedSpacing } from '../../common/layout/flex'
 import { faCaretLeft, faCaretRight } from '@fortawesome/free-solid-svg-icons'
+import styled from 'styled-components'
 import CircleActionButton from '../../common/buttons/CircleActionButton'
+import { FixedSpacing } from '../../common/layout/flex'
 
 const OctaveSpan = styled.span`
   font-weight: bold;

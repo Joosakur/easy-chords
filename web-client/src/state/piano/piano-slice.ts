@@ -1,5 +1,5 @@
-import { createSelector, createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { RootState } from '../root-reducer'
+import { createSelector, createSlice, type PayloadAction } from '@reduxjs/toolkit'
+import type { RootState } from '../root-reducer'
 import { setSustainPedal } from './piano-saga-actions'
 
 export interface PianoState {
@@ -9,7 +9,7 @@ export interface PianoState {
 
 export const initialPianoState: PianoState = {
   keysDown: [],
-  sustainPedal: false
+  sustainPedal: false,
 }
 
 const pianoSlice = createSlice({
@@ -24,13 +24,13 @@ const pianoSlice = createSlice({
     },
     pianoKeysUp: (state) => {
       state.keysDown = []
-    }
+    },
   },
   extraReducers: {
     [setSustainPedal.type]: (state, action: PayloadAction<boolean>) => {
       state.sustainPedal = action.payload
-    }
-  }
+    },
+  },
 })
 
 export const selectPiano = (state: RootState) => state.piano

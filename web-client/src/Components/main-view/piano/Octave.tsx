@@ -1,8 +1,7 @@
-import React from 'react'
 import styled from 'styled-components'
-import { IntervalNumber } from '../../../types'
-import PianoKey from './PianoKey'
 import { BWWR } from '../../../constants'
+import type { IntervalNumber } from '../../../types'
+import PianoKey from './PianoKey'
 
 const Wrapper = styled.div`
   height: 100%;

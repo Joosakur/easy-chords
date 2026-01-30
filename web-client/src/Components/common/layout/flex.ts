@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { SPACING_LENGTHS, SpacingSize } from '../style-constants'
+import { SPACING_LENGTHS, type SpacingSize } from '../style-constants'
 
 interface FixedSpacingProps {
   column?: boolean

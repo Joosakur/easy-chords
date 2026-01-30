@@ -1,19 +1,18 @@
-import React from 'react'
-import styled from 'styled-components'
-import { useDispatch, useSelector } from 'react-redux'
-import { darken, lighten, math, rem } from 'polished'
 import { faCog, faMusic, faQuestion } from '@fortawesome/free-solid-svg-icons'
-import ActionBar from './main-view/ActionBar'
-import ChordMap from './main-view/ChordMap'
-import { Colors, SPACING_LENGTHS } from './common/style-constants'
-import { H1 } from './common/typography'
+import { darken, lighten, math, rem } from 'polished'
+import { useDispatch, useSelector } from 'react-redux'
+import styled from 'styled-components'
 import bg from '../images/bg.png'
-import Piano from './main-view/Piano'
-import ActionButton from './common/buttons/ActionButton'
-import { Gap } from './common/layout/whie-space'
 import { stopNotes, toggleEditor, toggleSettings } from '../state/actions'
 import { selectIsEditorOpen } from '../state/ui/ui-slice'
+import ActionButton from './common/buttons/ActionButton'
 import { FixedSpacing } from './common/layout/flex'
+import { Gap } from './common/layout/whie-space'
+import { Colors, SPACING_LENGTHS } from './common/style-constants'
+import { H1 } from './common/typography'
+import ActionBar from './main-view/ActionBar'
+import ChordMap from './main-view/ChordMap'
+import Piano from './main-view/Piano'
 
 const Container = styled.div`
   height: 100%;
@@ -61,12 +60,12 @@ const Content = styled.div<ContentProps>`
   padding: ${SPACING_LENGTHS.m};
 
   @media screen and (max-width: ${(p) =>
-      p.editorOpen ? math(`${rem('2200px')} + 33rem`) : '2200px'}) {
+    p.editorOpen ? math(`${rem('2200px')} + 33rem`) : '2200px'}) {
     max-width: 80%;
   }
 
   @media screen and (max-width: ${(p) =>
-      p.editorOpen ? math(`${rem('1600px')} + 33rem`) : '1600px'}) {
+    p.editorOpen ? math(`${rem('1600px')} + 33rem`) : '1600px'}) {
     width: unset;
     max-width: 100%;
     margin: 0;

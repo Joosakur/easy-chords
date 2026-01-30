@@ -1,5 +1,5 @@
 import isEqual from 'lodash/isEqual'
-import { ChordV1, GridVoicing, IntervalNumber, Voicing } from '../../types'
+import type { ChordV1, GridVoicing, IntervalNumber, Voicing } from '../../types'
 
 export const getAbsoluteNotes = (chord: ChordV1): number[] => {
   const { root, voicing, octave } = chord
@@ -112,7 +112,7 @@ const qualityNames: { voices: Set<IntervalNumber>; name: string }[] = [
   { voices: new Set<IntervalNumber>([0, 4, 7, 9]), name: '6' },
   { voices: new Set<IntervalNumber>([0, 4, 7, 9, 2]), name: '6/9' },
   { voices: new Set<IntervalNumber>([0, 4, 7, 9, 5]), name: '6/11' },
-  { voices: new Set<IntervalNumber>([0, 4, 7, 9, 2, 5]), name: '6/9/11' }
+  { voices: new Set<IntervalNumber>([0, 4, 7, 9, 2, 5]), name: '6/9/11' },
 ]
 
 const rootNames: string[] = ['C', 'Db', 'D', 'Eb', 'E', 'F', 'F#', 'G', 'Ab', 'A', 'Bb', 'B']

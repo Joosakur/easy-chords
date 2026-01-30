@@ -1,8 +1,8 @@
-import React from 'react'
-import { IntervalNumber } from '../../../types'
+import type React from 'react'
 import styled from 'styled-components'
-import { SuperScript } from '../../common/typography'
+import type { IntervalNumber } from '../../../types'
 import SelectionButton from '../../common/buttons/SelectionButton'
+import { SuperScript } from '../../common/typography'
 
 const Wrapper = styled.div`
   position: relative;

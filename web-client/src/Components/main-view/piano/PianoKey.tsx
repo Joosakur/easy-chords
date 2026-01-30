@@ -1,18 +1,18 @@
-import React from 'react'
-import styled from 'styled-components'
 import classNames from 'classnames'
 import { lighten } from 'polished'
+import type React from 'react'
 import { useDrop } from 'react-dnd'
-import { Colors } from '../../common/style-constants'
-import { BWWR } from '../../../constants'
-import RootButton from './RootButton'
 import { connect, useDispatch } from 'react-redux'
+import styled from 'styled-components'
+import { BWWR } from '../../../constants'
 import { selectActiveChord } from '../../../state/chord-map/chord-map-slice'
-import { selectIsKeyDown } from '../../../state/piano/piano-slice'
 import { pianoKeyClicked } from '../../../state/piano/piano-saga-actions'
+import { selectIsKeyDown } from '../../../state/piano/piano-slice'
+import type { RootState } from '../../../state/root-reducer'
 import { selectIsEditorOpen } from '../../../state/ui/ui-slice'
-import { RootState } from '../../../state/root-reducer'
-import { ChordV1 } from '../../../types'
+import type { ChordV1 } from '../../../types'
+import { Colors } from '../../common/style-constants'
+import RootButton from './RootButton'
 
 interface KeyButtonProps {
   interval?: number
@@ -60,7 +60,7 @@ const WhiteKeyButton = styled.button<KeyButtonProps>`
         ? `
       background: linear-gradient(#e7efe8, #e7efe8 10%, ${lighten(
         0.1,
-        Colors.interval[p.interval]
+        Colors.interval[p.interval],
       )});
       `
         : ''}
@@ -183,8 +183,8 @@ function PianoKey({ note, editorOpen, pressed, activeChord }: PianoKeyProps & Ma
     drop: () => ({ note }),
     collect: (monitor) => ({
       isOver: monitor.isOver(),
-      canDrop: monitor.canDrop()
-    })
+      canDrop: monitor.canDrop(),
+    }),
   })
 
   const interval = editorOpen && activeChord ? (note - activeChord.root) % 12 : undefined
@@ -193,11 +193,11 @@ function PianoKey({ note, editorOpen, pressed, activeChord }: PianoKeyProps & Ma
     active:
       editorOpen &&
       activeChord?.voicing?.includes(
-        note - (activeChord?.root ?? 0) - 12 * (activeChord?.octave ?? 0)
+        note - (activeChord?.root ?? 0) - 12 * (activeChord?.octave ?? 0),
       ),
     dragging: editorOpen && canDrop && !isOver,
     dropping: editorOpen && canDrop && isOver,
-    'below-root': activeChord && note < 12 * activeChord.octave + activeChord.root
+    'below-root': activeChord && note < 12 * activeChord.octave + activeChord.root,
   }
 
   const onKeyPress = (e: React.MouseEvent) => {
@@ -240,7 +240,7 @@ const makeMapStateToProps = () => {
     return {
       editorOpen,
       pressed: memoizedSelector(props.note)(state),
-      activeChord: editorOpen ? selectActiveChord(state) : null
+      activeChord: editorOpen ? selectActiveChord(state) : null,
     }
   }
 }

@@ -1,8 +1,8 @@
-import React from 'react'
-import styled from 'styled-components'
-import { FadedColors } from '../style-constants'
 import classNames from 'classnames'
 import { shade, tint } from 'polished'
+import type React from 'react'
+import styled from 'styled-components'
+import { FadedColors } from '../style-constants'
 
 interface StyledButtonProps {
   color: string
@@ -59,7 +59,7 @@ function SelectionButton({
   children,
   circular,
   selected,
-  className
+  className,
 }: SelectionButtonProps) {
   return (
     <StyledButton

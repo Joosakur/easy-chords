@@ -1,13 +1,12 @@
-import React from 'react'
+import { faAngleLeft } from '@fortawesome/free-solid-svg-icons'
+import classNames from 'classnames'
 import { useDispatch, useSelector } from 'react-redux'
 import styled from 'styled-components'
-import classNames from 'classnames'
-import { faAngleLeft } from '@fortawesome/free-solid-svg-icons'
-import { Colors, SPACING_LENGTHS } from './common/style-constants'
-import ChordEditor from './left-sidebar/ChordEditor'
-import { H2 } from './common/typography'
-import CircleActionButton from './common/buttons/CircleActionButton'
 import { closeEditor, selectIsEditorOpen } from '../state/ui/ui-slice'
+import CircleActionButton from './common/buttons/CircleActionButton'
+import { Colors, SPACING_LENGTHS } from './common/style-constants'
+import { H2 } from './common/typography'
+import ChordEditor from './left-sidebar/ChordEditor'
 
 const SidebarContainer = styled.div`
   background: ${Colors.grey.darker};

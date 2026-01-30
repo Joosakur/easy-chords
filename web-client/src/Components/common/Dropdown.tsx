@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import styled from 'styled-components'
 import { Colors } from './style-constants'
 
@@ -94,7 +94,7 @@ function Dropdown<T extends boolean | number | string>({
   placeholder,
   options,
   value,
-  onChange
+  onChange,
 }: DropdownProps<T>) {
   const [open, setOpen] = useState(false)
   const containerRef = useRef<HTMLDivElement>(null)
@@ -192,7 +192,7 @@ export function DropdownItem({
   text,
   description,
   disabled,
-  onClick
+  onClick,
 }: DropdownItemProps) {
   return (
     <DropdownItemBase disabled={disabled} onClick={disabled ? undefined : onClick}>
