@@ -1,11 +1,11 @@
-import { describe, it, expect } from 'vitest'
+import { describe, expect, it } from 'vitest'
+import type { ChordV1, IntervalNumber } from '../../types'
 import {
   getAbsoluteNotes,
-  voicingToGridVoicing,
-  gridVoicingToVoicing,
   getChordName,
+  gridVoicingToVoicing,
+  voicingToGridVoicing,
 } from './chords'
-import type { ChordV1, IntervalNumber } from '../../types'
 
 describe('chords', () => {
   describe('getAbsoluteNotes', () => {

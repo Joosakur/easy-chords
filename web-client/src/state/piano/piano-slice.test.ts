@@ -1,17 +1,17 @@
-import { describe, it, expect } from 'vitest'
+import { describe, expect, it } from 'vitest'
+import type { RootState } from '../root-reducer'
+import { setSustainPedal } from './piano-saga-actions'
 import reducer, {
   initialPianoState,
-  pianoKeyDown,
-  pianoKeyUp,
-  pianoKeysUp,
-  selectPiano,
-  selectKeysDown,
-  selectIsKeyDown,
-  selectSustainPedal,
   type PianoState,
+  pianoKeyDown,
+  pianoKeysUp,
+  pianoKeyUp,
+  selectIsKeyDown,
+  selectKeysDown,
+  selectPiano,
+  selectSustainPedal,
 } from './piano-slice'
-import { setSustainPedal } from './piano-saga-actions'
-import type { RootState } from '../root-reducer'
 
 const createRootState = (piano: Partial<PianoState> = {}): RootState =>
   ({

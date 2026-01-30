@@ -1,17 +1,17 @@
-import { describe, it, expect } from 'vitest'
+import { describe, expect, it } from 'vitest'
+import type { RootState } from '../root-reducer'
 import reducer, {
-  initialUIState,
-  openSettings,
-  closeSettings,
-  toggleSettings,
-  openEditor,
   closeEditor,
-  toggleEditor,
+  closeSettings,
+  initialUIState,
+  openEditor,
+  openSettings,
   selectIsEditorOpen,
   selectIsSettingsOpen,
+  toggleEditor,
+  toggleSettings,
   type UIState,
 } from './ui-slice'
-import type { RootState } from '../root-reducer'
 
 const createRootState = (ui: Partial<UIState> = {}): RootState =>
   ({

@@ -1,21 +1,21 @@
-import { describe, it, expect } from 'vitest'
-import reducer, {
-  initialChordMapState,
-  setEditMode,
-  setChords,
-  setChord,
-  setActiveChordIndex,
-  clearChord,
-  selectChordMap,
-  selectEditMode,
-  selectChords,
-  selectActiveChordIndex,
-  selectIsChordButtonSelected,
-  selectActiveChord,
-  type ChordMapState,
-} from './chord-map-slice'
+import { describe, expect, it } from 'vitest'
 import type { ChordV1 } from '../../types'
 import type { RootState } from '../root-reducer'
+import reducer, {
+  type ChordMapState,
+  clearChord,
+  initialChordMapState,
+  selectActiveChord,
+  selectActiveChordIndex,
+  selectChordMap,
+  selectChords,
+  selectEditMode,
+  selectIsChordButtonSelected,
+  setActiveChordIndex,
+  setChord,
+  setChords,
+  setEditMode,
+} from './chord-map-slice'
 
 const createRootState = (chordMap: Partial<ChordMapState> = {}): RootState =>
   ({

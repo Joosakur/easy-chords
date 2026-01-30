@@ -1,14 +1,14 @@
-import { describe, it, expect } from 'vitest'
+import { describe, expect, it } from 'vitest'
+import type { RootState } from '../root-reducer'
+import { chooseMidiDevice, getMidiDevices } from './settings-saga-actions'
 import reducer, {
   initialSettingsState,
-  setMidiOutput,
-  setHost,
+  type SettingsState,
   selectIsUsingMidi,
   selectSettings,
-  type SettingsState,
+  setHost,
+  setMidiOutput,
 } from './settings-slice'
-import { getMidiDevices, chooseMidiDevice } from './settings-saga-actions'
-import type { RootState } from '../root-reducer'
 
 const createRootState = (settings: Partial<SettingsState> = {}): RootState =>
   ({

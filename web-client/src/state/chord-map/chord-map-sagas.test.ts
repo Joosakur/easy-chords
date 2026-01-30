@@ -1,19 +1,19 @@
-import { describe, it, expect } from 'vitest'
-import { expectSaga } from 'redux-saga-test-plan'
 import { select } from 'redux-saga/effects'
-import { chordClickedSaga, importChordMapSaga } from './chord-map-sagas'
+import { expectSaga } from 'redux-saga-test-plan'
+import { describe, expect, it } from 'vitest'
+import type { ChordV1 } from '../../types'
 import { chordClicked, importChordMap } from './chord-map-saga-actions'
+import { chordClickedSaga, importChordMapSaga } from './chord-map-sagas'
 import {
-  selectEditMode,
-  selectChords,
   selectActiveChord,
   selectActiveChordIndex,
+  selectChords,
+  selectEditMode,
   setActiveChordIndex,
   setChord,
-  setEditMode,
   setChords,
+  setEditMode,
 } from './chord-map-slice'
-import type { ChordV1 } from '../../types'
 
 const testChord: ChordV1 = {
   name: 'C',
@@ -35,7 +35,10 @@ describe('chord-map sagas', () => {
       it('plays chord and sets active index when chord exists', async () => {
         const chords = [testChord, null, anotherChord]
 
-        const { effects } = await expectSaga(chordClickedSaga, chordClicked({ index: 0, x: 0.5, y: 0 }))
+        const { effects } = await expectSaga(
+          chordClickedSaga,
+          chordClicked({ index: 0, x: 0.5, y: 0 }),
+        )
           .provide([
             [select(selectEditMode), null],
             [select(selectChords), chords],
@@ -45,9 +48,7 @@ describe('chord-map sagas', () => {
 
         // Verify playChord was called (can't check exact payload due to random velocity)
         const putEffects = effects.put || []
-        const playChordEffect = putEffects.find(
-          (e) => e.payload.action.type === 'piano/playChord'
-        )
+        const playChordEffect = putEffects.find((e) => e.payload.action.type === 'piano/playChord')
         expect(playChordEffect).toBeDefined()
       })
 
@@ -67,7 +68,10 @@ describe('chord-map sagas', () => {
       it('calculates velocity based on x position (x=0)', async () => {
         const chords = [testChord]
 
-        const { effects } = await expectSaga(chordClickedSaga, chordClicked({ index: 0, x: 0, y: 0 }))
+        const { effects } = await expectSaga(
+          chordClickedSaga,
+          chordClicked({ index: 0, x: 0, y: 0 }),
+        )
           .provide([
             [select(selectEditMode), null],
             [select(selectChords), chords],
@@ -75,12 +79,10 @@ describe('chord-map sagas', () => {
           .run()
 
         const putEffects = effects.put || []
-        const playChordEffect = putEffects.find(
-          (e) => e.payload.action.type === 'piano/playChord'
-        )
+        const playChordEffect = putEffects.find((e) => e.payload.action.type === 'piano/playChord')
         expect(playChordEffect).toBeDefined()
         const velocities = playChordEffect!.payload.action.payload.notes.map(
-          (n: { velocity: number }) => n.velocity
+          (n: { velocity: number }) => n.velocity,
         )
         // With x=0, base velocity is 50, plus random 0-6
         velocities.forEach((v: number) => {
@@ -92,7 +94,10 @@ describe('chord-map sagas', () => {
       it('calculates velocity based on x position (x=1)', async () => {
         const chords = [testChord]
 
-        const { effects } = await expectSaga(chordClickedSaga, chordClicked({ index: 0, x: 1, y: 0 }))
+        const { effects } = await expectSaga(
+          chordClickedSaga,
+          chordClicked({ index: 0, x: 1, y: 0 }),
+        )
           .provide([
             [select(selectEditMode), null],
             [select(selectChords), chords],
@@ -100,12 +105,10 @@ describe('chord-map sagas', () => {
           .run()
 
         const putEffects = effects.put || []
-        const playChordEffect = putEffects.find(
-          (e) => e.payload.action.type === 'piano/playChord'
-        )
+        const playChordEffect = putEffects.find((e) => e.payload.action.type === 'piano/playChord')
         expect(playChordEffect).toBeDefined()
         const velocities = playChordEffect!.payload.action.payload.notes.map(
-          (n: { velocity: number }) => n.velocity
+          (n: { velocity: number }) => n.velocity,
         )
         // With x=1, base velocity is 110, plus random 0-6
         velocities.forEach((v: number) => {
@@ -214,8 +217,10 @@ describe('chord-map sagas', () => {
     it('clears active index before import', async () => {
       const chordMap = { version: 1, chords: [] }
 
-      const { effects } = await expectSaga(importChordMapSaga, importChordMap(JSON.stringify(chordMap)))
-        .run()
+      const { effects } = await expectSaga(
+        importChordMapSaga,
+        importChordMap(JSON.stringify(chordMap)),
+      ).run()
 
       const putEffects = effects.put || []
       const firstPut = putEffects[0]

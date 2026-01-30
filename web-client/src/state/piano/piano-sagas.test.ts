@@ -1,7 +1,7 @@
-import { describe, it, expect, vi } from 'vitest'
+import { select } from 'redux-saga/effects'
 import { expectSaga } from 'redux-saga-test-plan'
 import * as matchers from 'redux-saga-test-plan/matchers'
-import { select } from 'redux-saga/effects'
+import { describe, expect, it, vi } from 'vitest'
 import api from '../../api/http-client'
 import type { ChordV1 } from '../../types'
 
@@ -16,24 +16,18 @@ vi.hoisted(() => {
   }
 })
 
-import {
-  pianoKeyClickedSaga,
-  playNoteSaga,
-  playChordSaga,
-  stopNotesSaga,
-  setSustainPedalSaga,
-} from './piano-sagas'
-import {
-  pianoKeyClicked,
-  playNote,
-  playChord,
-  stopNotes,
-  setSustainPedal,
-} from './piano-saga-actions'
-import { pianoKeyDown, pianoKeysUp, selectKeysDown } from './piano-slice'
-import { selectActiveChord, setChord } from '../chord-map/chord-map-slice'
+import { selectActiveChord } from '../chord-map/chord-map-slice'
 import { selectIsUsingMidi } from '../settings/settings-slice'
 import { selectIsEditorOpen } from '../ui/ui-slice'
+import { pianoKeyClicked, playChord, playNote, setSustainPedal } from './piano-saga-actions'
+import {
+  pianoKeyClickedSaga,
+  playChordSaga,
+  playNoteSaga,
+  setSustainPedalSaga,
+  stopNotesSaga,
+} from './piano-sagas'
+import { pianoKeyDown, pianoKeysUp, selectKeysDown } from './piano-slice'
 
 const testChord: ChordV1 = {
   name: 'C',
@@ -89,9 +83,7 @@ describe('piano sagas', () => {
 
       // Verify the chord was updated without the removed note
       const putEffects = effects.put || []
-      const setChordEffect = putEffects.find(
-        (e) => e.payload.action.type === 'chordMap/setChord'
-      )
+      const setChordEffect = putEffects.find((e) => e.payload.action.type === 'chordMap/setChord')
       expect(setChordEffect).toBeDefined()
       if (setChordEffect) {
         const newChord = setChordEffect.payload.action.payload.chord
@@ -103,9 +95,7 @@ describe('piano sagas', () => {
   describe('playNoteSaga', () => {
     it('adds key to keysDown', async () => {
       await expectSaga(playNoteSaga, playNote({ note: 60, velocity: 80 }))
-        .provide([
-          [select(selectIsUsingMidi), false],
-        ])
+        .provide([[select(selectIsUsingMidi), false]])
         .put(pianoKeyDown(60))
         .run()
     })
@@ -125,9 +115,7 @@ describe('piano sagas', () => {
       // We can't easily verify synth.playNote was called, but we can verify
       // MIDI API was NOT called
       await expectSaga(playNoteSaga, playNote({ note: 60, velocity: 80 }))
-        .provide([
-          [select(selectIsUsingMidi), false],
-        ])
+        .provide([[select(selectIsUsingMidi), false]])
         .put(pianoKeyDown(60))
         .not.call.fn(api.playNote)
         .run()
@@ -202,9 +190,7 @@ describe('piano sagas', () => {
   describe('stopNotesSaga', () => {
     it('clears all keys when MIDI is disabled', async () => {
       await expectSaga(stopNotesSaga)
-        .provide([
-          [select(selectIsUsingMidi), false],
-        ])
+        .provide([[select(selectIsUsingMidi), false]])
         .put(pianoKeysUp())
         .run()
     })
@@ -226,9 +212,7 @@ describe('piano sagas', () => {
   describe('setSustainPedalSaga', () => {
     it('does nothing when MIDI is disabled', async () => {
       await expectSaga(setSustainPedalSaga, setSustainPedal(true))
-        .provide([
-          [select(selectIsUsingMidi), false],
-        ])
+        .provide([[select(selectIsUsingMidi), false]])
         .not.call.fn(api.sendCC)
         .run()
     })
