@@ -233,24 +233,36 @@
 
 ---
 
-## Phase 9: Migrate react-dnd to dnd-kit
+## Phase 9: Migrate react-dnd to dnd-kit - COMPLETE
 
-**Goal:** Modern drag-and-drop (low priority feature)
+**Goal:** Modern drag-and-drop
 
-**Remove:**
+**Removed:**
 - `react-dnd`
 - `react-dnd-html5-backend`
+- 10 packages total
 
-**Add:**
+**Added:**
 - `@dnd-kit/core`
-- `@dnd-kit/sortable` (if needed)
-- `@dnd-kit/utilities` (if needed)
+- `@dnd-kit/utilities`
+- 3 packages total
 
-**Tasks:**
-1. Audit current drag-and-drop usage
-2. Replace DndProvider with DndContext
-3. Update draggable/droppable components to dnd-kit API
-4. Update drag handlers
+**Files Updated:**
+1. `App.tsx` - Replaced `DndProvider` with `DndContext` and `useSensors`
+2. `RootButton.tsx` - Replaced `useDrag`/`useDragLayer` with `useDraggable`/`DragOverlay`/`useDndMonitor`
+3. `PianoKey.tsx` - Replaced `useDrop` with `useDroppable`
+4. `.storybook/preview.tsx` - Updated to use `DndContext`
+
+**API Migration:**
+- `DndProvider` → `DndContext` with `PointerSensor`
+- `useDrag` → `useDraggable` (id-based, simpler API)
+- `useDrop` → `useDroppable` (data passed via `data` prop)
+- Custom drag layer → `DragOverlay` component
+- Drop result handling → `useDndMonitor` with `onDragEnd`
+
+**Results:**
+- Bundle size: 566KB → 560KB (-6KB)
+- Total packages: 325
 
 ---
 
@@ -270,7 +282,7 @@
 ```
 dependencies:
   @dnd-kit/core
-  @dnd-kit/sortable (if needed)
+  @dnd-kit/utilities
   @fortawesome/fontawesome-svg-core ^6.x
   @fortawesome/free-solid-svg-icons ^6.x
   @fortawesome/react-fontawesome ^0.2.x
@@ -310,7 +322,7 @@ devDependencies:
 ### Removed
 - react-scripts (CRA)
 - react-router-dom
-- react-dnd, react-dnd-html5-backend (pending Phase 9)
+- react-dnd, react-dnd-html5-backend (replaced by @dnd-kit)
 - semantic-ui-react, semantic-ui-checkbox, semantic-ui-dropdown, semantic-ui-input
 - husky, lint-staged
 - eslint, prettier (replaced by Biome)

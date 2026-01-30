@@ -1,7 +1,7 @@
+import { useDroppable } from '@dnd-kit/core'
 import classNames from 'classnames'
 import { lighten } from 'polished'
 import type React from 'react'
-import { useDrop } from 'react-dnd'
 import { connect, useDispatch } from 'react-redux'
 import styled from 'styled-components'
 import { BWWR } from '../../../constants'
@@ -178,14 +178,12 @@ interface MappedProps {
 function PianoKey({ note, editorOpen, pressed, activeChord }: PianoKeyProps & MappedProps) {
   const dispatch = useDispatch()
 
-  const [{ canDrop, isOver }, drop] = useDrop({
-    accept: 'root',
-    drop: () => ({ note }),
-    collect: (monitor) => ({
-      isOver: monitor.isOver(),
-      canDrop: monitor.canDrop(),
-    }),
+  const { isOver, setNodeRef, active } = useDroppable({
+    id: `piano-key-${note}`,
+    data: { note },
   })
+
+  const isDragging = active?.id === 'root'
 
   const interval = editorOpen && activeChord ? (note - activeChord.root) % 12 : undefined
   const state = {
@@ -195,8 +193,8 @@ function PianoKey({ note, editorOpen, pressed, activeChord }: PianoKeyProps & Ma
       activeChord?.voicing?.includes(
         note - (activeChord?.root ?? 0) - 12 * (activeChord?.octave ?? 0),
       ),
-    dragging: editorOpen && canDrop && !isOver,
-    dropping: editorOpen && canDrop && isOver,
+    dragging: editorOpen && isDragging && !isOver,
+    dropping: editorOpen && isDragging && isOver,
     'below-root': activeChord && note < 12 * activeChord.octave + activeChord.root,
   }
 
@@ -211,14 +209,14 @@ function PianoKey({ note, editorOpen, pressed, activeChord }: PianoKeyProps & Ma
     <Wrapper>
       {black ? (
         <BlackKeyButton
-          ref={drop}
+          ref={setNodeRef}
           className={classNames(state)}
           onMouseDown={onKeyPress}
           interval={interval}
         />
       ) : (
         <WhiteKeyButton
-          ref={drop}
+          ref={setNodeRef}
           className={classNames(state)}
           onMouseDown={onKeyPress}
           interval={interval}

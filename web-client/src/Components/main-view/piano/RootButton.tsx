@@ -1,9 +1,8 @@
+import { DragOverlay, useDndMonitor, useDraggable } from '@dnd-kit/core'
 import classNames from 'classnames'
 import { cloneDeep } from 'lodash'
 import { darken } from 'polished'
-import { useEffect } from 'react'
-import { useDrag, useDragLayer } from 'react-dnd'
-import { getEmptyImage } from 'react-dnd-html5-backend'
+import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import styled from 'styled-components'
 import { selectActiveChord, setChord } from '../../../state/chord-map/chord-map-slice'
@@ -31,6 +30,9 @@ const Root = styled.div`
   box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.65), inset 1px 1px 2px rgba(255, 255, 255, 0.3),
     inset -1px -1px 2px rgba(0, 0, 0, 0.34);
 
+  touch-action: none;
+  cursor: grab;
+
   &.dragging {
     opacity: 0;
   }
@@ -42,40 +44,39 @@ const Root = styled.div`
   }
 `
 
-const RootGhost = styled(Root)`
+const RootGhost = styled.div`
   width: 2rem;
   height: 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: ${Colors.grey.darker};
+  font-weight: 600;
   background: ${Colors.interval[0]};
+  border-radius: 100%;
   box-shadow: 3px 5px 10px rgba(0, 0, 0, 0.65), inset 1px 1px 2px rgba(255, 255, 255, 0.3),
     inset -1px -1px 2px rgba(0, 0, 0, 0.34);
 `
 
-const DragLayer = styled.div`
-  position: fixed;
-  pointer-events: none;
-  z-index: 100;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-`
-
 export function RootDragLayerHorizontal() {
-  const { itemType, isDragging, initialOffset, currentOffset } = useDragLayer((monitor) => ({
-    itemType: monitor.getItemType(),
-    initialOffset: monitor.getInitialSourceClientOffset(),
-    currentOffset: monitor.getSourceClientOffset(),
-    isDragging: monitor.isDragging(),
-  }))
+  const [isDragging, setIsDragging] = useState(false)
 
-  if (!(isDragging && itemType === 'root' && initialOffset && currentOffset)) return null
+  useDndMonitor({
+    onDragStart(event) {
+      if (event.active.id === 'root') {
+        setIsDragging(true)
+      }
+    },
+    onDragEnd() {
+      setIsDragging(false)
+    },
+    onDragCancel() {
+      setIsDragging(false)
+    },
+  })
 
   return (
-    <DragLayer>
-      <RootGhost style={{ transform: `translate(${currentOffset.x}px, ${initialOffset.y}px)` }}>
-        R
-      </RootGhost>
-    </DragLayer>
+    <DragOverlay dropAnimation={null}>{isDragging ? <RootGhost>R</RootGhost> : null}</DragOverlay>
   )
 }
 
@@ -83,36 +84,28 @@ function RootButton() {
   const dispatch = useDispatch()
   const activeChord = useSelector(selectActiveChord)
 
-  const updateRoot = (note: number) => {
-    if (!activeChord) return
-    const octave = Math.floor(note / 12)
-    const root = (note % 12) as IntervalNumber
-    const newChord = {
-      ...cloneDeep(activeChord),
-      octave,
-      root,
-      name: getChordName(root, activeChord.voicing),
-    }
-    dispatch(setChord({ chord: newChord }))
-  }
-
-  const [{ isDragging }, drag, preview] = useDrag({
-    type: 'root',
-    item: { name: 'root' },
-    end: (item, monitor) => {
-      const dropResult = monitor.getDropResult<{ note: number }>()
-      if (item && dropResult) {
-        updateRoot(dropResult.note)
-      }
-    },
-    collect: (monitor) => ({
-      isDragging: monitor.isDragging(),
-    }),
+  const { attributes, listeners, setNodeRef, isDragging } = useDraggable({
+    id: 'root',
   })
 
-  useEffect(() => {
-    preview(getEmptyImage(), { captureDraggingState: true })
-  }, [preview])
+  useDndMonitor({
+    onDragEnd(event) {
+      if (event.active.id === 'root' && event.over) {
+        const note = event.over.data.current?.note as number | undefined
+        if (note !== undefined && activeChord) {
+          const octave = Math.floor(note / 12)
+          const root = (note % 12) as IntervalNumber
+          const newChord = {
+            ...cloneDeep(activeChord),
+            octave,
+            root,
+            name: getChordName(root, activeChord.voicing),
+          }
+          dispatch(setChord({ chord: newChord }))
+        }
+      }
+    },
+  })
 
   const className = classNames({
     dragging: isDragging,
@@ -121,7 +114,7 @@ function RootButton() {
   })
 
   return (
-    <Root ref={drag} className={className}>
+    <Root ref={setNodeRef} className={className} {...listeners} {...attributes}>
       R
     </Root>
   )

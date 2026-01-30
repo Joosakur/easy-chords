@@ -1,13 +1,14 @@
-import { DndProvider } from 'react-dnd'
-import { HTML5Backend } from 'react-dnd-html5-backend'
+import { DndContext, PointerSensor, useSensor, useSensors } from '@dnd-kit/core'
 import { Route, Switch } from 'wouter'
 import GlobalStyles from './Components/common/GlobalStyles'
 import Help from './Components/Help'
 import RootComponent from './Components/RootComponent'
 
 function App() {
+  const sensors = useSensors(useSensor(PointerSensor))
+
   return (
-    <DndProvider backend={HTML5Backend}>
+    <DndContext sensors={sensors}>
       <GlobalStyles>
         <Switch>
           <Route path="/app">
@@ -18,7 +19,7 @@ function App() {
           </Route>
         </Switch>
       </GlobalStyles>
-    </DndProvider>
+    </DndContext>
   )
 }
 

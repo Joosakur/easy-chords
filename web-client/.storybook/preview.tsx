@@ -1,8 +1,7 @@
 import type { Preview } from '@storybook/react'
 import { Provider } from 'react-redux'
 import { configureStore } from '@reduxjs/toolkit'
-import { DndProvider } from 'react-dnd'
-import { HTML5Backend } from 'react-dnd-html5-backend'
+import { DndContext } from '@dnd-kit/core'
 import GlobalStyles from '../src/Components/common/GlobalStyles'
 import rootReducer, { initialRootState } from '../src/state/root-reducer'
 
@@ -19,9 +18,9 @@ const preview: Preview = {
     (Story) => (
       <Provider store={store}>
         <GlobalStyles>
-          <DndProvider backend={HTML5Backend}>
+          <DndContext>
             <Story />
-          </DndProvider>
+          </DndContext>
         </GlobalStyles>
       </Provider>
     ),
