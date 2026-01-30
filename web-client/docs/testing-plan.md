@@ -48,14 +48,19 @@ This document outlines the multi-phase plan for adding unit test coverage to the
 
 ---
 
-## Phase 3: Redux Slice & Selector Tests
+## Phase 3: Redux Slice & Selector Tests (COMPLETED)
+
+- [x] `settings-slice.ts` - 16 tests (reducers, extraReducers, selectors)
+- [x] `ui-slice.ts` - 15 tests (reducers, selectors)
+- [x] `chord-map-slice.ts` - 28 tests (reducers, selectors)
+- [x] `piano-slice.ts` - 18 tests (reducers, extraReducers, selectors)
 
 | Slice | Reducer Tests | Selector Tests |
 |-------|--------------|----------------|
-| `settings` | `setMidiOutput`, `setHost` | `selectIsUsingMidi` (MIDI enabled + valid device) |
+| `settings` | `setMidiOutput`, `setHost`, async actions | `selectIsUsingMidi` (complex conditional) |
 | `ui` | toggle/open/close actions | `selectIsEditorOpen`, `selectIsSettingsOpen` |
-| `chordMap` | `setChord`, `clearChord`, `setEditMode`, `setActiveChordIndex` | `selectActiveChord`, `selectIsChordButtonSelected` |
-| `piano` | `pianoKeyDown`, `pianoKeyUp`, `pianoKeysUp` | (no selectors) |
+| `chordMap` | `setChord`, `clearChord`, `setEditMode`, `setActiveChordIndex`, `setChords` | `selectActiveChord`, `selectIsChordButtonSelected`, `selectEditMode` |
+| `piano` | `pianoKeyDown`, `pianoKeyUp`, `pianoKeysUp`, `setSustainPedal` | `selectKeysDown`, `selectIsKeyDown`, `selectSustainPedal` |
 
 ---
 
@@ -88,8 +93,8 @@ Create `.github/workflows/test.yml`:
 |-------|-------|-------|
 | 1 | Setup | - |
 | 2 | Music utils | 91 |
-| 3 | Redux slices | ~25-30 |
+| 3 | Redux slices | 77 |
 | 4 | Sagas | ~15-20 |
 | 5 | CI | (workflow file) |
 
-**Current total:** 91 tests
+**Current total:** 168 tests
