@@ -8,6 +8,7 @@ import classNames from 'classnames'
 import { useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import styled from 'styled-components'
+import { PIANO } from '../../config/constants'
 import { playChord, setSustainPedal } from '../../state/actions'
 import { selectSustainPedal } from '../../state/piano/piano-slice'
 import { selectSettings } from '../../state/settings/settings-slice'
@@ -54,9 +55,9 @@ const OctavesRow = styled.div`
 `
 
 const calculateOctaveCount = (width: number): number => {
-  if (width < 400) return 0
+  if (width < PIANO.MIN_WIDTH) return 0
 
-  return Math.min(7, Math.round(width / 350))
+  return Math.min(PIANO.MAX_OCTAVES, Math.round(width / PIANO.OCTAVE_WIDTH_ESTIMATE))
 }
 
 function Piano() {

@@ -7,7 +7,6 @@ import type { ChordV1 } from '../../types'
 
 // Mock the global Synth before any imports that use it
 vi.hoisted(() => {
-  // @ts-expect-error - mocking global
   globalThis.Synth = {
     setVolume: vi.fn(),
     createInstrument: vi.fn(() => ({

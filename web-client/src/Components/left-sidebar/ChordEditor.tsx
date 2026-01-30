@@ -10,7 +10,7 @@ import type { ChordV1, IntervalNumber, Voicing } from '../../types'
 import { getChordName } from '../../utils/music/chords'
 import { Input } from '../common/Input'
 import { CenteredDiv } from '../common/layout/flex'
-import { Gap } from '../common/layout/whie-space'
+import { Gap } from '../common/layout/white-space'
 import { SPACING_LENGTHS } from '../common/style-constants'
 import OctaveSelector from './chord-editor/OctaveSelector'
 import QualitySelector from './chord-editor/QualitySelector'
@@ -100,7 +100,9 @@ function ChordEditor() {
           <RootSelectorSlot>
             <NarrowInput
               value={activeChord.name}
-              onChange={(_e: any, data: { value: string }) => onChordRenamed(data.value)}
+              onChange={(_e: React.ChangeEvent<HTMLInputElement>, data: { value: string }) =>
+                onChordRenamed(data.value)
+              }
             />
             <Gap size="s" />
             <QualitySelector onChange={onVoicingChanged} />

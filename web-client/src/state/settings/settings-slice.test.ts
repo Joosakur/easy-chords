@@ -27,7 +27,7 @@ describe('settings slice', () => {
         const stateWithDevices: SettingsState = {
           ...initialSettingsState,
           midiOutput: true,
-          midiDevices: [{ name: 'Device 1' }],
+          midiDevices: [{ name: 'Device 1', description: 'Test Device 1' }],
           midiDeviceIndex: 0,
         }
         const state = reducer(stateWithDevices, setMidiOutput(false))
@@ -39,12 +39,12 @@ describe('settings slice', () => {
       it('keeps device state when enabling', () => {
         const stateWithDevices: SettingsState = {
           ...initialSettingsState,
-          midiDevices: [{ name: 'Device 1' }],
+          midiDevices: [{ name: 'Device 1', description: 'Test Device 1' }],
           midiDeviceIndex: 0,
         }
         const state = reducer(stateWithDevices, setMidiOutput(true))
         expect(state.midiOutput).toBe(true)
-        expect(state.midiDevices).toEqual([{ name: 'Device 1' }])
+        expect(state.midiDevices).toEqual([{ name: 'Device 1', description: 'Test Device 1' }])
         expect(state.midiDeviceIndex).toBe(0)
       })
     })
@@ -58,7 +58,7 @@ describe('settings slice', () => {
       it('clears device state when host changes', () => {
         const stateWithDevices: SettingsState = {
           ...initialSettingsState,
-          midiDevices: [{ name: 'Device 1' }],
+          midiDevices: [{ name: 'Device 1', description: 'Test Device 1' }],
           midiDeviceIndex: 0,
         }
         const state = reducer(stateWithDevices, setHost('new-host'))
@@ -70,23 +70,26 @@ describe('settings slice', () => {
 
     describe('extraReducers', () => {
       it('handles chooseMidiDevice.fulfilled', () => {
-        const state = reducer(initialSettingsState, chooseMidiDevice.fulfilled(1, '', 1))
+        const state = reducer(initialSettingsState, chooseMidiDevice.fulfilled(1))
         expect(state.midiDeviceIndex).toBe(1)
       })
 
       it('handles getMidiDevices.fulfilled', () => {
-        const devices = [{ name: 'Device 1' }, { name: 'Device 2' }]
-        const state = reducer(initialSettingsState, getMidiDevices.fulfilled(devices, ''))
+        const devices = [
+          { name: 'Device 1', description: 'Test Device 1' },
+          { name: 'Device 2', description: 'Test Device 2' },
+        ]
+        const state = reducer(initialSettingsState, getMidiDevices.fulfilled(devices))
         expect(state.midiDevices).toEqual(devices)
       })
 
       it('handles getMidiDevices.rejected', () => {
         const stateWithDevices: SettingsState = {
           ...initialSettingsState,
-          midiDevices: [{ name: 'Device 1' }],
+          midiDevices: [{ name: 'Device 1', description: 'Test Device 1' }],
           midiDeviceIndex: 0,
         }
-        const state = reducer(stateWithDevices, getMidiDevices.rejected(null, ''))
+        const state = reducer(stateWithDevices, getMidiDevices.rejected())
         expect(state.midiDevices).toEqual([])
         expect(state.midiDeviceIndex).toBeNull()
       })
@@ -109,7 +112,7 @@ describe('settings slice', () => {
         const rootState = createRootState({
           midiOutput: false,
           host: 'localhost',
-          midiDevices: [{ name: 'Device' }],
+          midiDevices: [{ name: 'Device', description: 'Test Device' }],
           midiDeviceIndex: 0,
         })
         expect(selectIsUsingMidi(rootState)).toBe(false)
@@ -119,7 +122,7 @@ describe('settings slice', () => {
         const rootState = createRootState({
           midiOutput: true,
           host: '',
-          midiDevices: [{ name: 'Device' }],
+          midiDevices: [{ name: 'Device', description: 'Test Device' }],
           midiDeviceIndex: 0,
         })
         expect(selectIsUsingMidi(rootState)).toBeFalsy()
@@ -129,7 +132,7 @@ describe('settings slice', () => {
         const rootState = createRootState({
           midiOutput: true,
           host: 'localhost',
-          midiDevices: [{ name: 'Device' }],
+          midiDevices: [{ name: 'Device', description: 'Test Device' }],
           midiDeviceIndex: null,
         })
         expect(selectIsUsingMidi(rootState)).toBe(false)
@@ -149,7 +152,7 @@ describe('settings slice', () => {
         const rootState = createRootState({
           midiOutput: true,
           host: 'localhost',
-          midiDevices: [{ name: 'Device' }],
+          midiDevices: [{ name: 'Device', description: 'Test Device' }],
           midiDeviceIndex: 5,
         })
         expect(selectIsUsingMidi(rootState)).toBe(false)
@@ -159,7 +162,10 @@ describe('settings slice', () => {
         const rootState = createRootState({
           midiOutput: true,
           host: 'localhost',
-          midiDevices: [{ name: 'Device 1' }, { name: 'Device 2' }],
+          midiDevices: [
+            { name: 'Device 1', description: 'Test Device 1' },
+            { name: 'Device 2', description: 'Test Device 2' },
+          ],
           midiDeviceIndex: 1,
         })
         expect(selectIsUsingMidi(rootState)).toBe(true)
@@ -169,7 +175,7 @@ describe('settings slice', () => {
         const rootState = createRootState({
           midiOutput: true,
           host: 'localhost',
-          midiDevices: [{ name: 'Device' }],
+          midiDevices: [{ name: 'Device', description: 'Test Device' }],
           midiDeviceIndex: 0,
         })
         expect(selectIsUsingMidi(rootState)).toBe(true)

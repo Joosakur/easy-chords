@@ -110,7 +110,7 @@ interface IntervalRowProps {
   primaryName: IntervalName
   secondaryName?: IntervalName
   selections: boolean[]
-  onTableCellClicked: (col: number) => any
+  onTableCellClicked: (col: number) => void
 }
 
 function IntervalRow({
@@ -154,7 +154,7 @@ function IntervalRow({
 
 interface VoicingEditorProps {
   voicing: Voicing
-  onChange: (voicing: Voicing) => any
+  onChange: (voicing: Voicing) => void
 }
 
 interface RowData {

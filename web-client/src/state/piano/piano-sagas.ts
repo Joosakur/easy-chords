@@ -11,6 +11,7 @@
 
 import { call, put, select, takeEvery, takeLatest } from 'redux-saga/effects'
 import api, { type CCEvent, type ChordEvent, type NoteEvent } from '../../api/http-client'
+import { MIDI } from '../../config/constants'
 import type { ChordV1 } from '../../types'
 import { getAbsoluteNotes, getChordName } from '../../utils/music/chords'
 import SynthInstrument from '../../utils/music/synth'
@@ -25,17 +26,6 @@ import {
   stopNotes,
 } from './piano-saga-actions'
 import { pianoKeyDown, pianoKeysUp, selectKeysDown } from './piano-slice'
-
-const channel = 1
-
-const ccCodes = {
-  sustain: 64,
-}
-
-const ccValues = {
-  on: 127,
-  off: 0,
-}
 
 const synth = new SynthInstrument()
 
@@ -94,7 +84,7 @@ export function* playNoteSaga({ payload: { note, velocity } }: ReturnType<typeof
 
   if (yield select(selectIsUsingMidi)) {
     try {
-      const event: NoteEvent = { note, channel, velocity }
+      const event: NoteEvent = { note, channel: MIDI.CHANNEL, velocity }
       yield call(api.playNote, event)
     } catch (_e) {
       console.warn('could not play the note')
@@ -134,8 +124,12 @@ export function* playChordSaga({ payload }: ReturnType<typeof playChord>) {
   if (yield select(selectIsUsingMidi)) {
     try {
       const event: ChordEvent = {
-        playNotes: chord.notes.map(({ note, velocity }) => ({ note, channel, velocity })),
-        stopNotes: previousNotes.map((note) => ({ note, channel })),
+        playNotes: chord.notes.map(({ note, velocity }) => ({
+          note,
+          channel: MIDI.CHANNEL,
+          velocity,
+        })),
+        stopNotes: previousNotes.map((note) => ({ note, channel: MIDI.CHANNEL })),
       }
       yield call(api.playChord, event)
     } catch (_e) {
@@ -155,7 +149,7 @@ export function* stopNotesSaga() {
       const keysDown: number[] = yield select(selectKeysDown)
       const event: ChordEvent = {
         playNotes: [],
-        stopNotes: keysDown.map((note) => ({ note, channel })),
+        stopNotes: keysDown.map((note) => ({ note, channel: MIDI.CHANNEL })),
       }
       yield call(api.playChord, event)
     } catch (_e) {
@@ -172,9 +166,9 @@ export function* setSustainPedalSaga(action: ReturnType<typeof setSustainPedal>)
 
   try {
     const event: CCEvent = {
-      cc: ccCodes.sustain,
-      value: action.payload ? ccValues.on : ccValues.off,
-      channel,
+      cc: MIDI.CC.SUSTAIN,
+      value: action.payload ? MIDI.VALUES.ON : MIDI.VALUES.OFF,
+      channel: MIDI.CHANNEL,
     }
     yield call(api.sendCC, event)
   } catch (_e) {

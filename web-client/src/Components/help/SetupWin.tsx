@@ -4,7 +4,7 @@ import imgEasyChordsServer from '../../images/easy-chords-server.png'
 import imgLoopMidi from '../../images/loop-midi.png'
 import imgMidiOutput from '../../images/midi-output.png'
 import { CenteredDiv, FixedSpacing } from '../common/layout/flex'
-import { Gap } from '../common/layout/whie-space'
+import { Gap } from '../common/layout/white-space'
 import { H2, H3 } from '../common/typography'
 
 const Splits = styled.div`

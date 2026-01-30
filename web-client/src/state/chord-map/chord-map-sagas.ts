@@ -2,6 +2,7 @@ import { call, put, select, takeLatest } from 'redux-saga/effects'
 import api from '../../api/http-client'
 import type { ChordMapDefinitionV1, ChordV1 } from '../../types'
 import { getAbsoluteNotes } from '../../utils/music/chords'
+import { parseChordMapJson } from '../../utils/validation/chord-map-schema'
 import { playChord } from '../piano/piano-saga-actions'
 import { chordClicked, importChordMap, loadChordMap } from './chord-map-saga-actions'
 import {
@@ -67,16 +68,13 @@ export function* loadChordMapSaga(action: ReturnType<typeof loadChordMap>) {
 
 export function* importChordMapSaga(action: ReturnType<typeof importChordMap>) {
   yield put(setActiveChordIndex(null))
-  try {
-    const chordMap = JSON.parse(action.payload)
-    if (chordMap.version === 1) {
-      const v1: ChordMapDefinitionV1 = { ...chordMap }
-      yield put(setChords(v1.chords))
-    } else {
-      console.error(`Version of chord map definition not supported: ${chordMap.version}`)
-    }
-  } catch (e) {
-    console.warn('import failed', e)
+
+  const result = parseChordMapJson(action.payload)
+
+  if (result.success) {
+    yield put(setChords(result.data.chords))
+  } else {
+    alert(`Failed to import chord map:\n${result.error}`)
   }
 }
 

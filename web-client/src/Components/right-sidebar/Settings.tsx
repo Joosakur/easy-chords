@@ -5,7 +5,7 @@ import { chooseMidiDevice } from '../../state/actions'
 import { selectSettings, setHost, setMidiOutput } from '../../state/settings/settings-slice'
 import Dropdown from '../common/Dropdown'
 import { Input } from '../common/Input'
-import { Gap } from '../common/layout/whie-space'
+import { Gap } from '../common/layout/white-space'
 import { Colors } from '../common/style-constants'
 import { H3 } from '../common/typography'
 

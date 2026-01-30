@@ -4,7 +4,7 @@ import { lighten } from 'polished'
 import type React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import styled from 'styled-components'
-import { BWWR } from '../../../constants'
+import { PIANO_KEYS } from '../../../config/constants'
 import { selectActiveChord } from '../../../state/chord-map/chord-map-slice'
 import { pianoKeyClicked } from '../../../state/piano/piano-saga-actions'
 import { selectIsKeyDown } from '../../../state/piano/piano-slice'
@@ -151,7 +151,7 @@ const BlackKeyButton = styled.button<KeyButtonProps>`
 const RootPositioner = styled.div`
   position: relative;
   top: -100%;
-  width: ${BWWR}%;
+  width: ${PIANO_KEYS.BLACK_WHITE_WIDTH_RATIO}%;
   margin: auto;
 
   &.black {

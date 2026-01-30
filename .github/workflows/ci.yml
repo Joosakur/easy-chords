@@ -29,6 +29,10 @@ jobs:
         working-directory: web-client
         run: npm run check
 
+      - name: Check TypeScript
+        working-directory: web-client
+        run: npm run typecheck
+
       - name: Run unit tests
         working-directory: web-client
         run: npm run test:coverage

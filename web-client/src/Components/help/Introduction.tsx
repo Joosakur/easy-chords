@@ -2,7 +2,7 @@ import styled from 'styled-components'
 import { Link } from 'wouter'
 import imgMainScreenshot from '../../images/main-screenshot.png'
 import { CenteredDiv } from '../common/layout/flex'
-import { Gap } from '../common/layout/whie-space'
+import { Gap } from '../common/layout/white-space'
 import { H2 } from '../common/typography'
 
 const Splits = styled.div`
