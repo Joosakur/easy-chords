@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import styled from 'styled-components'
 import classNames from 'classnames'
-import { useDrag, DragSourceMonitor, useDragLayer } from 'react-dnd'
+import { useDrag, useDragLayer } from 'react-dnd'
 import { getEmptyImage } from 'react-dnd-html5-backend'
 import { cloneDeep } from 'lodash'
 import { darken } from 'polished'
@@ -97,14 +97,15 @@ function RootButton() {
   }
 
   const [{ isDragging }, drag, preview] = useDrag({
-    item: { name: 'root', type: 'root' },
-    end: (item: any | undefined, monitor: DragSourceMonitor) => {
-      const dropResult = monitor.getDropResult()
+    type: 'root',
+    item: { name: 'root' },
+    end: (item, monitor) => {
+      const dropResult = monitor.getDropResult<{ note: number }>()
       if (item && dropResult) {
         updateRoot(dropResult.note)
       }
     },
-    collect: (monitor: DragSourceMonitor) => ({
+    collect: (monitor) => ({
       isDragging: monitor.isDragging()
     })
   })

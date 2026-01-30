@@ -13,10 +13,11 @@
     "classnames": "^2.2.6",
     "lodash": "^4.17.20",
     "polished": "^3.6.3",
-    "react": "^16.13.1",
-    "react-dnd": "^11.0.0",
-    "react-dnd-html5-backend": "^11.0.0",
-    "react-dom": "^16.13.1",
+    "react": "^18.3.1",
+    "react-dnd": "^16.0.1",
+    "react-dnd-html5-backend": "^16.0.1",
+    "react-dom": "^18.3.1",
+    "react-is": "^19.2.4",
     "react-redux": "^7.2.0",
     "react-router-dom": "^5.2.0",
     "redux": "^4.0.5",
@@ -34,22 +35,14 @@
     "@storybook/addons": "^5.3.18",
     "@storybook/react": "^5.3.18",
     "@storybook/theming": "^5.3.18",
-    "@testing-library/jest-dom": "^4.2.4",
-    "@testing-library/react": "^9.5.0",
-    "@testing-library/user-event": "^7.2.1",
-    "@types/classnames": "^2.2.10",
-    "@types/jest": "^24.9.1",
     "@types/lodash": "^4.14.151",
     "@types/node": "^22.0.0",
-    "@types/react": "^16.9.34",
-    "@types/react-dom": "^16.9.7",
+    "@types/react": "^18.3.27",
+    "@types/react-dom": "^18.3.7",
     "@types/react-redux": "^7.1.9",
     "@types/styled-components": "^5.1.0",
     "@vitejs/plugin-react": "^4.3.4",
-    "husky": "^4.2.5",
-    "lint-staged": "^10.2.7",
     "prettier": "^2.0.5",
-    "redux-mock-store": "^1.5.4",
     "typescript": "^5.9.3",
     "vite": "^6.0.7"
   },
@@ -84,13 +77,5 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
-  },
-  "lint-staged": {
-    "*.src/**/*.{js,jsx,ts,tsx,json,css,scss,md}": "prettier --write"
   }
 }
