@@ -95,8 +95,8 @@ interface PadButtonProps {
   color?: string
   thin?: boolean
   toggle?: boolean
-
   className?: string
+  'data-test'?: string
 }
 
 function PadButton({
@@ -108,6 +108,7 @@ function PadButton({
   toggle = false,
   color,
   className,
+  'data-test': dataTest,
 }: PadButtonProps) {
   return (
     <StyledButton
@@ -121,6 +122,7 @@ function PadButton({
       onDragStart={(e) => e.preventDefault()}
       color={selected ? Colors.states.active : color || Colors.primary}
       selected={selected}
+      data-test={dataTest}
     >
       <span className="text-high">{text}</span>
     </StyledButton>
