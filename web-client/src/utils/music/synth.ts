@@ -21,12 +21,12 @@ interface Instrument {
   play: (note: Tone, octave: number, seconds: number) => void
 }
 
-type Tone = 'C' | 'C#' | 'D' | 'D#' | 'E' | 'F' | 'F#' | 'G' | 'G#' | 'A' | 'A#' | 'B'
+export type Tone = 'C' | 'C#' | 'D' | 'D#' | 'E' | 'F' | 'F#' | 'G' | 'G#' | 'A' | 'A#' | 'B'
 
-Synth.setVolume(0.2)
 const defaultLength = 2
+let volumeInitialized = false
 
-const numberToTone = (num: number): Tone => {
+export const numberToTone = (num: number): Tone => {
   switch (num % 12) {
     case 0:
       return 'C'
@@ -65,6 +65,10 @@ class SynthInstrument {
   private instrument: Instrument
 
   constructor(instrumentId: string = 'piano') {
+    if (!volumeInitialized) {
+      Synth.setVolume(0.2)
+      volumeInitialized = true
+    }
     this.instrument = Synth.createInstrument(instrumentId)
   }
 
