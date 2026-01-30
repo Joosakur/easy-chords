@@ -37,6 +37,7 @@ interface RootSelectorProps {
 }
 
 function RootSelector({ root, onChange, children }: RootSelectorProps) {
+  // Circle of fifths order: each step is +7 semitones (perfect fifth)
   const symbols = ['C', 'G', 'D', 'A', 'E', 'B', 'F♯', 'D♭', 'A♭', 'E♭', 'B♭', 'F']
 
   return (
@@ -45,6 +46,7 @@ function RootSelector({ root, onChange, children }: RootSelectorProps) {
       {symbols.map((symbol, index) => (
         <ButtonWrapper pos={index as IntervalNumber} key={index}>
           <SelectionButton
+            // Convert circle-of-fifths position to chromatic semitone: (index * 7) % 12
             onClick={() => onChange(((index * 7) % 12) as IntervalNumber)}
             selected={(index * 7) % 12 === root}
             circular

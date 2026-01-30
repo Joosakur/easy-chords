@@ -1,3 +1,15 @@
+/**
+ * Web Audio fallback for when MIDI output is disabled.
+ *
+ * Wraps the audiosynth.js library (loaded in index.html) to provide
+ * simple piano synthesis. This is a fallback with limitations:
+ * - No note-off support (notes play for fixed duration)
+ * - No velocity sensitivity
+ * - No sustain pedal support
+ *
+ * @module utils/music/synth
+ */
+
 declare const Synth: AudioSynth
 
 interface AudioSynth {
@@ -45,6 +57,10 @@ const numberToTone = (num: number): Tone => {
   }
 }
 
+/**
+ * Wrapper around audiosynth.js for playing notes via Web Audio.
+ * Used as fallback when MIDI output is disabled.
+ */
 class SynthInstrument {
   private instrument: Instrument
 

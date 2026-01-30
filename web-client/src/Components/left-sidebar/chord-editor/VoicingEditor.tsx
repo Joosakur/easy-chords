@@ -1,3 +1,15 @@
+/**
+ * Grid-based voicing editor for constructing chord voicings by interval.
+ *
+ * Layout: 12 rows (intervals) x 7 columns (voice slots).
+ * - Each column represents a note position in the voicing (left to right = low to high)
+ * - Each row represents an interval from the root (0 = root, 4 = major 3rd, 7 = perfect 5th, etc.)
+ * - Clicking a cell toggles that interval for that voice slot
+ * - Column position affects octave placement (later columns = higher octaves)
+ *
+ * See docs/chord-editing-ux.md for detailed UX documentation.
+ */
+
 import classNames from 'classnames'
 import type React from 'react'
 import { useMemo } from 'react'

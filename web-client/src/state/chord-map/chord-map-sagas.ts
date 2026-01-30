@@ -26,6 +26,7 @@ function* chordClickedSaga(action: ReturnType<typeof chordClicked>) {
   if (editMode === null) {
     const chord: ChordV1 | null = (yield select(selectChords))[index]
     if (chord) {
+      // Velocity based on horizontal click position (0-1) for expressive dynamics
       const velocity = 50 + x * 60
       yield put(
         playChord({
