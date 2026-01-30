@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 import { StorySegment } from '../../utils/story-utils'
 import { FixedSpacing } from './layout/flex'
-import { Gap } from './layout/whie-space'
+import { Gap } from './layout/white-space'
 import { Colors, FadedColors } from './style-constants'
 import { H3 } from './typography'
 

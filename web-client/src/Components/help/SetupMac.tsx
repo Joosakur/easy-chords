@@ -5,7 +5,7 @@ import imgMac2 from '../../images/mac2-activate-device.png'
 import imgMac3 from '../../images/mac3-create-bus.png'
 import imgMidiOutput from '../../images/midi-output-mac.png'
 import { CenteredDiv } from '../common/layout/flex'
-import { Gap } from '../common/layout/whie-space'
+import { Gap } from '../common/layout/white-space'
 import { H2, H3 } from '../common/typography'
 
 const Splits = styled.div`
