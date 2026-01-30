@@ -159,69 +159,6 @@
 
 ---
 
-## Phase 7: Update Redux Ecosystem
-
-**Goal:** Update Redux packages (keep redux-saga)
-
-**Update:**
-- `@reduxjs/toolkit` 1.3.6 → 2.x
-- `redux` 4.0.5 → 5.x
-- `react-redux` 7.2.0 → 9.x
-- `redux-saga` 1.1.3 → 1.4.x
-
-**Remove:**
-- `@types/react-redux` (included in react-redux 8+)
-
-**Tasks:**
-1. Update packages
-2. Fix any API changes in RTK 2.x
-3. Verify saga functionality still works
-
----
-
-## Phase 8: Update Remaining Dependencies
-
-**Update:**
-- `axios` 0.19.2 → 1.x
-- `styled-components` 5.1.0 → 6.x
-- `@fortawesome/fontawesome-svg-core` → 6.x
-- `@fortawesome/free-solid-svg-icons` → 6.x
-- `@fortawesome/react-fontawesome` → 0.2.x
-- `classnames` → latest
-- `lodash` → latest
-- `polished` → 4.x
-- `@types/lodash` → latest
-- `@types/styled-components` → latest
-
-**Tasks:**
-1. Update axios, handle any request/response interceptor changes
-2. Update styled-components, fix any API changes
-3. Update Font Awesome, check for renamed icons
-4. Update utility libraries
-
----
-
-## Phase 9: Migrate react-dnd to dnd-kit
-
-**Goal:** Modern drag-and-drop (low priority feature)
-
-**Remove:**
-- `react-dnd`
-- `react-dnd-html5-backend`
-
-**Add:**
-- `@dnd-kit/core`
-- `@dnd-kit/sortable` (if needed)
-- `@dnd-kit/utilities` (if needed)
-
-**Tasks:**
-1. Audit current drag-and-drop usage
-2. Replace DndProvider with DndContext
-3. Update draggable/droppable components to dnd-kit API
-4. Update drag handlers
-
----
-
 ## Tooling: Replace ESLint + Prettier with Biome - COMPLETE
 
 **Goal:** Simplify linting/formatting tooling
@@ -244,23 +181,28 @@
 
 ---
 
-## Phase 7: Update Redux Ecosystem
+## Phase 7: Update Redux Ecosystem - COMPLETE
 
 **Goal:** Update Redux packages (keep redux-saga)
 
-**Update:**
-- `@reduxjs/toolkit` 1.3.6 → 2.x
-- `redux` 4.0.5 → 5.x
-- `react-redux` 7.2.0 → 9.x
-- `redux-saga` 1.1.3 → 1.4.x
+**Updated:**
+- `@reduxjs/toolkit` 1.9.7 → 2.11.2
+- `redux` 4.2.1 → 5.0.1
+- `react-redux` 7.2.9 → 9.2.0
+- `redux-saga` was already at 1.4.2
 
-**Remove:**
-- `@types/react-redux` (included in react-redux 8+)
+**Removed:**
+- `@types/react-redux` (types included in react-redux 9.x)
 
-**Tasks:**
-1. Update packages
-2. Fix any API changes in RTK 2.x
-3. Verify saga functionality still works
+**API Changes Fixed:**
+1. `extraReducers` object notation → builder callback pattern (RTK 2.x requirement)
+   - Updated `settings-slice.ts` and `piano-slice.ts`
+2. No-payload actions need explicit `prepare()` (RTK 2.x stricter typing)
+   - Updated `pianoKeysUp` reducer to use prepare notation
+3. Removed explicit generic from `combineReducers<RootState>()` (Redux 5.x)
+
+**Results:**
+- Bundle size: 514KB → 508KB (-6KB)
 
 ---
 
@@ -371,4 +313,5 @@ devDependencies:
 - @storybook/addon-knobs
 - @storybook/preset-create-react-app
 - redux-mock-store
+- @types/react-redux (included in react-redux 9.x)
 - Various @types packages (now included in main packages)

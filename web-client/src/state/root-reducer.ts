@@ -24,7 +24,7 @@ export const initialRootState: RootState = {
   piano: initialPianoState,
 }
 
-const rootReducer = combineReducers<RootState>({
+const rootReducer = combineReducers({
   settings: settingsReducer,
   ui: uiReducer,
   chordMap: chordMapReducer,

@@ -34,17 +34,18 @@ const settingsSlice = createSlice({
       state.midiDevices = null
     },
   },
-  extraReducers: {
-    [chooseMidiDevice.fulfilled.type]: (state, action: PayloadAction<number>) => {
-      state.midiDeviceIndex = action.payload
-    },
-    [getMidiDevices.fulfilled.type]: (state, action: PayloadAction<MidiDevice[]>) => {
-      state.midiDevices = action.payload
-    },
-    [getMidiDevices.rejected.type]: (state) => {
-      state.midiDevices = []
-      state.midiDeviceIndex = null
-    },
+  extraReducers: (builder) => {
+    builder
+      .addCase(chooseMidiDevice.fulfilled, (state, action) => {
+        state.midiDeviceIndex = action.payload
+      })
+      .addCase(getMidiDevices.fulfilled, (state, action) => {
+        state.midiDevices = action.payload
+      })
+      .addCase(getMidiDevices.rejected, (state) => {
+        state.midiDevices = []
+        state.midiDeviceIndex = null
+      })
   },
 })
 

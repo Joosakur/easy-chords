@@ -22,14 +22,19 @@ const pianoSlice = createSlice({
     pianoKeyUp: (state, action: PayloadAction<number>) => {
       state.keysDown = state.keysDown.filter((n) => n !== action.payload)
     },
-    pianoKeysUp: (state) => {
-      state.keysDown = []
+    pianoKeysUp: {
+      reducer(state) {
+        state.keysDown = []
+      },
+      prepare() {
+        return { payload: undefined }
+      },
     },
   },
-  extraReducers: {
-    [setSustainPedal.type]: (state, action: PayloadAction<boolean>) => {
+  extraReducers: (builder) => {
+    builder.addCase(setSustainPedal, (state, action) => {
       state.sustainPedal = action.payload
-    },
+    })
   },
 })
 
