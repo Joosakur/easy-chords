@@ -100,7 +100,9 @@ function ChordEditor() {
           <RootSelectorSlot>
             <NarrowInput
               value={activeChord.name}
-              onChange={(_e: any, data: { value: string }) => onChordRenamed(data.value)}
+              onChange={(_e: React.ChangeEvent<HTMLInputElement>, data: { value: string }) =>
+                onChordRenamed(data.value)
+              }
             />
             <Gap size="s" />
             <QualitySelector onChange={onVoicingChanged} />
