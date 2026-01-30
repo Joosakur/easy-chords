@@ -7,7 +7,7 @@ export interface ChordClickEvent {
 }
 
 export const chordClicked = createAction('chordMap/chordClicked', (event: ChordClickEvent) => ({
-  payload: event
+  payload: event,
 }))
 export const loadChordMap = createAction('chordMap/load', (path: string) => ({ payload: path }))
 export const importChordMap = createAction('chordMap/import', (json: string) => ({ payload: json }))

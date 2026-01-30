@@ -1,6 +1,6 @@
-import { MidiDevice } from '../../api/http-client'
-import { createSelector, createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { RootState } from '../root-reducer'
+import { createSelector, createSlice, type PayloadAction } from '@reduxjs/toolkit'
+import type { MidiDevice } from '../../api/http-client'
+import type { RootState } from '../root-reducer'
 import { chooseMidiDevice, getMidiDevices } from './settings-saga-actions'
 
 export interface SettingsState {
@@ -14,7 +14,7 @@ export const initialSettingsState: SettingsState = {
   midiOutput: false,
   host: 'localhost',
   midiDevices: null,
-  midiDeviceIndex: null
+  midiDeviceIndex: null,
 }
 
 const settingsSlice = createSlice({
@@ -32,20 +32,21 @@ const settingsSlice = createSlice({
       state.host = action.payload
       state.midiDeviceIndex = null
       state.midiDevices = null
-    }
+    },
   },
-  extraReducers: {
-    [chooseMidiDevice.fulfilled.type]: (state, action: PayloadAction<number>) => {
-      state.midiDeviceIndex = action.payload
-    },
-    [getMidiDevices.fulfilled.type]: (state, action: PayloadAction<MidiDevice[]>) => {
-      state.midiDevices = action.payload
-    },
-    [getMidiDevices.rejected.type]: (state) => {
-      state.midiDevices = []
-      state.midiDeviceIndex = null
-    }
-  }
+  extraReducers: (builder) => {
+    builder
+      .addCase(chooseMidiDevice.fulfilled, (state, action) => {
+        state.midiDeviceIndex = action.payload
+      })
+      .addCase(getMidiDevices.fulfilled, (state, action) => {
+        state.midiDevices = action.payload
+      })
+      .addCase(getMidiDevices.rejected, (state) => {
+        state.midiDevices = []
+        state.midiDeviceIndex = null
+      })
+  },
 })
 
 export const selectSettings = (state: RootState) => state.settings
@@ -59,7 +60,7 @@ export const selectIsUsingMidi = createSelector(
       midiDevices &&
       midiDeviceIndex <= midiDevices.length - 1
     )
-  }
+  },
 )
 
 export const { setMidiOutput, setHost } = settingsSlice.actions

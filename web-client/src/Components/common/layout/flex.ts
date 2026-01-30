@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { SPACING_LENGTHS, SpacingSize } from '../style-constants'
+import { SPACING_LENGTHS, type SpacingSize } from '../style-constants'
 
 interface FixedSpacingProps {
   column?: boolean
@@ -11,7 +11,7 @@ export const FixedSpacing = styled.div<FixedSpacingProps>`
   display: flex;
   flex-direction: ${(p) => (p.column ? 'column' : 'row')};
   align-items: center;
-  
+
   ${(p) => (p.column ? 'width: fit-content;' : '')}
   ${(p) => (p.grow ? `flex-grow: ${p.grow};` : '')}
 

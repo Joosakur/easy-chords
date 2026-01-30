@@ -1,11 +1,11 @@
-import React, { useEffect } from 'react'
-import styled from 'styled-components'
-import LeftSidebar from './LeftSidebar'
-import RightSidebar from './RightSidebar'
-import MainView from './MainView'
 import { cover } from 'polished'
+import { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
+import styled from 'styled-components'
 import { setSustainPedal } from '../state/actions'
+import LeftSidebar from './LeftSidebar'
+import MainView from './MainView'
+import RightSidebar from './RightSidebar'
 
 const RootContainer = styled.div`
   display: flex;

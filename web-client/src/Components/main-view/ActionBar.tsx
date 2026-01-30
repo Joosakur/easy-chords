@@ -1,28 +1,32 @@
-import React, { useMemo, useRef } from 'react'
-import styled from 'styled-components'
-import { DropdownDivider, DropdownHeader, DropdownItem, DropdownMenu } from 'semantic-ui-react'
 import {
   faCopy,
   faExchangeAlt,
   faFileExport,
   faFileImport,
-  faTrashAlt
+  faTrashAlt,
 } from '@fortawesome/free-solid-svg-icons'
-import { ChordMapDefinitionV1 } from '../../types'
-import { FixedSpacing } from '../common/layout/flex'
-import ActionButton from '../common/buttons/ActionButton'
-import Dropdown from '../common/Dropdown'
-import { FadedColors, SPACING_LENGTHS } from '../common/style-constants'
+import { useMemo, useRef } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import styled from 'styled-components'
+import { importChordMap, loadChordMap } from '../../state/actions'
 import {
   clearChord,
   selectChords,
   selectEditMode,
   selectIsChordButtonSelected,
-  setEditMode
+  setEditMode,
 } from '../../state/chord-map/chord-map-slice'
-import { useDispatch, useSelector } from 'react-redux'
 import { selectIsEditorOpen } from '../../state/ui/ui-slice'
-import { importChordMap, loadChordMap } from '../../state/actions'
+import type { ChordMapDefinitionV1 } from '../../types'
+import ActionButton from '../common/buttons/ActionButton'
+import Dropdown, {
+  DropdownDivider,
+  DropdownHeader,
+  DropdownItem,
+  DropdownMenu,
+} from '../common/Dropdown'
+import { FixedSpacing } from '../common/layout/flex'
+import { FadedColors, SPACING_LENGTHS } from '../common/style-constants'
 
 const ActionBarContainer = styled.div`
   display: flex;
@@ -53,7 +57,7 @@ function ActionBar() {
   const exportHref = useMemo(() => {
     const chordMap: ChordMapDefinitionV1 = { chords, version: 1 }
     return window.URL.createObjectURL(
-      new Blob([JSON.stringify(chordMap)], { type: 'application/json' })
+      new Blob([JSON.stringify(chordMap)], { type: 'application/json' }),
     )
   }, [chords])
 
@@ -159,7 +163,7 @@ function readFile(input: HTMLInputElement, onSuccess: (json: string) => void) {
   const file = input.files?.item(0)
   const reader = new FileReader()
 
-  reader.onload = function (event) {
+  reader.onload = (event) => {
     const contents = event.target?.result
     if (contents) {
       onSuccess(contents.toString())
@@ -168,7 +172,7 @@ function readFile(input: HTMLInputElement, onSuccess: (json: string) => void) {
     }
   }
 
-  reader.onerror = function (event) {
+  reader.onerror = (event) => {
     console.error(`File could not be read! Code ${event.target?.error?.code}`)
   }
 

@@ -1,15 +1,15 @@
 import axios from 'axios'
-import { ChordMapDefinitionV1 } from '../types'
+import type { ChordMapDefinitionV1 } from '../types'
 
 let instance = axios.create({
-  baseURL: 'http://localhost:8080'
+  baseURL: 'http://localhost:8080',
 })
 
 const s3Loader = axios.create()
 
 const setHostName = (host: string) => {
   instance = axios.create({
-    baseURL: `http://${host}:8080`
+    baseURL: `http://${host}:8080`,
   })
 }
 
@@ -75,7 +75,7 @@ const api = {
   getDevices,
   setDevice,
   getChordMapPreset,
-  sendCC
+  sendCC,
 }
 
 export default api

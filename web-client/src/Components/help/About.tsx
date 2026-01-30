@@ -1,4 +1,3 @@
-import React from 'react'
 import { H2 } from '../common/typography'
 
 export default function About() {

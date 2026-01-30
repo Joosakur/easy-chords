@@ -1,10 +1,9 @@
-import React from 'react'
-import { H2 } from '../common/typography'
-import { Gap } from 'Components/common/layout/whie-space'
+import styled from 'styled-components'
+import { Link } from 'wouter'
 import imgMainScreenshot from '../../images/main-screenshot.png'
 import { CenteredDiv } from '../common/layout/flex'
-import { Link } from 'react-router-dom'
-import styled from 'styled-components'
+import { Gap } from '../common/layout/whie-space'
+import { H2 } from '../common/typography'
 
 const Splits = styled.div`
   display: flex;

@@ -1,23 +1,23 @@
-import React, { useEffect, useRef, useState } from 'react'
-import styled from 'styled-components'
-import classNames from 'classnames'
 import {
   faAngleDown,
   faAngleUp,
   faCaretLeft,
-  faCaretRight
+  faCaretRight,
 } from '@fortawesome/free-solid-svg-icons'
-import Octave from './piano/Octave'
-import { Colors, SPACING_LENGTHS } from '../common/style-constants'
+import classNames from 'classnames'
+import { useEffect, useRef, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import styled from 'styled-components'
+import { playChord, setSustainPedal } from '../../state/actions'
+import { selectSustainPedal } from '../../state/piano/piano-slice'
+import { selectSettings } from '../../state/settings/settings-slice'
+import { selectIsEditorOpen } from '../../state/ui/ui-slice'
 import CircleActionButton from '../common/buttons/CircleActionButton'
 import PadButton from '../common/buttons/PadButton'
 import { FixedSpacing } from '../common/layout/flex'
+import { Colors, SPACING_LENGTHS } from '../common/style-constants'
+import Octave from './piano/Octave'
 import { RootDragLayerHorizontal } from './piano/RootButton'
-import { useDispatch, useSelector } from 'react-redux'
-import { selectIsEditorOpen } from '../../state/ui/ui-slice'
-import { selectSettings } from '../../state/settings/settings-slice'
-import { playChord, setSustainPedal } from '../../state/actions'
-import { selectSustainPedal } from '../../state/piano/piano-slice'
 
 const PianoWrapper = styled.div`
   position: sticky;
@@ -71,18 +71,17 @@ function Piano() {
   const [centerOctave, setCenterOctave] = useState<number>(5)
   const selfRef = useRef<HTMLDivElement>(null)
 
-  function onResize() {
-    const width = selfRef.current?.offsetWidth ?? 0
-    const newOctaves = calculateOctaveCount(width)
-    if (newOctaves !== octaves) setOctaves(newOctaves)
-  }
-
   useEffect(() => {
-    window.addEventListener('resize', onResize)
-    return () => window.removeEventListener('resize', onResize)
-    // eslint-disable-next-line
+    function handleResize() {
+      const width = selfRef.current?.offsetWidth ?? 0
+      const newOctaves = calculateOctaveCount(width)
+      setOctaves((prev) => (newOctaves !== prev ? newOctaves : prev))
+    }
+
+    handleResize() // Initial calculation
+    window.addEventListener('resize', handleResize)
+    return () => window.removeEventListener('resize', handleResize)
   }, [])
-  useEffect(onResize, [editorOpen])
 
   if (octaves === 0) return null
 

@@ -1,21 +1,21 @@
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import styled from 'styled-components'
-import { Input } from 'semantic-ui-react'
-import { ChordV1, IntervalNumber, Voicing } from '../../types'
-import { getChordName } from '../../utils/music/chords'
-import RootSelector from './chord-editor/RootSelector'
-import QualitySelector from './chord-editor/QualitySelector'
-import { Gap } from '../common/layout/whie-space'
-import VoicingEditor from './chord-editor/VoicingEditor'
-import OctaveSelector from './chord-editor/OctaveSelector'
-import { CenteredDiv } from '../common/layout/flex'
-import { SPACING_LENGTHS } from '../common/style-constants'
 import {
   selectActiveChord,
   selectActiveChordIndex,
-  setChord
+  setChord,
 } from '../../state/chord-map/chord-map-slice'
+import type { ChordV1, IntervalNumber, Voicing } from '../../types'
+import { getChordName } from '../../utils/music/chords'
+import { Input } from '../common/Input'
+import { CenteredDiv } from '../common/layout/flex'
+import { Gap } from '../common/layout/whie-space'
+import { SPACING_LENGTHS } from '../common/style-constants'
+import OctaveSelector from './chord-editor/OctaveSelector'
+import QualitySelector from './chord-editor/QualitySelector'
+import RootSelector from './chord-editor/RootSelector'
+import VoicingEditor from './chord-editor/VoicingEditor'
 
 const Wrapper = styled.div`
   display: flex;
@@ -52,7 +52,7 @@ function ChordEditor() {
     root: 0,
     octave: 4,
     voicing: [],
-    name: ''
+    name: '',
   }
   const activeChordIndex = useSelector(selectActiveChordIndex)
 
@@ -80,7 +80,7 @@ function ChordEditor() {
 
   const onChordRenamed = (name: string) => {
     if (activeChord && activeChordIndex !== null) {
-      dispatch(setChord({ chord: { ...activeChord, name: name.substr(0, 10) } }))
+      dispatch(setChord({ chord: { ...activeChord, name: name.slice(0, 10) } }))
     }
   }
 
@@ -100,7 +100,7 @@ function ChordEditor() {
           <RootSelectorSlot>
             <NarrowInput
               value={activeChord.name}
-              onChange={(e: any, data: { value: string }) => onChordRenamed(data.value)}
+              onChange={(_e: any, data: { value: string }) => onChordRenamed(data.value)}
             />
             <Gap size="s" />
             <QualitySelector onChange={onVoicingChanged} />

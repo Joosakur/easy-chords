@@ -1,11 +1,10 @@
-import React from 'react'
-import styled from 'styled-components'
+import type { IconProp } from '@fortawesome/fontawesome-svg-core'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { IconProp } from '@fortawesome/fontawesome-svg-core'
-import { Colors, SPACING_LENGTHS } from '../style-constants'
 import classNames from 'classnames'
-import { FixedSpacing } from '../layout/flex'
 import { shade, tint } from 'polished'
+import styled from 'styled-components'
+import { FixedSpacing } from '../layout/flex'
+import { Colors, SPACING_LENGTHS } from '../style-constants'
 
 interface StyledButtonProps {
   color: string
@@ -75,7 +74,7 @@ function ActionButton({
   color = Colors.grey.darker,
   hideText = false,
   disabled,
-  className
+  className,
 }: ActionButtonProps) {
   return (
     <StyledButton

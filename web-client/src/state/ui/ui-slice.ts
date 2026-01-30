@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { RootState } from '../root-reducer'
+import type { RootState } from '../root-reducer'
 
 export interface UIState {
   settingsOpen: boolean
@@ -8,7 +8,7 @@ export interface UIState {
 
 export const initialUIState: UIState = {
   settingsOpen: false,
-  editorOpen: false
+  editorOpen: false,
 }
 
 const uiSlice = createSlice({
@@ -32,8 +32,8 @@ const uiSlice = createSlice({
     },
     toggleEditor: (state) => {
       state.editorOpen = !state.editorOpen
-    }
-  }
+    },
+  },
 })
 
 export const selectIsEditorOpen = (state: RootState) => state.ui.editorOpen
@@ -45,7 +45,7 @@ export const {
   toggleSettings,
   openEditor,
   closeEditor,
-  toggleEditor
+  toggleEditor,
 } = uiSlice.actions
 
 export default uiSlice.reducer

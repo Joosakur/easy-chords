@@ -1,13 +1,12 @@
-import React from 'react'
 import styled from 'styled-components'
-import { H3 } from './typography'
-import { Gap } from './layout/whie-space'
-import { FixedSpacing } from './layout/flex'
-import { Colors, FadedColors } from './style-constants'
 import { StorySegment } from '../../utils/story-utils'
+import { FixedSpacing } from './layout/flex'
+import { Gap } from './layout/whie-space'
+import { Colors, FadedColors } from './style-constants'
+import { H3 } from './typography'
 
 export default {
-  title: 'colors'
+  title: 'colors',
 }
 
 const Row = styled.div`

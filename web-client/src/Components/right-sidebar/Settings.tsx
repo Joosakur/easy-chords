@@ -1,13 +1,13 @@
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import styled from 'styled-components'
-import { Input } from 'semantic-ui-react'
-import { H3 } from '../common/typography'
+import { chooseMidiDevice } from '../../state/actions'
+import { selectSettings, setHost, setMidiOutput } from '../../state/settings/settings-slice'
 import Dropdown from '../common/Dropdown'
+import { Input } from '../common/Input'
 import { Gap } from '../common/layout/whie-space'
 import { Colors } from '../common/style-constants'
-import { selectSettings, setHost, setMidiOutput } from '../../state/settings/settings-slice'
-import { chooseMidiDevice } from '../../state/actions'
+import { H3 } from '../common/typography'
 
 const Col = styled.div`
   display: flex;
@@ -25,13 +25,13 @@ function Settings() {
   const { midiDevices, midiOutput, host, midiDeviceIndex } = useSelector(selectSettings)
   const outputOptions = [
     { value: false, text: 'Play on browser (default piano)' },
-    { value: true, text: 'Use external MIDI' }
+    { value: true, text: 'Use external MIDI' },
   ]
 
   const midiDeviceOptions = midiDevices
     ? midiDevices.map((d, i) => ({
         text: `${d.name} - ${d.description}`,
-        value: i
+        value: i,
       }))
     : []
 
@@ -53,7 +53,7 @@ function Settings() {
 
           <label>Your local EasyChords server hostname or IP</label>
           <Gap size="xs" />
-          <Input fluid value={host} onChange={(e, data) => dispatch(setHost(data.value))} />
+          <Input fluid value={host} onChange={(_e, data) => dispatch(setHost(data.value))} />
 
           <Gap />
 
@@ -62,16 +62,14 @@ function Settings() {
           {midiDevices === null ? (
             <Dropdown placeholder="Loading devices ..." />
           ) : midiDevices.length > 0 ? (
-            <>
-              <Dropdown
-                placeholder="Select device"
-                options={midiDeviceOptions}
-                value={midiDeviceIndex !== null ? midiDeviceIndex : undefined}
-                onChange={(value) => {
-                  if (value !== undefined) dispatch(chooseMidiDevice(value as number))
-                }}
-              />
-            </>
+            <Dropdown
+              placeholder="Select device"
+              options={midiDeviceOptions}
+              value={midiDeviceIndex !== null ? midiDeviceIndex : undefined}
+              onChange={(value) => {
+                if (value !== undefined) dispatch(chooseMidiDevice(value as number))
+              }}
+            />
           ) : (
             <Warning>
               <H3>No external MIDI devices found</H3>

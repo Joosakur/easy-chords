@@ -1,7 +1,7 @@
+import classNames from 'classnames'
+import { lighten, shade, tint, transparentize } from 'polished'
 import React from 'react'
 import styled from 'styled-components'
-import { lighten, shade, tint, transparentize } from 'polished'
-import classNames from 'classnames'
 import { Colors, SPACING_LENGTHS } from '../style-constants'
 
 interface StyledButtonProps {
@@ -107,17 +107,16 @@ function PadButton({
   thin = false,
   toggle = false,
   color,
-  className
+  className,
 }: PadButtonProps) {
   return (
     <StyledButton
       className={classNames(className, { selected, empty, thin, toggle })}
       onMouseDown={(e: React.MouseEvent) => {
-        e.persist()
         const { x, y, width, height } = e.currentTarget.getBoundingClientRect()
         const xr = Math.max(0, Math.min(1, (e.clientX - x) / (width + 1)))
         const yr = Math.max(0, Math.min(1, (e.clientY - y) / (height + 1)))
-        onMouseDown && onMouseDown(xr, yr)
+        onMouseDown?.(xr, yr)
       }}
       onDragStart={(e) => e.preventDefault()}
       color={selected ? Colors.states.active : color || Colors.primary}

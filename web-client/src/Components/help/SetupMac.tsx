@@ -1,13 +1,12 @@
-import React from 'react'
-import { H2, H3 } from '../common/typography'
-import { Gap } from '../common/layout/whie-space'
+import styled from 'styled-components'
 import imgEasyChordsServer from '../../images/easy-chords-server-mac.png'
 import imgMac1 from '../../images/mac1-open-midi-studio.png'
 import imgMac2 from '../../images/mac2-activate-device.png'
 import imgMac3 from '../../images/mac3-create-bus.png'
 import imgMidiOutput from '../../images/midi-output-mac.png'
-import { CenteredDiv } from 'Components/common/layout/flex'
-import styled from 'styled-components'
+import { CenteredDiv } from '../common/layout/flex'
+import { Gap } from '../common/layout/whie-space'
+import { H2, H3 } from '../common/typography'
 
 const Splits = styled.div`
   display: flex;
@@ -43,7 +42,7 @@ export default function SetupMac() {
           <p className="text-high">
             Download the latest version of EasyChords Server from{' '}
             <a
-              href="https://s3-eu-west-1.amazonaws.com/easy-chords.io/server-downloads/EasyChords+Server+0.1.0.jar"
+              href="https://s3.eu-west-1.amazonaws.com/www.easy-chords.io/server-downloads/EasyChords+Server+0.1.0.jar"
               className="link"
             >
               here

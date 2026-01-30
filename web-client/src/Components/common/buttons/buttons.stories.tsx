@@ -1,16 +1,15 @@
-import React from 'react'
-import ActionButton from './ActionButton'
-import { FixedSpacing } from '../layout/flex'
 import { faAngleLeft, faAngleRight, faCog, faFileImport } from '@fortawesome/free-solid-svg-icons'
 import { action } from '@storybook/addon-actions'
-import { H3 } from '../typography'
-import { Gap } from '../layout/whie-space'
-import PadButton from './PadButton'
-import { Colors } from '../style-constants'
 import styled from 'styled-components'
 import { StorySegment } from '../../../utils/story-utils'
-import SelectionButton from './SelectionButton'
+import { FixedSpacing } from '../layout/flex'
+import { Gap } from '../layout/whie-space'
+import { Colors } from '../style-constants'
+import { H3 } from '../typography'
+import ActionButton from './ActionButton'
 import CircleActionButton from './CircleActionButton'
+import PadButton from './PadButton'
+import SelectionButton from './SelectionButton'
 
 const onClick = action('button clicked')
 const onMouseDown = action('mouse down')
@@ -50,7 +49,7 @@ const SelectionGrid2 = styled.div`
 `
 
 export default {
-  title: 'atoms'
+  title: 'atoms',
 }
 
 export const buttons = () => (

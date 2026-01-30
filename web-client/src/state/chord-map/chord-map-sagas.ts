@@ -1,6 +1,11 @@
 import { call, put, select, takeLatest } from 'redux-saga/effects'
+import api from '../../api/http-client'
+import type { ChordMapDefinitionV1, ChordV1 } from '../../types'
+import { getAbsoluteNotes } from '../../utils/music/chords'
+import { playChord } from '../piano/piano-saga-actions'
+import { chordClicked, importChordMap, loadChordMap } from './chord-map-saga-actions'
 import {
-  EditMode,
+  type EditMode,
   selectActiveChord,
   selectActiveChordIndex,
   selectChords,
@@ -8,17 +13,12 @@ import {
   setActiveChordIndex,
   setChord,
   setChords,
-  setEditMode
+  setEditMode,
 } from './chord-map-slice'
-import { ChordMapDefinitionV1, ChordV1 } from '../../types'
-import api from '../../api/http-client'
-import { chordClicked, importChordMap, loadChordMap } from './chord-map-saga-actions'
-import { playChord } from '../piano/piano-saga-actions'
-import { getAbsoluteNotes } from '../../utils/music/chords'
 
 function* chordClickedSaga(action: ReturnType<typeof chordClicked>) {
   const {
-    payload: { index, x }
+    payload: { index, x },
   } = action
 
   const editMode: EditMode = yield select(selectEditMode)
@@ -31,9 +31,9 @@ function* chordClickedSaga(action: ReturnType<typeof chordClicked>) {
         playChord({
           notes: getAbsoluteNotes(chord).map((note) => ({
             note,
-            velocity: velocity + Math.floor(Math.random() * 7)
-          }))
-        })
+            velocity: velocity + Math.floor(Math.random() * 7),
+          })),
+        }),
       )
     }
     yield put(setActiveChordIndex(index))

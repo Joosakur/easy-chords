@@ -1,5 +1,7 @@
-import isEqual from 'lodash/isEqual'
-import { ChordV1, GridVoicing, IntervalNumber, Voicing } from '../../types'
+import type { ChordV1, GridVoicing, IntervalNumber, Voicing } from '../../types'
+
+const setsEqual = <T>(a: Set<T>, b: Set<T>): boolean =>
+  a.size === b.size && [...a].every((v) => b.has(v))
 
 export const getAbsoluteNotes = (chord: ChordV1): number[] => {
   const { root, voicing, octave } = chord
@@ -59,7 +61,7 @@ export const getChordName = (root: IntervalNumber, voicing: Voicing) => {
   const rootName = rootNames[root]
 
   const voices = new Set(voicing.filter((v) => v !== null).map((v) => v % 12))
-  const qualityName = qualityNames.find((q) => isEqual(voices, q.voices))?.name ?? '?'
+  const qualityName = qualityNames.find((q) => setsEqual(voices, q.voices))?.name ?? '?'
   const firstVoice = voicing.find((v) => v !== null)
   const bass = firstVoice ? rootNames[(root + firstVoice) % 12] : rootName
 
@@ -112,7 +114,7 @@ const qualityNames: { voices: Set<IntervalNumber>; name: string }[] = [
   { voices: new Set<IntervalNumber>([0, 4, 7, 9]), name: '6' },
   { voices: new Set<IntervalNumber>([0, 4, 7, 9, 2]), name: '6/9' },
   { voices: new Set<IntervalNumber>([0, 4, 7, 9, 5]), name: '6/11' },
-  { voices: new Set<IntervalNumber>([0, 4, 7, 9, 2, 5]), name: '6/9/11' }
+  { voices: new Set<IntervalNumber>([0, 4, 7, 9, 2, 5]), name: '6/9/11' },
 ]
 
 const rootNames: string[] = ['C', 'Db', 'D', 'Eb', 'E', 'F', 'F#', 'G', 'Ab', 'A', 'Bb', 'B']

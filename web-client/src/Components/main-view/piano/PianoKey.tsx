@@ -1,18 +1,16 @@
-import React from 'react'
-import styled from 'styled-components'
+import { useDroppable } from '@dnd-kit/core'
 import classNames from 'classnames'
 import { lighten } from 'polished'
-import { useDrop } from 'react-dnd'
-import { Colors } from '../../common/style-constants'
+import type React from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import styled from 'styled-components'
 import { BWWR } from '../../../constants'
-import RootButton from './RootButton'
-import { connect, useDispatch } from 'react-redux'
 import { selectActiveChord } from '../../../state/chord-map/chord-map-slice'
-import { selectIsKeyDown } from '../../../state/piano/piano-slice'
 import { pianoKeyClicked } from '../../../state/piano/piano-saga-actions'
+import { selectIsKeyDown } from '../../../state/piano/piano-slice'
 import { selectIsEditorOpen } from '../../../state/ui/ui-slice'
-import { RootState } from '../../../state/root-reducer'
-import { ChordV1 } from '../../../types'
+import { Colors } from '../../common/style-constants'
+import RootButton from './RootButton'
 
 interface KeyButtonProps {
   interval?: number
@@ -60,7 +58,7 @@ const WhiteKeyButton = styled.button<KeyButtonProps>`
         ? `
       background: linear-gradient(#e7efe8, #e7efe8 10%, ${lighten(
         0.1,
-        Colors.interval[p.interval]
+        Colors.interval[p.interval],
       )});
       `
         : ''}
@@ -170,22 +168,19 @@ const RootPositioner = styled.div`
 interface PianoKeyProps {
   note: number
 }
-interface MappedProps {
-  editorOpen: boolean
-  pressed: boolean
-  activeChord: ChordV1 | null
-}
-function PianoKey({ note, editorOpen, pressed, activeChord }: PianoKeyProps & MappedProps) {
-  const dispatch = useDispatch()
 
-  const [{ canDrop, isOver }, drop] = useDrop({
-    accept: 'root',
-    drop: () => ({ note }),
-    collect: (monitor) => ({
-      isOver: monitor.isOver(),
-      canDrop: monitor.canDrop()
-    })
+function PianoKey({ note }: PianoKeyProps) {
+  const dispatch = useDispatch()
+  const editorOpen = useSelector(selectIsEditorOpen)
+  const pressed = useSelector(selectIsKeyDown(note))
+  const activeChord = useSelector(selectActiveChord)
+
+  const { isOver, setNodeRef, active } = useDroppable({
+    id: `piano-key-${note}`,
+    data: { note },
   })
+
+  const isDragging = active?.id === 'root'
 
   const interval = editorOpen && activeChord ? (note - activeChord.root) % 12 : undefined
   const state = {
@@ -193,11 +188,11 @@ function PianoKey({ note, editorOpen, pressed, activeChord }: PianoKeyProps & Ma
     active:
       editorOpen &&
       activeChord?.voicing?.includes(
-        note - (activeChord?.root ?? 0) - 12 * (activeChord?.octave ?? 0)
+        note - (activeChord?.root ?? 0) - 12 * (activeChord?.octave ?? 0),
       ),
-    dragging: editorOpen && canDrop && !isOver,
-    dropping: editorOpen && canDrop && isOver,
-    'below-root': activeChord && note < 12 * activeChord.octave + activeChord.root
+    dragging: editorOpen && isDragging && !isOver,
+    dropping: editorOpen && isDragging && isOver,
+    'below-root': activeChord && note < 12 * activeChord.octave + activeChord.root,
   }
 
   const onKeyPress = (e: React.MouseEvent) => {
@@ -211,14 +206,14 @@ function PianoKey({ note, editorOpen, pressed, activeChord }: PianoKeyProps & Ma
     <Wrapper>
       {black ? (
         <BlackKeyButton
-          ref={drop}
+          ref={setNodeRef}
           className={classNames(state)}
           onMouseDown={onKeyPress}
           interval={interval}
         />
       ) : (
         <WhiteKeyButton
-          ref={drop}
+          ref={setNodeRef}
           className={classNames(state)}
           onMouseDown={onKeyPress}
           interval={interval}
@@ -233,16 +228,4 @@ function PianoKey({ note, editorOpen, pressed, activeChord }: PianoKeyProps & Ma
   )
 }
 
-const makeMapStateToProps = () => {
-  const memoizedSelector = (key: number) => selectIsKeyDown(key)
-  return (state: RootState, props: PianoKeyProps) => {
-    const editorOpen = selectIsEditorOpen(state)
-    return {
-      editorOpen,
-      pressed: memoizedSelector(props.note)(state),
-      activeChord: editorOpen ? selectActiveChord(state) : null
-    }
-  }
-}
-
-export default connect(makeMapStateToProps)(PianoKey)
+export default PianoKey

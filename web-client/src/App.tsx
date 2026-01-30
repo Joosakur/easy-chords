@@ -1,27 +1,25 @@
-import React from 'react'
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
-import { DndProvider } from 'react-dnd'
-import { HTML5Backend } from 'react-dnd-html5-backend'
-import RootComponent from './Components/RootComponent'
+import { DndContext, PointerSensor, useSensor, useSensors } from '@dnd-kit/core'
+import { Route, Switch } from 'wouter'
 import GlobalStyles from './Components/common/GlobalStyles'
 import Help from './Components/Help'
+import RootComponent from './Components/RootComponent'
 
 function App() {
+  const sensors = useSensors(useSensor(PointerSensor))
+
   return (
-    <DndProvider backend={HTML5Backend}>
+    <DndContext sensors={sensors}>
       <GlobalStyles>
-        <Router>
-          <Switch>
-            <Route exact path="/app">
-              <RootComponent />
-            </Route>
-            <Route path="/">
-              <Help />
-            </Route>
-          </Switch>
-        </Router>
+        <Switch>
+          <Route path="/app">
+            <RootComponent />
+          </Route>
+          <Route>
+            <Help />
+          </Route>
+        </Switch>
       </GlobalStyles>
-    </DndProvider>
+    </DndContext>
   )
 }
 

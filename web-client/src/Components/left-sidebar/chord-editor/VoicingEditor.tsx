@@ -1,10 +1,11 @@
-import React, { useMemo } from 'react'
+import classNames from 'classnames'
+import type React from 'react'
+import { useMemo } from 'react'
 import styled from 'styled-components'
-import { IntervalNumber, Voicing } from '../../../types'
+import type { IntervalNumber, Voicing } from '../../../types'
+import { gridVoicingToVoicing, voicingToGridVoicing } from '../../../utils/music/chords'
 import { Colors, SPACING_LENGTHS } from '../../common/style-constants'
 import { SuperScript } from '../../common/typography'
-import classNames from 'classnames'
-import { gridVoicingToVoicing, voicingToGridVoicing } from '../../../utils/music/chords'
 
 const StyledTable = styled.table`
   border: none;
@@ -105,7 +106,7 @@ function IntervalRow({
   primaryName,
   secondaryName,
   onTableCellClicked,
-  interval
+  interval,
 }: IntervalRowProps) {
   const cols: IntervalNumber[] = [0, 1, 2, 3, 4, 5, 6]
   return (
@@ -113,7 +114,7 @@ function IntervalRow({
       className={classNames({
         common: primaryName.common || secondaryName?.common,
         rare: primaryName.rare && secondaryName?.rare,
-        active: selections.filter(Boolean).length > 0
+        active: selections.filter(Boolean).length > 0,
       })}
     >
       <td>
@@ -153,11 +154,11 @@ const rowData: RowData[] = [
   {
     primaryName: {
       name: <span>Root</span>,
-      common: true
+      common: true,
     },
     secondaryName: {
-      name: <span>Oct.</span>
-    }
+      name: <span>Oct.</span>,
+    },
   },
   {
     primaryName: {
@@ -167,12 +168,12 @@ const rowData: RowData[] = [
           <SuperScript>nd</SuperScript>
         </span>
       ),
-      rare: true
+      rare: true,
     },
     secondaryName: {
       name: <span>♭9</span>,
-      rare: true
-    }
+      rare: true,
+    },
   },
   {
     primaryName: {
@@ -181,11 +182,11 @@ const rowData: RowData[] = [
           <span>Maj 2</span>
           <SuperScript>nd</SuperScript>
         </span>
-      )
+      ),
     },
     secondaryName: {
-      name: <span>9</span>
-    }
+      name: <span>9</span>,
+    },
   },
   {
     primaryName: {
@@ -195,11 +196,11 @@ const rowData: RowData[] = [
           <SuperScript>rd</SuperScript>
         </span>
       ),
-      common: true
+      common: true,
     },
     secondaryName: {
-      name: <span>♯9</span>
-    }
+      name: <span>♯9</span>,
+    },
   },
   {
     primaryName: {
@@ -209,8 +210,8 @@ const rowData: RowData[] = [
           <SuperScript>rd</SuperScript>
         </span>
       ),
-      common: true
-    }
+      common: true,
+    },
   },
   {
     primaryName: {
@@ -219,11 +220,11 @@ const rowData: RowData[] = [
           <span>4</span>
           <SuperScript>th</SuperScript>
         </span>
-      )
+      ),
     },
     secondaryName: {
-      name: <span>11</span>
-    }
+      name: <span>11</span>,
+    },
   },
   {
     primaryName: {
@@ -232,12 +233,12 @@ const rowData: RowData[] = [
           <span>Dim 5</span>
           <SuperScript>th</SuperScript>
         </span>
-      )
+      ),
     },
     secondaryName: {
       name: <span>♯11</span>,
-      rare: true
-    }
+      rare: true,
+    },
   },
   {
     primaryName: {
@@ -247,8 +248,8 @@ const rowData: RowData[] = [
           <SuperScript>th</SuperScript>
         </span>
       ),
-      common: true
-    }
+      common: true,
+    },
   },
   {
     primaryName: {
@@ -258,12 +259,12 @@ const rowData: RowData[] = [
           <SuperScript>th</SuperScript>
         </span>
       ),
-      rare: true
+      rare: true,
     },
     secondaryName: {
       name: <span>♭13</span>,
-      rare: true
-    }
+      rare: true,
+    },
   },
   {
     primaryName: {
@@ -273,12 +274,12 @@ const rowData: RowData[] = [
           <SuperScript>th</SuperScript>
         </span>
       ),
-      rare: true
+      rare: true,
     },
     secondaryName: {
       name: <span>13</span>,
-      rare: true
-    }
+      rare: true,
+    },
   },
   {
     primaryName: {
@@ -287,8 +288,8 @@ const rowData: RowData[] = [
           <span>Min 7</span>
           <SuperScript>th</SuperScript>
         </span>
-      )
-    }
+      ),
+    },
   },
   {
     primaryName: {
@@ -297,9 +298,9 @@ const rowData: RowData[] = [
           <span>Maj 7</span>
           <SuperScript>th</SuperScript>
         </span>
-      )
-    }
-  }
+      ),
+    },
+  },
 ]
 
 function VoicingEditor({ voicing, onChange }: VoicingEditorProps) {
@@ -317,24 +318,20 @@ function VoicingEditor({ voicing, onChange }: VoicingEditorProps) {
   }
 
   return (
-    <>
-      <StyledTable>
-        <tbody>
-          {rowData.map(({ primaryName, secondaryName }, interval) => (
-            <IntervalRow
-              key={interval}
-              interval={interval as IntervalNumber}
-              primaryName={primaryName}
-              secondaryName={secondaryName}
-              selections={gridVoicing.map((voiceIndex) => voiceIndex === interval)}
-              onTableCellClicked={(voiceIndex) =>
-                onSelection(voiceIndex, interval as IntervalNumber)
-              }
-            />
-          ))}
-        </tbody>
-      </StyledTable>
-    </>
+    <StyledTable>
+      <tbody>
+        {rowData.map(({ primaryName, secondaryName }, interval) => (
+          <IntervalRow
+            key={interval}
+            interval={interval as IntervalNumber}
+            primaryName={primaryName}
+            secondaryName={secondaryName}
+            selections={gridVoicing.map((voiceIndex) => voiceIndex === interval)}
+            onTableCellClicked={(voiceIndex) => onSelection(voiceIndex, interval as IntervalNumber)}
+          />
+        ))}
+      </tbody>
+    </StyledTable>
   )
 }
 

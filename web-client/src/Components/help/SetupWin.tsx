@@ -1,12 +1,11 @@
-import React from 'react'
-import { H2, H3 } from '../common/typography'
-import { Gap } from '../common/layout/whie-space'
+import styled from 'styled-components'
+import imgCubase from '../../images/cubase.png'
 import imgEasyChordsServer from '../../images/easy-chords-server.png'
 import imgLoopMidi from '../../images/loop-midi.png'
 import imgMidiOutput from '../../images/midi-output.png'
-import imgCubase from '../../images/cubase.png'
-import { CenteredDiv, FixedSpacing } from 'Components/common/layout/flex'
-import styled from 'styled-components'
+import { CenteredDiv, FixedSpacing } from '../common/layout/flex'
+import { Gap } from '../common/layout/whie-space'
+import { H2, H3 } from '../common/typography'
 
 const Splits = styled.div`
   display: flex;
@@ -42,7 +41,7 @@ export default function SetupWin() {
           <p className="text-high">
             Download the latest version of EasyChords Server from{' '}
             <a
-              href="https://s3-eu-west-1.amazonaws.com/easy-chords.io/server-downloads/EasyChords+Server+0.1.0.jar"
+              href="https://s3.eu-west-1.amazonaws.com/www.easy-chords.io/server-downloads/EasyChords+Server+0.1.0.jar"
               className="link"
             >
               here

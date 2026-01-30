@@ -1,13 +1,13 @@
 import { call, put, select, takeLatest } from 'redux-saga/effects'
-import { selectSettings, setHost, setMidiOutput, SettingsState } from './settings-slice'
-import api, { MidiDevice } from '../../api/http-client'
+import api, { type MidiDevice } from '../../api/http-client'
 import { chooseMidiDevice, getMidiDevices } from './settings-saga-actions'
+import { type SettingsState, selectSettings, setHost, setMidiOutput } from './settings-slice'
 
 function* getMidiDevicesSaga() {
   try {
     const devices: MidiDevice[] = yield call(api.getDevices)
     yield put(getMidiDevices.fulfilled(devices))
-  } catch (e) {
+  } catch (_e) {
     yield put(getMidiDevices.rejected())
   }
 }
@@ -22,7 +22,7 @@ function* chooseMidiDeviceSaga(action: ReturnType<typeof chooseMidiDevice.reques
     const device = midiDevices[index]
     yield call(api.setDevice, device)
     yield put(chooseMidiDevice.fulfilled(index))
-  } catch (e) {
+  } catch (_e) {
     yield put(chooseMidiDevice.rejected())
   }
 }

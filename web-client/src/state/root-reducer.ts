@@ -1,8 +1,14 @@
 import { combineReducers } from 'redux'
-import settingsReducer, { initialSettingsState, SettingsState } from './settings/settings-slice'
-import uiReducer, { initialUIState, UIState } from './ui/ui-slice'
-import chordMapReducer, { ChordMapState, initialChordMapState } from './chord-map/chord-map-slice'
-import pianoReducer, { initialPianoState, PianoState } from './piano/piano-slice'
+import chordMapReducer, {
+  type ChordMapState,
+  initialChordMapState,
+} from './chord-map/chord-map-slice'
+import pianoReducer, { initialPianoState, type PianoState } from './piano/piano-slice'
+import settingsReducer, {
+  initialSettingsState,
+  type SettingsState,
+} from './settings/settings-slice'
+import uiReducer, { initialUIState, type UIState } from './ui/ui-slice'
 
 export interface RootState {
   settings: SettingsState
@@ -15,14 +21,14 @@ export const initialRootState: RootState = {
   settings: initialSettingsState,
   ui: initialUIState,
   chordMap: initialChordMapState,
-  piano: initialPianoState
+  piano: initialPianoState,
 }
 
-const rootReducer = combineReducers<RootState>({
+const rootReducer = combineReducers({
   settings: settingsReducer,
   ui: uiReducer,
   chordMap: chordMapReducer,
-  piano: pianoReducer
+  piano: pianoReducer,
 })
 
 export default rootReducer

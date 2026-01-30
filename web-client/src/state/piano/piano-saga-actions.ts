@@ -10,17 +10,17 @@ export interface PlayableChord {
 }
 
 export const pianoKeyClicked = createAction('piano/keyClicked', (note: number) => ({
-  payload: note
+  payload: note,
 }))
 
 export const playNote = createAction('piano/playNote', (note: PlayableNote) => ({ payload: note }))
 
 export const playChord = createAction('piano/playChord', (chord?: PlayableChord) => ({
-  payload: chord
+  payload: chord,
 }))
 
 export const stopNotes = createAction('piano/stopNotes')
 
 export const setSustainPedal = createAction('piano/sustainPedal', (down: boolean) => ({
-  payload: down
+  payload: down,
 }))
