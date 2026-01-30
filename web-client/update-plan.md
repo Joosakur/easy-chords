@@ -97,30 +97,35 @@
 
 ---
 
-## Phase 5: Update Storybook
+## Phase 5: Update Storybook - COMPLETE
 
 **Goal:** Update to modern Storybook with Vite (enables visual validation for later phases)
 
-**Remove:**
-- `@storybook/addon-knobs` (deprecated)
-- `@storybook/addons` (replaced by @storybook/manager-api)
+**Removed:**
+- `@storybook/addon-knobs`
+- `@storybook/addon-actions` (now in addon-essentials)
+- `@storybook/addon-links` (now in addon-essentials)
+- `@storybook/addons`
 - `@storybook/preset-create-react-app`
 
-**Update:**
-- `@storybook/react` → 8.x
-- `@storybook/addon-actions` → 8.x
-- `@storybook/addon-links` → 8.x
-- `@storybook/theming` → 8.x
+**Added:**
+- `storybook` ^8.6.15
+- `@storybook/react` ^8.x
+- `@storybook/react-vite` ^8.x
+- `@storybook/addon-essentials` ^8.x
+- `@storybook/addon-interactions` ^8.x
+- `@storybook/blocks` ^8.x
+- `@storybook/manager-api` ^8.x
+- `@storybook/theming` ^8.x
 
-**Add:**
-- `@storybook/react-vite`
-
-**Tasks:**
-1. Update Storybook packages
-2. Create new `.storybook/main.ts` config for Vite
-3. Migrate stories to CSF3 format
-4. Replace knobs with built-in controls (args)
-5. Update storybook scripts in package.json
+**Completed:**
+1. Removed 1333 old packages, added 171 new (net -1162 packages!)
+2. Vulnerabilities reduced from 59 to 2
+3. Created new `.storybook/main.ts` config for Vite
+4. Updated `.storybook/preview.tsx` with new decorator format, replaced redux-mock-store with real store
+5. Updated `.storybook/manager.ts` with new API
+6. Migrated `flex.stories.tsx` from knobs to CSF3 with args/controls
+7. Updated storybook scripts in package.json
 
 ---
 
