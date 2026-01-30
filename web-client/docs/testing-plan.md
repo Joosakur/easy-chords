@@ -64,16 +64,20 @@ This document outlines the multi-phase plan for adding unit test coverage to the
 
 ---
 
-## Phase 4: Redux Saga Tests
+## Phase 4: Redux Saga Tests (COMPLETED)
 
-Test saga side effect logic using `redux-saga-test-plan`.
+- [x] `chord-map-sagas.ts` - 14 tests (chordClickedSaga, importChordMapSaga)
+- [x] `piano-sagas.ts` - 16 tests (pianoKeyClickedSaga, playNoteSaga, playChordSaga, stopNotesSaga, setSustainPedalSaga)
 
 | Saga | Test Focus |
 |------|-----------|
 | `chordClickedSaga` | Normal mode plays chord, copy/swap modes, velocity calculation |
+| `importChordMapSaga` | Valid v1 import, invalid JSON, unsupported version |
 | `pianoKeyClickedSaga` | Editor closed → plays note, editor open → toggles voicing |
 | `playNoteSaga` | Routes to MIDI API vs Web Audio based on settings |
-| `playChordSaga` | Stops previous notes, plays new notes, MIDI vs Web Audio routing |
+| `playChordSaga` | Stops previous notes, plays new notes, uses active chord if none provided |
+| `stopNotesSaga` | Clears keys for both MIDI and Web Audio modes |
+| `setSustainPedalSaga` | Sends CC message only when MIDI enabled |
 
 ---
 
@@ -94,7 +98,7 @@ Create `.github/workflows/test.yml`:
 | 1 | Setup | - |
 | 2 | Music utils | 91 |
 | 3 | Redux slices | 77 |
-| 4 | Sagas | ~15-20 |
+| 4 | Sagas | 30 |
 | 5 | CI | (workflow file) |
 
-**Current total:** 168 tests
+**Current total:** 198 tests

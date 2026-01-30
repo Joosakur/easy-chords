@@ -26,7 +26,7 @@ import {
 } from './piano-saga-actions'
 import { pianoKeyDown, pianoKeysUp, selectKeysDown } from './piano-slice'
 
-const midiChannel = 1
+const channel = 1
 
 const ccCodes = {
   sustain: 64,
@@ -52,7 +52,7 @@ const defaultVelocity = 80
  * - Normalizes octave (removes empty octaves at start)
  * - Recalculates chord name
  */
-function* pianoKeyClickedSaga({ payload: note }: ReturnType<typeof pianoKeyClicked>) {
+export function* pianoKeyClickedSaga({ payload: note }: ReturnType<typeof pianoKeyClicked>) {
   const editorOpen: boolean = yield select(selectIsEditorOpen)
   const activeChord: ChordV1 | null = yield select(selectActiveChord)
   if (editorOpen && activeChord) {
@@ -89,12 +89,12 @@ function* pianoKeyClickedSaga({ payload: note }: ReturnType<typeof pianoKeyClick
   }
 }
 
-function* playNoteSaga({ payload: { note, velocity } }: ReturnType<typeof playNote>) {
+export function* playNoteSaga({ payload: { note, velocity } }: ReturnType<typeof playNote>) {
   yield put(pianoKeyDown(note))
 
   if (yield select(selectIsUsingMidi)) {
     try {
-      const event: NoteEvent = { note, midiChannel, velocity }
+      const event: NoteEvent = { note, channel, velocity }
       yield call(api.playNote, event)
     } catch (_e) {
       console.warn('could not play the note')
@@ -108,7 +108,7 @@ function* playNoteSaga({ payload: { note, velocity } }: ReturnType<typeof playNo
  * Plays a chord, stopping any previously held notes.
  * If no chord provided, plays the currently active chord from the grid.
  */
-function* playChordSaga({ payload }: ReturnType<typeof playChord>) {
+export function* playChordSaga({ payload }: ReturnType<typeof playChord>) {
   const previousNotes: number[] = yield select(selectKeysDown)
   yield put(pianoKeysUp())
 
@@ -134,7 +134,7 @@ function* playChordSaga({ payload }: ReturnType<typeof playChord>) {
   if (yield select(selectIsUsingMidi)) {
     try {
       const event: ChordEvent = {
-        playNotes: chord.notes.map(({ note, velocity }) => ({ note, midiChannel, velocity })),
+        playNotes: chord.notes.map(({ note, velocity }) => ({ note, channel, velocity })),
         stopNotes: previousNotes.map((note) => ({ note, channel })),
       }
       yield call(api.playChord, event)
@@ -149,7 +149,7 @@ function* playChordSaga({ payload }: ReturnType<typeof playChord>) {
 }
 
 /** Releases all currently held notes (MIDI only; Web Audio notes decay naturally). */
-function* stopNotesSaga() {
+export function* stopNotesSaga() {
   if (yield select(selectIsUsingMidi)) {
     try {
       const keysDown: number[] = yield select(selectKeysDown)
@@ -167,14 +167,14 @@ function* stopNotesSaga() {
 }
 
 /** Sends sustain pedal CC message. Only works with MIDI output. */
-function* setSustainPedalSaga(action: ReturnType<typeof setSustainPedal>) {
+export function* setSustainPedalSaga(action: ReturnType<typeof setSustainPedal>) {
   if (!(yield select(selectIsUsingMidi))) return
 
   try {
     const event: CCEvent = {
       cc: ccCodes.sustain,
       value: action.payload ? ccValues.on : ccValues.off,
-      midiChannel,
+      channel,
     }
     yield call(api.sendCC, event)
   } catch (_e) {

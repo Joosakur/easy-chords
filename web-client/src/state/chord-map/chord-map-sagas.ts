@@ -16,7 +16,7 @@ import {
   setEditMode,
 } from './chord-map-slice'
 
-function* chordClickedSaga(action: ReturnType<typeof chordClicked>) {
+export function* chordClickedSaga(action: ReturnType<typeof chordClicked>) {
   const {
     payload: { index, x },
   } = action
@@ -56,7 +56,7 @@ function* chordClickedSaga(action: ReturnType<typeof chordClicked>) {
   }
 }
 
-function* loadChordMapSaga(action: ReturnType<typeof loadChordMap>) {
+export function* loadChordMapSaga(action: ReturnType<typeof loadChordMap>) {
   try {
     const chordMap: ChordMapDefinitionV1 = yield call(api.getChordMapPreset, action.payload)
     yield put(setChords(chordMap.chords))
@@ -65,7 +65,7 @@ function* loadChordMapSaga(action: ReturnType<typeof loadChordMap>) {
   }
 }
 
-function* importChordMapSaga(action: ReturnType<typeof importChordMap>) {
+export function* importChordMapSaga(action: ReturnType<typeof importChordMap>) {
   yield put(setActiveChordIndex(null))
   try {
     const chordMap = JSON.parse(action.payload)
