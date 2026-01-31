@@ -12,7 +12,7 @@ plugins {
 }
 
 group = "fi.ardento.easy-chords"
-version = "0.0.1-SNAPSHOT"
+version = "0.1.0"
 
 java {
     toolchain {
@@ -50,4 +50,8 @@ tasks.withType<KotlinCompile> {
 
 tasks.getByName<BootJar>("bootJar") {
     mainClass.set("fi.ardento.easychords.midiserver.MainKt")
+}
+
+springBoot {
+    buildInfo()
 }
