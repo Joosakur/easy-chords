@@ -24,12 +24,14 @@ import org.mockito.kotlin.whenever
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.http.HttpStatus
+import org.springframework.test.context.ActiveProfiles
 import javax.sound.midi.MidiSystem
 import javax.sound.midi.MidiUnavailableException
 import javax.sound.midi.Receiver
 import javax.sound.midi.ShortMessage
 
 @SpringBootTest
+@ActiveProfiles("test")
 class MidiServerTest {
     @Autowired
     private lateinit var deviceController: DeviceController
