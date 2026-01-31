@@ -108,10 +108,10 @@ jobs:
           aws-region: eu-west-1
 
       - name: Deploy web client to S3
-        run: aws s3 sync web-client/build/ s3://${{ secrets.AWS_S3_BUCKET }}/ --delete
+        run: aws s3 sync web-client/build/ s3://${{ secrets.AWS_S3_BUCKET }}/ --delete --acl public-read
 
       - name: Deploy MIDI server JAR to S3
-        run: aws s3 cp midi-server/build/libs/easy-chords-midi-server-*.jar s3://${{ secrets.AWS_S3_BUCKET }}/server-downloads/easy-chords-midi-server.jar
+        run: aws s3 cp midi-server/build/libs/easy-chords-midi-server-*.jar s3://${{ secrets.AWS_S3_BUCKET }}/server-downloads/easy-chords-midi-server.jar --acl public-read
 
       - name: Invalidate CloudFront cache
         run: aws cloudfront create-invalidation --distribution-id ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }} --paths "/index.html"
