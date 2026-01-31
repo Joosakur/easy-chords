@@ -3,6 +3,8 @@ package fi.ardento.easychords.midiserver
 import org.springframework.boot.CommandLineRunner
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.builder.SpringApplicationBuilder
+import org.springframework.context.annotation.Profile
+import org.springframework.stereotype.Component
 import java.net.InetAddress
 import javax.swing.Box
 import javax.swing.BoxLayout
@@ -12,7 +14,11 @@ import javax.swing.JPanel
 import javax.swing.JTextField
 
 @SpringBootApplication
-class EasyChordsMidiServer : CommandLineRunner {
+class EasyChordsMidiServer
+
+@Component
+@Profile("!test")
+class ServerGuiRunner : CommandLineRunner {
     override fun run(vararg args: String) {
         val inetAddress = InetAddress.getLocalHost()
 

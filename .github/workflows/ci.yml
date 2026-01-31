@@ -44,3 +44,26 @@ jobs:
       - name: Run e2e tests
         working-directory: web-client
         run: npm run test:e2e
+
+  midi-server:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '25'
+          cache: 'gradle'
+          cache-dependency-path: midi-server/*.gradle*
+
+      - name: Run ktlint check
+        working-directory: midi-server
+        run: ./gradlew ktlintCheck
+
+      - name: Run tests
+        working-directory: midi-server
+        run: ./gradlew test
