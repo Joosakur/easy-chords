@@ -92,13 +92,19 @@ jobs:
           cache: 'gradle'
           cache-dependency-path: midi-server/*.gradle*
 
-      - name: Build web client
-        working-directory: web-client
-        run: npm ci && npm run build
+      - name: Extract MIDI server version
+        id: midi-version
+        run: echo "version=$(grep '^version = ' midi-server/build.gradle.kts | sed 's/version = \"\(.*\)\"/\1/')" >> $GITHUB_OUTPUT
 
       - name: Build MIDI server JAR
         working-directory: midi-server
         run: ./gradlew bootJar
+
+      - name: Build web client
+        working-directory: web-client
+        run: npm ci && npm run build
+        env:
+          VITE_MIDI_SERVER_VERSION: ${{ steps.midi-version.outputs.version }}
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
@@ -111,7 +117,7 @@ jobs:
         run: aws s3 sync web-client/build/ s3://${{ secrets.AWS_S3_BUCKET }}/ --delete --acl public-read
 
       - name: Deploy MIDI server JAR to S3
-        run: aws s3 cp midi-server/build/libs/easy-chords-midi-server-*.jar s3://${{ secrets.AWS_S3_BUCKET }}/server-downloads/easy-chords-midi-server.jar --acl public-read
+        run: aws s3 sync midi-server/build/libs/ s3://${{ secrets.AWS_S3_BUCKET }}/server-downloads/ --acl public-read
 
       - name: Invalidate CloudFront cache
         run: aws cloudfront create-invalidation --distribution-id ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }} --paths "/index.html"

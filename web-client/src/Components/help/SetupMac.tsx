@@ -42,7 +42,7 @@ export default function SetupMac() {
           <p className="text-high">
             Download the latest version of EasyChords Server from{' '}
             <a
-              href="https://s3.eu-west-1.amazonaws.com/www.easy-chords.io/server-downloads/EasyChords+Server+0.1.0.jar"
+              href={`https://s3.eu-west-1.amazonaws.com/www.easy-chords.io/server-downloads/easy-chords-midi-server-${import.meta.env.VITE_MIDI_SERVER_VERSION}.jar`}
               className="link"
             >
               here

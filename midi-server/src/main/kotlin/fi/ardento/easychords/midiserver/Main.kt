@@ -3,6 +3,7 @@ package fi.ardento.easychords.midiserver
 import org.springframework.boot.CommandLineRunner
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.builder.SpringApplicationBuilder
+import org.springframework.boot.info.BuildProperties
 import org.springframework.context.annotation.Profile
 import org.springframework.stereotype.Component
 import java.net.InetAddress
@@ -18,11 +19,13 @@ class EasyChordsMidiServer
 
 @Component
 @Profile("!test")
-class ServerGuiRunner : CommandLineRunner {
+class ServerGuiRunner(
+    private val buildProperties: BuildProperties,
+) : CommandLineRunner {
     override fun run(vararg args: String) {
         val inetAddress = InetAddress.getLocalHost()
 
-        val frame = JFrame("EasyChords Server")
+        val frame = JFrame("EasyChords Server v${buildProperties.version}")
         frame.defaultCloseOperation = JFrame.EXIT_ON_CLOSE
         frame.setSize(400, 200)
         val panel = JPanel()
