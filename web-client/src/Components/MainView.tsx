@@ -93,7 +93,7 @@ function MainView() {
           <div />
         )}
 
-        <H1 fitted>EasyChords</H1>
+        <H1 $fitted>EasyChords</H1>
 
         <FixedSpacing>
           <ActionButton

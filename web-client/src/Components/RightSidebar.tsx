@@ -80,7 +80,7 @@ function RightSidebar() {
           onClick={() => dispatch(closeSettings())}
           color={Colors.grey.darker}
         />
-        <H2 fitted>Settings</H2>
+        <H2 $fitted>Settings</H2>
       </TopRow>
       <Gap />
       <Settings />
