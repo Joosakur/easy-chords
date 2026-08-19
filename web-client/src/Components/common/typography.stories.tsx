@@ -8,7 +8,7 @@ export default {
 }
 
 export const headings = () => (
-  <StorySegment color={Colors.grey.darker}>
+  <StorySegment $color={Colors.grey.darker}>
     <H1>EasyChords</H1>
     <Gap />
 
@@ -24,7 +24,7 @@ export const headings = () => (
 )
 
 export const subAndSuperScripts = () => (
-  <StorySegment color={Colors.grey.darker}>
+  <StorySegment $color={Colors.grey.darker}>
     <div className="text-high">
       <span>C</span>
       <SuperScript>7</SuperScript>

@@ -5,7 +5,7 @@ import styled from 'styled-components'
 import { FadedColors } from '../style-constants'
 
 interface StyledButtonProps {
-  color: string
+  $color: string
 }
 const StyledButton = styled.button<StyledButtonProps>`
   display: flex;
@@ -22,17 +22,17 @@ const StyledButton = styled.button<StyledButtonProps>`
   outline: none;
   cursor: pointer;
 
-  background: ${(p) => p.color};
-  box-shadow: 1px 2px 1px ${(p) => shade(0.5, p.color)}, 1px 3px 5px 3px rgba(0, 0, 0, 0.6),
+  background: ${(p) => p.$color};
+  box-shadow: 1px 2px 1px ${(p) => shade(0.5, p.$color)}, 1px 3px 5px 3px rgba(0, 0, 0, 0.6),
     inset 1px 1px 1px rgba(255, 255, 255, 0.3), inset 1px 3px 0.6rem rgba(255, 255, 255, 0.3);
 
   &:hover {
-    background: ${(p) => tint(0.06, p.color)};
+    background: ${(p) => tint(0.06, p.$color)};
   }
   &:active,
   &.selected {
-    background: ${(p) => shade(0.06, p.color)};
-    box-shadow: 1px 1px 0 ${(p) => shade(0.5, p.color)}, 1px 2px 1px 1px rgba(0, 0, 0, 0.15),
+    background: ${(p) => shade(0.06, p.$color)};
+    box-shadow: 1px 1px 0 ${(p) => shade(0.5, p.$color)}, 1px 2px 1px 1px rgba(0, 0, 0, 0.15),
       inset 1px 1px 2px rgba(255, 255, 255, 0.1), inset 1px 2px 0.6rem rgba(255, 255, 255, 0.1);
     margin-top: 1px;
     margin-bottom: -1px;
@@ -66,7 +66,7 @@ function SelectionButton({
     <StyledButton
       className={classNames(className, { circular, selected })}
       onClick={() => onClick()}
-      color={selected ? FadedColors.states.active : FadedColors.primary}
+      $color={selected ? FadedColors.states.active : FadedColors.primary}
       data-test={dataTest}
     >
       <div className="text-high">{children}</div>

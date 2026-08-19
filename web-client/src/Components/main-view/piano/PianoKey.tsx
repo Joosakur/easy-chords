@@ -13,7 +13,7 @@ import { Colors } from '../../common/style-constants'
 import RootButton from './RootButton'
 
 interface KeyButtonProps {
-  interval?: number
+  $interval?: number
 }
 
 const Wrapper = styled.div`
@@ -36,29 +36,29 @@ const WhiteKeyButton = styled.button<KeyButtonProps>`
     inset 0 0 5px rgba(33, 32, 32, 0.45), inset 0 7px 7px -4px rgba(26, 26, 26, 0.75);
 
   ${(p) =>
-    p.interval !== undefined
+    p.$interval !== undefined
       ? `
-    border-top: 4px solid ${Colors.interval[p.interval]};
+    border-top: 4px solid ${Colors.interval[p.$interval]};
     `
       : ''}
 
   &.active, &:hover, &.dropping, &.dropping.below-root {
     ${(p) =>
-      p.interval !== undefined
+      p.$interval !== undefined
         ? `
-      border-top: 12px solid ${Colors.interval[p.interval]};
-      background: linear-gradient(#e7efe8, #e7efe8 25%, ${Colors.interval[p.interval]});
+      border-top: 12px solid ${Colors.interval[p.$interval]};
+      background: linear-gradient(#e7efe8, #e7efe8 25%, ${Colors.interval[p.$interval]});
       `
         : ''}
   }
 
   &.active:hover {
     ${(p) =>
-      p.interval !== undefined
+      p.$interval !== undefined
         ? `
       background: linear-gradient(#e7efe8, #e7efe8 10%, ${lighten(
         0.1,
-        Colors.interval[p.interval],
+        Colors.interval[p.$interval],
       )});
       `
         : ''}
@@ -99,18 +99,18 @@ const BlackKeyButton = styled.button<KeyButtonProps>`
   box-shadow: inset 1px 2px 2px 2px rgba(188, 198, 201, 0.7), 3px 5px 20px 2px #262525;
 
   ${(p) =>
-    p.interval !== undefined
+    p.$interval !== undefined
       ? `
-    border-top: 4px solid ${Colors.interval[p.interval]};
+    border-top: 4px solid ${Colors.interval[p.$interval]};
     `
       : ''}
 
   &.active, &:hover, &.dropping, &.dropping.below-root {
     ${(p) =>
-      p.interval !== undefined
+      p.$interval !== undefined
         ? `
-      border-top: 12px solid ${Colors.interval[p.interval]};
-      background: linear-gradient(#181818, #181818 20%, ${Colors.interval[p.interval]});
+      border-top: 12px solid ${Colors.interval[p.$interval]};
+      background: linear-gradient(#181818, #181818 20%, ${Colors.interval[p.$interval]});
       `
         : ''}
   }
@@ -212,14 +212,14 @@ function PianoKey({ note }: PianoKeyProps) {
           ref={setNodeRef}
           className={classNames(state)}
           onMouseDown={onKeyPress}
-          interval={interval}
+          $interval={interval}
         />
       ) : (
         <WhiteKeyButton
           ref={setNodeRef}
           className={classNames(state)}
           onMouseDown={onKeyPress}
-          interval={interval}
+          $interval={interval}
         />
       )}
       {editorOpen && activeChord && note === 12 * activeChord.octave + activeChord.root && (

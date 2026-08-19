@@ -17,27 +17,27 @@ const Row = styled.div`
 `
 
 interface ColorCircleProps {
-  color: string
-  border?: string
+  $color: string
+  $border?: string
 }
 const ColorCircle = styled.div<ColorCircleProps>`
   height: 90px;
   width: 90px;
   border-radius: 100%;
-  background-color: ${(p) => p.color};
-  ${(p) => (p.border ? `border: 1px solid ${p.border};` : '')}
+  background-color: ${(p) => p.$color};
+  ${(p) => (p.$border ? `border: 1px solid ${p.$border};` : '')}
 `
 
 const ColorPreview = (props: { color: string; label: string; border?: string }) => (
-  <FixedSpacing column spacing="s">
-    <ColorCircle color={props.color} border={props.border} />
+  <FixedSpacing $column $spacing="s">
+    <ColorCircle $color={props.color} $border={props.border} />
     <label>{props.label}</label>
   </FixedSpacing>
 )
 
 export const palette = () => (
   <Row>
-    <StorySegment color={Colors.grey.dark}>
+    <StorySegment $color={Colors.grey.dark}>
       <H3>Greyscale</H3>
       <FixedSpacing>
         <ColorPreview color={Colors.grey.darker} label="darker" />
@@ -59,7 +59,7 @@ export const palette = () => (
       <Gap />
 
       <H3>Interval Associations</H3>
-      <FixedSpacing wrap>
+      <FixedSpacing $wrap>
         <ColorPreview color={Colors.interval[0]} label="1st / 8th" />
         <ColorPreview color={Colors.interval[1]} label="min 2nd" />
         <ColorPreview color={Colors.interval[2]} label="maj 2nd" />
@@ -76,7 +76,7 @@ export const palette = () => (
       <Gap />
     </StorySegment>
 
-    <StorySegment color={Colors.grey.darker}>
+    <StorySegment $color={Colors.grey.darker}>
       <H3>Greyscale</H3>
       <FixedSpacing>
         <ColorPreview color={Colors.grey.darker} border={Colors.grey.dark} label="darker" />
@@ -98,7 +98,7 @@ export const palette = () => (
       <Gap />
 
       <H3>Interval Associations</H3>
-      <FixedSpacing wrap>
+      <FixedSpacing $wrap>
         <ColorPreview color={Colors.interval[0]} label="1st / 8th" />
         <ColorPreview color={Colors.interval[1]} label="min 2nd" />
         <ColorPreview color={Colors.interval[2]} label="maj 2nd" />

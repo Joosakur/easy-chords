@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/react'
+import type { Meta, StoryObj } from '@storybook/react-vite'
 import styled from 'styled-components'
 import { FixedSpacing } from './flex'
 
@@ -12,8 +12,8 @@ const meta: Meta<typeof FixedSpacing> = {
   title: 'layout/flex',
   component: FixedSpacing,
   argTypes: {
-    column: { control: 'boolean' },
-    spacing: {
+    $column: { control: 'boolean' },
+    $spacing: {
       control: 'select',
       options: ['xs', 's', 'm', 'L', 'XL'],
     },
@@ -25,8 +25,8 @@ type Story = StoryObj<typeof FixedSpacing>
 
 export const fixedSpacing: Story = {
   args: {
-    column: false,
-    spacing: 'm',
+    $column: false,
+    $spacing: 'm',
   },
   render: (args) => (
     <FixedSpacing {...args}>

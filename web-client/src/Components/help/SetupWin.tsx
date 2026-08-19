@@ -59,7 +59,7 @@ export default function SetupWin() {
         </SplitRight>
       </Splits>
 
-      <Gap size="XL" />
+      <Gap $size="XL" />
 
       <Splits>
         <SplitLeft>
@@ -93,7 +93,7 @@ export default function SetupWin() {
         </SplitRight>
       </Splits>
 
-      <Gap size="XL" />
+      <Gap $size="XL" />
 
       <Splits>
         <SplitLeft>
@@ -116,7 +116,7 @@ export default function SetupWin() {
         </SplitRight>
       </Splits>
 
-      <Gap size="L" />
+      <Gap $size="L" />
 
       <Splits>
         <SplitLeft>
@@ -136,7 +136,7 @@ export default function SetupWin() {
         </SplitLeft>
         <SplitRight>
           <CenteredDiv>
-            <FixedSpacing column spacing="s">
+            <FixedSpacing $column $spacing="s">
               <img src={imgCubase} alt="Screenshot" width="400px" />
               <span className="text-medium">Example in Cubase</span>
             </FixedSpacing>

@@ -94,8 +94,8 @@ const TableRow = styled.tr`
   }
 `
 
-const ColoredTd = styled.td<{ color: string }>`
-  background: ${(p) => p.color};
+const ColoredTd = styled.td<{ $color: string }>`
+  background: ${(p) => p.$color};
   cursor: pointer;
 `
 
@@ -144,7 +144,7 @@ function IntervalRow({
       {cols.map((col) => (
         <ColoredTd
           key={col}
-          color={selections[col] ? '#ffffff' : Colors.interval[interval]}
+          $color={selections[col] ? '#ffffff' : Colors.interval[interval]}
           onClick={() => onTableCellClicked(col)}
         />
       ))}

@@ -60,7 +60,7 @@ export default function SetupMac() {
         </SplitRight>
       </Splits>
 
-      <Gap size="XL" />
+      <Gap $size="XL" />
 
       <H3>2. Setup a virtual MIDI cable</H3>
       <p className="text-high">
@@ -96,7 +96,7 @@ export default function SetupMac() {
         <img src={imgMac3} alt="Screenshot" />
       </CenteredDiv>
 
-      <Gap size="XL" />
+      <Gap $size="XL" />
 
       <Splits>
         <SplitLeft>
@@ -119,7 +119,7 @@ export default function SetupMac() {
         </SplitRight>
       </Splits>
 
-      <Gap size="L" />
+      <Gap $size="L" />
 
       <H3>4. Select MIDI input in your DAW and start playing</H3>
       <ul className="text-high">

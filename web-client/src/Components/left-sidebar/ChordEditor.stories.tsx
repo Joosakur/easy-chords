@@ -1,4 +1,4 @@
-import { action } from '@storybook/addon-actions'
+import { action } from 'storybook/actions'
 import styled from 'styled-components'
 import { Colors } from '../common/style-constants'
 import OctaveSelector from './chord-editor/OctaveSelector'

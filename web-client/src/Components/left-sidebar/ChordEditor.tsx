@@ -87,7 +87,7 @@ function ChordEditor() {
   if (activeChordIndex === null)
     return (
       <Wrapper>
-        <Gap size="s" />
+        <Gap $size="s" />
         <span className="text-medium">Select chord to edit</span>
         <div style={{ flexGrow: 1 }} />
       </Wrapper>
@@ -104,9 +104,9 @@ function ChordEditor() {
                 onChordRenamed(data.value)
               }
             />
-            <Gap size="s" />
+            <Gap $size="s" />
             <QualitySelector onChange={onVoicingChanged} />
-            <Gap size="s" />
+            <Gap $size="s" />
             <OctaveSelector
               octave={activeChord.octave}
               min={1}
@@ -119,7 +119,7 @@ function ChordEditor() {
 
       <div>
         <label className="text-high">Chord Voicing</label>
-        <Gap size="s" />
+        <Gap $size="s" />
         <VoicingEditor voicing={activeChord.voicing} onChange={onVoicingChanged} />
       </div>
     </Wrapper>

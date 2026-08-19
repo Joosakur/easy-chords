@@ -48,7 +48,7 @@ const Padded = styled.div`
 `
 
 interface ContentProps {
-  editorOpen: boolean
+  $editorOpen: boolean
 }
 
 const Content = styled.div<ContentProps>`
@@ -61,12 +61,12 @@ const Content = styled.div<ContentProps>`
   padding: ${SPACING_LENGTHS.m};
 
   @media screen and (max-width: ${(p) =>
-    p.editorOpen ? math(`${rem('2200px')} + 33rem`) : '2200px'}) {
+    p.$editorOpen ? math(`${rem('2200px')} + 33rem`) : '2200px'}) {
     max-width: 80%;
   }
 
   @media screen and (max-width: ${(p) =>
-    p.editorOpen ? math(`${rem('1600px')} + 33rem`) : '1600px'}) {
+    p.$editorOpen ? math(`${rem('1600px')} + 33rem`) : '1600px'}) {
     width: unset;
     max-width: 100%;
     margin: 0;
@@ -114,7 +114,7 @@ function MainView() {
       </TitleBar>
 
       <Padded>
-        <Content editorOpen={editorOpen}>
+        <Content $editorOpen={editorOpen}>
           <ActionBar />
           <Gap />
           <div style={{ flexGrow: 3 }} />
