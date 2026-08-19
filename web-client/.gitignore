@@ -24,3 +24,6 @@ yarn-error.log*
 
 storybook-static/
 test-results/
+
+# build info
+tsconfig.tsbuildinfo
