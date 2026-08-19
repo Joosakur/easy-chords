@@ -17,7 +17,7 @@ interface OctaveSelectorProps {
 
 function OctaveSelector({ octave, min, max, onChange }: OctaveSelectorProps) {
   return (
-    <FixedSpacing spacing="s">
+    <FixedSpacing $spacing="s">
       <CircleActionButton
         icon={faCaretLeft}
         altText="Octave down"

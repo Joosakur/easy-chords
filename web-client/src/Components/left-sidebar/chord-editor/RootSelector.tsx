@@ -10,13 +10,13 @@ const Wrapper = styled.div`
   height: 26rem;
 `
 
-const ButtonWrapper = styled.div<{ pos: IntervalNumber }>`
+const ButtonWrapper = styled.div<{ $pos: IntervalNumber }>`
   font-size: 1.1em;
   position: absolute;
   top: ${(p) =>
-    `calc(${100 * (0.5 - 0.43 * Math.sin(Math.PI / 2 - (p.pos * Math.PI) / 6.0))}% - 1.3em)`};
+    `calc(${100 * (0.5 - 0.43 * Math.sin(Math.PI / 2 - (p.$pos * Math.PI) / 6.0))}% - 1.3em)`};
   left: ${(p) =>
-    `calc(${100 * (0.5 + 0.43 * Math.cos(Math.PI / 2 - (p.pos * Math.PI) / 6.0))}% - 1.3em)`};
+    `calc(${100 * (0.5 + 0.43 * Math.cos(Math.PI / 2 - (p.$pos * Math.PI) / 6.0))}% - 1.3em)`};
 `
 
 const CenterSlotWrapper = styled.div`
@@ -44,7 +44,7 @@ function RootSelector({ root, onChange, children }: RootSelectorProps) {
     <Wrapper>
       <CenterSlotWrapper>{children}</CenterSlotWrapper>
       {symbols.map((symbol, index) => (
-        <ButtonWrapper pos={index as IntervalNumber} key={index}>
+        <ButtonWrapper $pos={index as IntervalNumber} key={index}>
           <SelectionButton
             // Convert circle-of-fifths position to chromatic semitone: (index * 7) % 12
             onClick={() => onChange(((index * 7) % 12) as IntervalNumber)}

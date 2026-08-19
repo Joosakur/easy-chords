@@ -43,7 +43,7 @@ function Settings() {
   return (
     <Col>
       <label>Output</label>
-      <Gap size="xs" />
+      <Gap $size="xs" />
       <Dropdown
         options={outputOptions}
         value={midiOutput}
@@ -55,13 +55,13 @@ function Settings() {
           <Gap />
 
           <label>Your local EasyChords server hostname or IP</label>
-          <Gap size="xs" />
+          <Gap $size="xs" />
           <Input fluid value={host} onChange={(_e, data) => dispatch(setHost(data.value))} />
 
           <Gap />
 
           <label>MIDI device</label>
-          <Gap size="xs" />
+          <Gap $size="xs" />
           {midiDevices === null ? (
             <Dropdown placeholder="Loading devices ..." />
           ) : midiDevices.length > 0 ? (
@@ -100,7 +100,7 @@ function Settings() {
       <Gap />
 
       <label>Transpose</label>
-      <Gap size="xs" />
+      <Gap $size="xs" />
       <TransposeSelector
         transpose={transpose}
         min={TRANSPOSE.MIN}

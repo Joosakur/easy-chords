@@ -40,12 +40,11 @@ export default function SetupMac() {
             chords in your browser it transforms them into MIDI events.
           </p>
           <p className="text-high">
-            Download the latest version of EasyChords Server from{' '}
             <a
               href={`https://s3.eu-west-1.amazonaws.com/www.easy-chords.io/server-downloads/easy-chords-midi-server-${import.meta.env.VITE_MIDI_SERVER_VERSION}.jar`}
               className="link"
             >
-              here
+              Download the latest version of EasyChords Server
             </a>{' '}
             and open it.
           </p>
@@ -61,7 +60,7 @@ export default function SetupMac() {
         </SplitRight>
       </Splits>
 
-      <Gap size="XL" />
+      <Gap $size="XL" />
 
       <H3>2. Setup a virtual MIDI cable</H3>
       <p className="text-high">
@@ -97,7 +96,7 @@ export default function SetupMac() {
         <img src={imgMac3} alt="Screenshot" />
       </CenteredDiv>
 
-      <Gap size="XL" />
+      <Gap $size="XL" />
 
       <Splits>
         <SplitLeft>
@@ -120,7 +119,7 @@ export default function SetupMac() {
         </SplitRight>
       </Splits>
 
-      <Gap size="L" />
+      <Gap $size="L" />
 
       <H3>4. Select MIDI input in your DAW and start playing</H3>
       <ul className="text-high">

@@ -79,7 +79,7 @@ export default function Help() {
   return (
     <RootContainer>
       <TitleBar>
-        <H1 fitted>
+        <H1 $fitted>
           <Link to="/app" className="plain-link">
             EasyChords
           </Link>

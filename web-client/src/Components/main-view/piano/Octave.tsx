@@ -16,10 +16,10 @@ const WhiteKeyPositioner = styled.div`
   vertical-align: top;
 `
 
-const BlackKeyPositioner = styled.div<{ adjustX: number }>`
+const BlackKeyPositioner = styled.div<{ $adjustX: number }>`
   position: relative;
   top: -102%;
-  left: ${(p) => 100 - PIANO_KEYS.BLACK_WHITE_WIDTH_RATIO / 2 + p.adjustX * 12}%;
+  left: ${(p) => 100 - PIANO_KEYS.BLACK_WHITE_WIDTH_RATIO / 2 + p.$adjustX * 12}%;
   height: 66%;
   width: ${PIANO_KEYS.BLACK_WHITE_WIDTH_RATIO}%;
   border-top: none;
@@ -42,7 +42,7 @@ function Octave({ octave }: OctaveProps) {
           {interval !== 4 && interval !== 11 && (
             <BlackKeyPositioner
               key={interval + 1}
-              adjustX={PIANO_KEYS.BLACK_KEY_POSITION_ADJUSTMENTS[interval + 1]}
+              $adjustX={PIANO_KEYS.BLACK_KEY_POSITION_ADJUSTMENTS[interval + 1]}
             >
               <PianoKey note={12 * octave + interval + 1} />
             </BlackKeyPositioner>

@@ -7,8 +7,8 @@ import { FixedSpacing } from '../layout/flex'
 import { Colors, SPACING_LENGTHS } from '../style-constants'
 
 interface StyledButtonProps {
-  color: string
-  hideTextThreshold?: string
+  $color: string
+  $hideTextThreshold?: string
 }
 const StyledButton = styled.button<StyledButtonProps>`
   display: flex;
@@ -20,7 +20,7 @@ const StyledButton = styled.button<StyledButtonProps>`
   font-size: 1.2rem;
   font-weight: 600;
 
-  background: ${(p) => p.color};
+  background: ${(p) => p.$color};
   border: none;
   border-radius: 3px;
   outline: none;
@@ -35,16 +35,16 @@ const StyledButton = styled.button<StyledButtonProps>`
     cursor: unset;
   }
   &:hover {
-    background: ${(p) => tint(0.06, p.color)};
+    background: ${(p) => tint(0.06, p.$color)};
   }
   &:active {
-    background: ${(p) => shade(0.06, p.color)};
+    background: ${(p) => shade(0.06, p.$color)};
   }
 
   ${(p) =>
-    p.hideTextThreshold
+    p.$hideTextThreshold
       ? `
-    @media screen and (max-width: ${p.hideTextThreshold}) {
+    @media screen and (max-width: ${p.$hideTextThreshold}) {
       span {
         display: none;
       }
@@ -82,11 +82,11 @@ function ActionButton({
       className={classNames(className, { disabled })}
       aria-label={text}
       onClick={() => onClick()}
-      color={color}
-      hideTextThreshold={typeof hideText === 'string' ? hideText : undefined}
+      $color={color}
+      $hideTextThreshold={typeof hideText === 'string' ? hideText : undefined}
       data-test={dataTest}
     >
-      <FixedSpacing spacing="s" className={disabled ? 'text-disabled' : 'text-high'}>
+      <FixedSpacing $spacing="s" className={disabled ? 'text-disabled' : 'text-high'}>
         {icon && <FontAwesomeIcon icon={icon} />}
         {hideText !== true && <span>{text}</span>}
       </FixedSpacing>

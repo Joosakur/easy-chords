@@ -39,12 +39,11 @@ export default function SetupWin() {
             chords in your browser it transforms them into MIDI events.
           </p>
           <p className="text-high">
-            Download the latest version of EasyChords Server from{' '}
             <a
               href={`https://s3.eu-west-1.amazonaws.com/www.easy-chords.io/server-downloads/easy-chords-midi-server-${import.meta.env.VITE_MIDI_SERVER_VERSION}.jar`}
               className="link"
             >
-              here
+              Download the latest version of EasyChords Server
             </a>{' '}
             and open it.
           </p>
@@ -60,7 +59,7 @@ export default function SetupWin() {
         </SplitRight>
       </Splits>
 
-      <Gap size="XL" />
+      <Gap $size="XL" />
 
       <Splits>
         <SplitLeft>
@@ -94,7 +93,7 @@ export default function SetupWin() {
         </SplitRight>
       </Splits>
 
-      <Gap size="XL" />
+      <Gap $size="XL" />
 
       <Splits>
         <SplitLeft>
@@ -117,7 +116,7 @@ export default function SetupWin() {
         </SplitRight>
       </Splits>
 
-      <Gap size="L" />
+      <Gap $size="L" />
 
       <Splits>
         <SplitLeft>
@@ -137,7 +136,7 @@ export default function SetupWin() {
         </SplitLeft>
         <SplitRight>
           <CenteredDiv>
-            <FixedSpacing column spacing="s">
+            <FixedSpacing $column $spacing="s">
               <img src={imgCubase} alt="Screenshot" width="400px" />
               <span className="text-medium">Example in Cubase</span>
             </FixedSpacing>

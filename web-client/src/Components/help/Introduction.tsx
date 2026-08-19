@@ -61,7 +61,7 @@ export default function Introduction() {
         </SplitRight>
       </Splits>
 
-      <Gap size="L" />
+      <Gap $size="L" />
 
       <CenteredDiv>
         <MegaLink to="/app" className="link">

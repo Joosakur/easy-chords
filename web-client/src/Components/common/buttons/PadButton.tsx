@@ -5,8 +5,8 @@ import styled from 'styled-components'
 import { Colors, SPACING_LENGTHS } from '../style-constants'
 
 interface StyledButtonProps {
-  color: string
-  selected: boolean
+  $color: string
+  $selected: boolean
 }
 const StyledButton = styled.button<StyledButtonProps>`
   display: inline-block;
@@ -24,16 +24,16 @@ const StyledButton = styled.button<StyledButtonProps>`
   }
 
   background: linear-gradient(
-    ${(p) => shade(0.03, p.color)},
-    ${(p) => tint(0.06, p.color)} 30%,
-    ${(p) => shade(0.03, p.color)}
+    ${(p) => shade(0.03, p.$color)},
+    ${(p) => tint(0.06, p.$color)} 30%,
+    ${(p) => shade(0.03, p.$color)}
   );
 
-  box-shadow: 0.1rem 0.2rem 2px ${(p) => shade(0.2, p.color)},
-    0.1rem 0.6rem 2px ${(p) => shade(0.5, p.color)}, 0.3rem 1rem 1rem 2px rgba(0, 0, 0, 0.66),
+  box-shadow: 0.1rem 0.2rem 2px ${(p) => shade(0.2, p.$color)},
+    0.1rem 0.6rem 2px ${(p) => shade(0.5, p.$color)}, 0.3rem 1rem 1rem 2px rgba(0, 0, 0, 0.66),
     inset 1px 3px 2px rgba(255, 255, 255, 0.25), inset 1px 0 10px rgba(255, 255, 255, 0.1),
     inset 1px 0 5px rgba(255, 255, 255, 0.15),
-    0.3rem 1rem 1.5rem -0.3rem rgba(0, 0, 0, 0.8) ${(p) => (p.selected ? `, 0 0.8rem 1.5rem ${transparentize(0.3, lighten(0.3, p.color))}` : '')};
+    0.3rem 1rem 1.5rem -0.3rem rgba(0, 0, 0, 0.8) ${(p) => (p.$selected ? `, 0 0.8rem 1.5rem ${transparentize(0.3, lighten(0.3, p.$color))}` : '')};
 
   border: none;
   outline: none;
@@ -41,26 +41,26 @@ const StyledButton = styled.button<StyledButtonProps>`
 
   &:hover {
     background: linear-gradient(
-      ${(p) => tint(0.01, p.color)},
-      ${(p) => tint(0.08, p.color)} 30%,
-      ${(p) => tint(0.03, p.color)}
+      ${(p) => tint(0.01, p.$color)},
+      ${(p) => tint(0.08, p.$color)} 30%,
+      ${(p) => tint(0.03, p.$color)}
     );
   }
 
   &:active,
   &.toggle.selected {
     background: linear-gradient(
-      ${(p) => shade(0.03, p.color)} 0%,
-      ${(p) => tint(0.04, p.color)} 10%,
-      ${(p) => tint(0.04, p.color)} 30%,
-      ${(p) => shade(0.1, p.color)} 80%,
-      ${(p) => shade(0.3, p.color)} 100%
+      ${(p) => shade(0.03, p.$color)} 0%,
+      ${(p) => tint(0.04, p.$color)} 10%,
+      ${(p) => tint(0.04, p.$color)} 30%,
+      ${(p) => shade(0.1, p.$color)} 80%,
+      ${(p) => shade(0.3, p.$color)} 100%
     );
 
-    box-shadow: 0.1rem 0.2rem 0 ${(p) => shade(0.4, p.color)},
+    box-shadow: 0.1rem 0.2rem 0 ${(p) => shade(0.4, p.$color)},
       0.1rem 0.25rem 2px 2px rgba(0, 0, 0, 0.4), inset 1px 2px 2px rgba(255, 255, 255, 0.15),
       inset 1px 0 5px rgba(255, 255, 255, 0.15), inset 1px 0 10px rgba(255, 255, 255, 0.1),
-      0.3rem 0.6rem 0.8rem -0.3rem rgba(0, 0, 0, 0.4) ${(p) => (p.selected ? `, 0 0.4rem 1rem ${transparentize(0.5, lighten(0.3, p.color))}` : '')};
+      0.3rem 0.6rem 0.8rem -0.3rem rgba(0, 0, 0, 0.4) ${(p) => (p.$selected ? `, 0 0.4rem 1rem ${transparentize(0.5, lighten(0.3, p.$color))}` : '')};
 
     span {
       opacity: 0.83;
@@ -120,8 +120,8 @@ function PadButton({
         onMouseDown?.(xr, yr)
       }}
       onDragStart={(e) => e.preventDefault()}
-      color={selected ? Colors.states.active : color || Colors.primary}
-      selected={selected}
+      $color={selected ? Colors.states.active : color || Colors.primary}
+      $selected={selected}
       data-test={dataTest}
     >
       <span className="text-high">{text}</span>

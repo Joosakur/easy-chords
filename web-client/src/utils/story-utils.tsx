@@ -18,11 +18,11 @@ export const Resizer = styled.div`
 `
 
 interface SegmentProps {
-  color: string
+  $color: string
 }
 
 export const StorySegment = styled.div<SegmentProps>`
-  background: ${(p) => p.color};
+  background: ${(p) => p.$color};
   width: 100%;
   padding: 2rem;
 `

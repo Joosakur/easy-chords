@@ -22,7 +22,7 @@ interface TransposeSelectorProps {
 
 function TransposeSelector({ transpose, min, max, onChange }: TransposeSelectorProps) {
   return (
-    <FixedSpacing spacing="s">
+    <FixedSpacing $spacing="s">
       <CircleActionButton
         icon={faMinus}
         altText="Transpose down"

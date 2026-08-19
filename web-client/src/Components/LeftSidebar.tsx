@@ -48,7 +48,7 @@ function LeftSidebar() {
     <SidebarContainer className={classNames({ open: editorOpen })}>
       <InnerWrapper>
         <TopRow>
-          <H2 fitted>Chord Editor</H2>
+          <H2 $fitted>Chord Editor</H2>
           <CircleActionButton
             icon={faAngleLeft}
             altText="Close sidebar"

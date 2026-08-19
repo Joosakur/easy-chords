@@ -1,5 +1,5 @@
 import { faAngleLeft, faAngleRight, faCog, faFileImport } from '@fortawesome/free-solid-svg-icons'
-import { action } from '@storybook/addon-actions'
+import { action } from 'storybook/actions'
 import styled from 'styled-components'
 import { StorySegment } from '../../../utils/story-utils'
 import { FixedSpacing } from '../layout/flex'
@@ -54,7 +54,7 @@ export default {
 
 export const buttons = () => (
   <Row>
-    <StorySegment color={Colors.grey.darker}>
+    <StorySegment $color={Colors.grey.darker}>
       <div>
         <H3>SelectionButton (default, selected)</H3>
         <SelectionGrid>
@@ -71,7 +71,7 @@ export const buttons = () => (
         <Gap />
 
         <label>circular (default, selected)</label>
-        <Gap size="s" />
+        <Gap $size="s" />
         <SelectionGrid2>
           <SelectionButton onClick={onClick} circular>
             <span>E♭</span>
@@ -92,11 +92,11 @@ export const buttons = () => (
       </div>
     </StorySegment>
 
-    <StorySegment color={Colors.grey.dark}>
+    <StorySegment $color={Colors.grey.dark}>
       <div>
         <H3>ActionButton</H3>
         <label>default</label>
-        <Gap size="s" />
+        <Gap $size="s" />
         <FixedSpacing>
           <ActionButton onClick={onClick} text="Open editor" />
           <ActionButton onClick={onClick} text="Import" icon={faFileImport} />
@@ -106,7 +106,7 @@ export const buttons = () => (
         <Gap />
 
         <label>disabled</label>
-        <Gap size="s" />
+        <Gap $size="s" />
         <FixedSpacing>
           <ActionButton onClick={onClick} text="Open editor" disabled />
           <ActionButton onClick={onClick} text="Import" icon={faFileImport} disabled />
@@ -114,7 +114,7 @@ export const buttons = () => (
         </FixedSpacing>
       </div>
 
-      <Gap size="L" />
+      <Gap $size="L" />
 
       <H3>PadButton (default, selected, empty)</H3>
       <PadGrid>
