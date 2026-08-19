@@ -69,6 +69,7 @@ jobs:
         run: ./gradlew test
 
   deploy:
+    if: github.event_name == 'push' && github.ref == 'refs/heads/master'
     runs-on: ubuntu-latest
     needs: [test, midi-server]
     environment: production

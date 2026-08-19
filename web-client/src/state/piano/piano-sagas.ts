@@ -16,7 +16,8 @@ import type { ChordV1 } from '../../types'
 import { getAbsoluteNotes, getChordName } from '../../utils/music/chords'
 import SynthInstrument from '../../utils/music/synth'
 import { selectActiveChord, setChord } from '../chord-map/chord-map-slice'
-import { selectIsUsingMidi } from '../settings/settings-slice'
+import { transposeChanged } from '../settings/settings-saga-actions'
+import { selectIsUsingMidi, selectTranspose, setTranspose } from '../settings/settings-slice'
 import { selectIsEditorOpen } from '../ui/ui-slice'
 import {
   pianoKeyClicked,
@@ -30,6 +31,19 @@ import { pianoKeyDown, pianoKeysUp, selectKeysDown } from './piano-slice'
 const synth = new SynthInstrument()
 
 const defaultVelocity = 80
+
+const MIDI_NOTE_MIN = 0
+const MIDI_NOTE_MAX = 127
+
+/**
+ * Applies the global transpose offset. Notes pushed outside the MIDI range are dropped rather
+ * than clamped: a clamped note would sound at the wrong pitch, and both backends reject
+ * out-of-range input (the server throws, and numberToTone throws on negatives).
+ */
+const transposeNotes = <T extends { note: number }>(notes: T[], transpose: number): T[] =>
+  notes
+    .map((n) => ({ ...n, note: n.note + transpose }))
+    .filter(({ note }) => note >= MIDI_NOTE_MIN && note <= MIDI_NOTE_MAX)
 
 /**
  * Handles piano key clicks. Behavior depends on editor state:
@@ -82,15 +96,19 @@ export function* pianoKeyClickedSaga({ payload: note }: ReturnType<typeof pianoK
 export function* playNoteSaga({ payload: { note, velocity } }: ReturnType<typeof playNote>) {
   yield put(pianoKeyDown(note))
 
+  const transpose: number = yield select(selectTranspose)
+  const [sounding] = transposeNotes([{ note }], transpose)
+  if (!sounding) return
+
   if (yield select(selectIsUsingMidi)) {
     try {
-      const event: NoteEvent = { note, channel: MIDI.CHANNEL, velocity }
+      const event: NoteEvent = { note: sounding.note, channel: MIDI.CHANNEL, velocity }
       yield call(api.playNote, event)
     } catch (_e) {
       console.warn('could not play the note')
     }
   } else {
-    synth.playNote(note)
+    synth.playNote(sounding.note)
   }
 }
 
@@ -121,22 +139,28 @@ export function* playChordSaga({ payload }: ReturnType<typeof playChord>) {
     yield put(pianoKeyDown(note))
   }
 
+  const transpose: number = yield select(selectTranspose)
+  const soundingNotes = transposeNotes(chord.notes, transpose)
+
   if (yield select(selectIsUsingMidi)) {
     try {
       const event: ChordEvent = {
-        playNotes: chord.notes.map(({ note, velocity }) => ({
+        playNotes: soundingNotes.map(({ note, velocity }) => ({
           note,
           channel: MIDI.CHANNEL,
           velocity,
         })),
-        stopNotes: previousNotes.map((note) => ({ note, channel: MIDI.CHANNEL })),
+        stopNotes: transposeNotes(
+          previousNotes.map((note) => ({ note })),
+          transpose,
+        ).map(({ note }) => ({ note, channel: MIDI.CHANNEL })),
       }
       yield call(api.playChord, event)
     } catch (_e) {
       console.warn('could not play the chord')
     }
   } else {
-    chord.notes.forEach(({ note }) => {
+    soundingNotes.forEach(({ note }) => {
       synth.playNote(note)
     })
   }
@@ -147,9 +171,13 @@ export function* stopNotesSaga() {
   if (yield select(selectIsUsingMidi)) {
     try {
       const keysDown: number[] = yield select(selectKeysDown)
+      const transpose: number = yield select(selectTranspose)
       const event: ChordEvent = {
         playNotes: [],
-        stopNotes: keysDown.map((note) => ({ note, channel: MIDI.CHANNEL })),
+        stopNotes: transposeNotes(
+          keysDown.map((note) => ({ note })),
+          transpose,
+        ).map(({ note }) => ({ note, channel: MIDI.CHANNEL })),
       }
       yield call(api.playChord, event)
     } catch (_e) {
@@ -158,6 +186,15 @@ export function* stopNotesSaga() {
   }
 
   yield put(pianoKeysUp())
+}
+
+/**
+ * Stops sounding notes before the offset changes, so note-offs are sent with the same transpose
+ * that the note-ons used. Without this, held notes would hang on the MIDI device.
+ */
+export function* transposeChangedSaga({ payload }: ReturnType<typeof transposeChanged>) {
+  yield call(stopNotesSaga)
+  yield put(setTranspose(payload))
 }
 
 /** Sends sustain pedal CC message. Only works with MIDI output. */
@@ -182,6 +219,7 @@ function* pianoSaga() {
   yield takeEvery(playNote, playNoteSaga)
   yield takeLatest(stopNotes, stopNotesSaga)
   yield takeLatest(setSustainPedal, setSustainPedalSaga)
+  yield takeLatest(transposeChanged, transposeChangedSaga)
 }
 
 export default pianoSaga

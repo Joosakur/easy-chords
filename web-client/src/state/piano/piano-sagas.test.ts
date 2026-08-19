@@ -1,22 +1,23 @@
 import { select } from 'redux-saga/effects'
 import { expectSaga } from 'redux-saga-test-plan'
 import * as matchers from 'redux-saga-test-plan/matchers'
-import { describe, expect, it, vi } from 'vitest'
+import { beforeEach, describe, expect, it, vi } from 'vitest'
 import api from '../../api/http-client'
 import type { ChordV1 } from '../../types'
 
 // Mock the global Synth before any imports that use it
-vi.hoisted(() => {
+const synthPlay = vi.hoisted(() => {
+  const play = vi.fn()
   globalThis.Synth = {
     setVolume: vi.fn(),
-    createInstrument: vi.fn(() => ({
-      play: vi.fn(),
-    })),
+    createInstrument: vi.fn(() => ({ play })),
   }
+  return play
 })
 
 import { selectActiveChord } from '../chord-map/chord-map-slice'
-import { selectIsUsingMidi } from '../settings/settings-slice'
+import { transposeChanged } from '../settings/settings-saga-actions'
+import { selectIsUsingMidi, selectTranspose, setTranspose } from '../settings/settings-slice'
 import { selectIsEditorOpen } from '../ui/ui-slice'
 import { pianoKeyClicked, playChord, playNote, setSustainPedal } from './piano-saga-actions'
 import {
@@ -25,6 +26,7 @@ import {
   playNoteSaga,
   setSustainPedalSaga,
   stopNotesSaga,
+  transposeChangedSaga,
 } from './piano-sagas'
 import { pianoKeyDown, pianoKeysUp, selectKeysDown } from './piano-slice'
 
@@ -94,7 +96,10 @@ describe('piano sagas', () => {
   describe('playNoteSaga', () => {
     it('adds key to keysDown', async () => {
       await expectSaga(playNoteSaga, playNote({ note: 60, velocity: 80 }))
-        .provide([[select(selectIsUsingMidi), false]])
+        .provide([
+          [select(selectIsUsingMidi), false],
+          [select(selectTranspose), 0],
+        ])
         .put(pianoKeyDown(60))
         .run()
     })
@@ -103,6 +108,7 @@ describe('piano sagas', () => {
       await expectSaga(playNoteSaga, playNote({ note: 60, velocity: 80 }))
         .provide([
           [select(selectIsUsingMidi), true],
+          [select(selectTranspose), 0],
           [matchers.call.fn(api.playNote), undefined],
         ])
         .put(pianoKeyDown(60))
@@ -114,7 +120,10 @@ describe('piano sagas', () => {
       // We can't easily verify synth.playNote was called, but we can verify
       // MIDI API was NOT called
       await expectSaga(playNoteSaga, playNote({ note: 60, velocity: 80 }))
-        .provide([[select(selectIsUsingMidi), false]])
+        .provide([
+          [select(selectIsUsingMidi), false],
+          [select(selectTranspose), 0],
+        ])
         .put(pianoKeyDown(60))
         .not.call.fn(api.playNote)
         .run()
@@ -135,6 +144,7 @@ describe('piano sagas', () => {
         .provide([
           [select(selectKeysDown), [48, 52, 55]], // Previous notes
           [select(selectIsUsingMidi), false],
+          [select(selectTranspose), 0],
           [select(selectActiveChord), null],
         ])
         .put(pianoKeysUp())
@@ -150,6 +160,7 @@ describe('piano sagas', () => {
           [select(selectKeysDown), []],
           [select(selectActiveChord), testChord],
           [select(selectIsUsingMidi), false],
+          [select(selectTranspose), 0],
         ])
         .put(pianoKeysUp())
         .put(pianoKeyDown(48)) // C4
@@ -179,6 +190,7 @@ describe('piano sagas', () => {
         .provide([
           [select(selectKeysDown), []],
           [select(selectIsUsingMidi), true],
+          [select(selectTranspose), 0],
           [matchers.call.fn(api.playChord), undefined],
         ])
         .call.fn(api.playChord)
@@ -195,12 +207,11 @@ describe('piano sagas', () => {
     })
 
     it('clears all keys when MIDI is enabled', async () => {
-      // Note: The saga has a bug (uses undefined 'channel' variable)
-      // so we just verify it eventually calls pianoKeysUp
       await expectSaga(stopNotesSaga)
         .provide([
           [select(selectIsUsingMidi), true],
           [select(selectKeysDown), [60, 64]],
+          [select(selectTranspose), 0],
           [matchers.call.fn(api.playChord), undefined],
         ])
         .put(pianoKeysUp())
@@ -233,6 +244,121 @@ describe('piano sagas', () => {
           [matchers.call.fn(api.sendCC), undefined],
         ])
         .call.fn(api.sendCC)
+        .run()
+    })
+  })
+  describe('transpose', () => {
+    beforeEach(() => {
+      synthPlay.mockClear()
+    })
+
+    it('offsets the notes sent to MIDI while the piano keeps showing written notes', async () => {
+      const chord = { notes: [{ note: 60, velocity: 80 }] }
+
+      await expectSaga(playChordSaga, playChord(chord))
+        .provide([
+          [select(selectKeysDown), []],
+          [select(selectIsUsingMidi), true],
+          [select(selectTranspose), 2],
+          [matchers.call.fn(api.playChord), undefined],
+        ])
+        .put(pianoKeyDown(60))
+        .call(api.playChord, {
+          playNotes: [{ note: 62, channel: 1, velocity: 80 }],
+          stopNotes: [],
+        })
+        .run()
+    })
+
+    it('offsets the notes played on the browser synth', async () => {
+      const chord = { notes: [{ note: 60, velocity: 80 }] }
+
+      await expectSaga(playChordSaga, playChord(chord))
+        .provide([
+          [select(selectKeysDown), []],
+          [select(selectIsUsingMidi), false],
+          [select(selectTranspose), 2],
+        ])
+        .run()
+
+      expect(synthPlay).toHaveBeenCalledWith('D', 4, 2)
+    })
+
+    it('offsets note-offs by the same amount as note-ons', async () => {
+      const chord = { notes: [{ note: 67, velocity: 80 }] }
+
+      await expectSaga(playChordSaga, playChord(chord))
+        .provide([
+          [select(selectKeysDown), [60]],
+          [select(selectIsUsingMidi), true],
+          [select(selectTranspose), 2],
+          [matchers.call.fn(api.playChord), undefined],
+        ])
+        .call(api.playChord, {
+          playNotes: [{ note: 69, channel: 1, velocity: 80 }],
+          stopNotes: [{ note: 62, channel: 1 }],
+        })
+        .run()
+    })
+
+    it('offsets the notes released by stopNotes', async () => {
+      await expectSaga(stopNotesSaga)
+        .provide([
+          [select(selectIsUsingMidi), true],
+          [select(selectKeysDown), [60, 64]],
+          [select(selectTranspose), -3],
+          [matchers.call.fn(api.playChord), undefined],
+        ])
+        .call(api.playChord, {
+          playNotes: [],
+          stopNotes: [
+            { note: 57, channel: 1 },
+            { note: 61, channel: 1 },
+          ],
+        })
+        .run()
+    })
+
+    it('offsets single notes played from the piano', async () => {
+      await expectSaga(playNoteSaga, playNote({ note: 60, velocity: 80 }))
+        .provide([
+          [select(selectIsUsingMidi), true],
+          [select(selectTranspose), -12],
+          [matchers.call.fn(api.playNote), undefined],
+        ])
+        .put(pianoKeyDown(60))
+        .call(api.playNote, { note: 48, channel: 1, velocity: 80 })
+        .run()
+    })
+
+    it('drops notes pushed outside the MIDI range', async () => {
+      const chord = {
+        notes: [
+          { note: 100, velocity: 80 },
+          { note: 120, velocity: 80 },
+        ],
+      }
+
+      await expectSaga(playChordSaga, playChord(chord))
+        .provide([
+          [select(selectKeysDown), []],
+          [select(selectIsUsingMidi), true],
+          [select(selectTranspose), 24],
+          [matchers.call.fn(api.playChord), undefined],
+        ])
+        .call(api.playChord, {
+          playNotes: [{ note: 124, channel: 1, velocity: 80 }],
+          stopNotes: [],
+        })
+        .run()
+    })
+
+    it('stops sounding notes before applying a new offset', async () => {
+      await expectSaga(transposeChangedSaga, transposeChanged(5))
+        .provide([[select(selectIsUsingMidi), false]])
+        .call(stopNotesSaga)
+        .put(pianoKeysUp())
+        .put(setTranspose(5))
         .run()
     })
   })

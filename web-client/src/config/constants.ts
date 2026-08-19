@@ -38,3 +38,9 @@ export const PIANO_KEYS = {
   /** Black to white key width ratio (percentage) */
   BLACK_WHITE_WIDTH_RATIO: 55,
 } as const
+
+// Global transpose range in semitones
+export const TRANSPOSE = {
+  MIN: -24,
+  MAX: 24,
+} as const

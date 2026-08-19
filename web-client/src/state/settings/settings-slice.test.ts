@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'vitest'
+import { TRANSPOSE } from '../../config/constants'
 import type { RootState } from '../root-reducer'
 import { chooseMidiDevice, getMidiDevices } from './settings-saga-actions'
 import reducer, {
@@ -6,8 +7,10 @@ import reducer, {
   type SettingsState,
   selectIsUsingMidi,
   selectSettings,
+  selectTranspose,
   setHost,
   setMidiOutput,
+  setTranspose,
 } from './settings-slice'
 
 const createRootState = (settings: Partial<SettingsState> = {}): RootState =>
@@ -68,6 +71,23 @@ describe('settings slice', () => {
       })
     })
 
+    describe('setTranspose', () => {
+      it('sets the transpose offset', () => {
+        const state = reducer(initialSettingsState, setTranspose(5))
+        expect(state.transpose).toBe(5)
+      })
+
+      it('sets a negative transpose offset', () => {
+        const state = reducer(initialSettingsState, setTranspose(-7))
+        expect(state.transpose).toBe(-7)
+      })
+
+      it('clamps to the allowed range', () => {
+        expect(reducer(initialSettingsState, setTranspose(30)).transpose).toBe(TRANSPOSE.MAX)
+        expect(reducer(initialSettingsState, setTranspose(-30)).transpose).toBe(TRANSPOSE.MIN)
+      })
+    })
+
     describe('extraReducers', () => {
       it('handles chooseMidiDevice.fulfilled', () => {
         const state = reducer(initialSettingsState, chooseMidiDevice.fulfilled(1))
@@ -104,6 +124,16 @@ describe('settings slice', () => {
           ...initialSettingsState,
           host: 'test-host',
         })
+      })
+    })
+
+    describe('selectTranspose', () => {
+      it('defaults to no transposition', () => {
+        expect(selectTranspose(createRootState())).toBe(0)
+      })
+
+      it('returns the current offset', () => {
+        expect(selectTranspose(createRootState({ transpose: -4 }))).toBe(-4)
       })
     })
 

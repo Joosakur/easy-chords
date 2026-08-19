@@ -25,10 +25,15 @@ interface SettingsState {
   host: string                 // MIDI server hostname (default: "localhost")
   midiDevices: MidiDevice[]    // Available MIDI devices from server
   midiDeviceIndex: number      // Currently selected device index
+  transpose: number            // Global semitone offset (-24..24, default 0)
 }
 ```
 
 **Key selector:** `selectIsUsingMidi` - Returns true only when MIDI is enabled AND a valid device is selected. Used throughout the app to decide between MIDI output and Web Audio fallback.
+
+**Transpose:** the UI dispatches `transposeChanged`, not `setTranspose` directly. `transposeChangedSaga`
+releases any sounding notes before the offset changes, so note-offs match the note-ons that were sent.
+See [audio-output.md](audio-output.md#transpose).
 
 ### ui
 

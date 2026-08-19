@@ -1,5 +1,6 @@
 import { createSelector, createSlice, type PayloadAction } from '@reduxjs/toolkit'
 import type { MidiDevice } from '../../api/http-client'
+import { TRANSPOSE } from '../../config/constants'
 import type { RootState } from '../root-reducer'
 import { chooseMidiDevice, getMidiDevices } from './settings-saga-actions'
 
@@ -8,6 +9,7 @@ export interface SettingsState {
   host: string
   midiDevices: MidiDevice[] | null
   midiDeviceIndex: number | null
+  transpose: number
 }
 
 export const initialSettingsState: SettingsState = {
@@ -15,6 +17,7 @@ export const initialSettingsState: SettingsState = {
   host: 'localhost',
   midiDevices: null,
   midiDeviceIndex: null,
+  transpose: 0,
 }
 
 const settingsSlice = createSlice({
@@ -27,6 +30,9 @@ const settingsSlice = createSlice({
         state.midiDevices = null
         state.midiDeviceIndex = null
       }
+    },
+    setTranspose: (state, action: PayloadAction<number>) => {
+      state.transpose = Math.min(TRANSPOSE.MAX, Math.max(TRANSPOSE.MIN, action.payload))
     },
     setHost: (state, action: PayloadAction<string>) => {
       state.host = action.payload
@@ -50,6 +56,7 @@ const settingsSlice = createSlice({
 })
 
 export const selectSettings = (state: RootState) => state.settings
+export const selectTranspose = createSelector(selectSettings, ({ transpose }) => transpose)
 export const selectIsUsingMidi = createSelector(
   selectSettings,
   ({ midiOutput, host, midiDevices, midiDeviceIndex }) => {
@@ -63,5 +70,5 @@ export const selectIsUsingMidi = createSelector(
   },
 )
 
-export const { setMidiOutput, setHost } = settingsSlice.actions
+export const { setMidiOutput, setHost, setTranspose } = settingsSlice.actions
 export default settingsSlice.reducer

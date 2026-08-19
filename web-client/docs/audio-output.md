@@ -112,6 +112,28 @@ The app uses standard MIDI note numbering:
 
 Formula: `MIDI = (octave + 1) * 12 + semitone` where C=0, C#=1, ... B=11
 
+## Transpose
+
+A global semitone offset (`settings.transpose`, -24..24) shifts everything that sounds, on both
+backends. It is applied only at the output boundary in `piano-sagas.ts` — inside `playNoteSaga`,
+`playChordSaga` and `stopNotesSaga`.
+
+Everything upstream stays in written pitch: `piano.keysDown`, the on-screen key highlight, chord
+names, and the voicing editor are untouched. With transpose +2, the pad `C` still reads `C` and still
+highlights C-E-G, but a D major chord sounds.
+
+Two rules follow from this:
+
+- Note-offs must carry the same offset as their note-ons. `stopNotes` payloads are built from
+  `keysDown`, which holds written notes, so they are transposed on the way out too.
+- The offset cannot change while notes are held. `transposeChangedSaga` releases sounding notes
+  before applying a new value, otherwise the note-offs would target different pitches than the
+  note-ons and MIDI notes would hang.
+
+Notes pushed outside 0-127 are dropped rather than clamped: a clamped note would sound at the wrong
+pitch, and both backends reject out-of-range input (the server throws `InvalidMidiDataException`,
+and `numberToTone` throws on negatives).
+
 ## Sustain Pedal
 
 The Space bar controls the sustain pedal:

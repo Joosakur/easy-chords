@@ -10,6 +10,9 @@ Currently dragging the root indicator on the piano both changes the root assignm
 
 Consider: separate "change root" (reinterpret) vs "transpose" (shift all notes) operations.
 
+A global transpose now exists in the settings panel, but it shifts the whole map at the output stage.
+The root-drag behaviour on the piano is unchanged, so this item still stands for per-chord editing.
+
 ### Rethink VoicingEditor grid interface
 
 The 7x12 interval grid is educational but unintuitive for practical voicing construction. Users must think in intervals rather than note names, and column position affecting octave is not obvious.
