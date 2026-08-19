@@ -1,13 +1,16 @@
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import styled from 'styled-components'
+import { TRANSPOSE } from '../../config/constants'
 import { chooseMidiDevice } from '../../state/actions'
+import { transposeChanged } from '../../state/settings/settings-saga-actions'
 import { selectSettings, setHost, setMidiOutput } from '../../state/settings/settings-slice'
 import Dropdown from '../common/Dropdown'
 import { Input } from '../common/Input'
 import { Gap } from '../common/layout/white-space'
 import { Colors } from '../common/style-constants'
 import { H3 } from '../common/typography'
+import TransposeSelector from './TransposeSelector'
 
 const Col = styled.div`
   display: flex;
@@ -22,7 +25,7 @@ const Warning = styled.div`
 
 function Settings() {
   const dispatch = useDispatch()
-  const { midiDevices, midiOutput, host, midiDeviceIndex } = useSelector(selectSettings)
+  const { midiDevices, midiOutput, host, midiDeviceIndex, transpose } = useSelector(selectSettings)
   const outputOptions = [
     { value: false, text: 'Play on browser (default piano)' },
     { value: true, text: 'Use external MIDI' },
@@ -94,6 +97,17 @@ function Settings() {
           )}
         </>
       )}
+      <Gap />
+
+      <label>Transpose</label>
+      <Gap size="xs" />
+      <TransposeSelector
+        transpose={transpose}
+        min={TRANSPOSE.MIN}
+        max={TRANSPOSE.MAX}
+        onChange={(value) => dispatch(transposeChanged(value))}
+      />
+
       <Gap />
 
       <label>Instructions</label>
