@@ -12,7 +12,8 @@ export const BREAKPOINTS = {
 
 // MIDI configuration
 export const MIDI = {
-  CHANNEL: 1,
+  /** 0-based on the wire: channel 0 is what a DAW displays as "channel 1". */
+  CHANNEL: 0,
   CC: {
     SUSTAIN: 64,
   },
@@ -37,6 +38,19 @@ export const PIANO_KEYS = {
   BLACK_KEY_POSITION_ADJUSTMENTS: [0, -1, 0, 1, 0, 0, -1, 0, 0, 0, 1, 0] as const,
   /** Black to white key width ratio (percentage) */
   BLACK_WHITE_WIDTH_RATIO: 55,
+} as const
+
+// CC pad (2D control change controller)
+export const CC_PAD = {
+  MIN: 0,
+  MAX: 127,
+  /** Modulation - the usual vibrato / intensity control */
+  DEFAULT_X_CC: 1,
+  /** Expression - the usual dynamics control */
+  DEFAULT_Y_CC: 11,
+  /** Pad size as a percentage of the available area, per axis */
+  SIZE_PERCENTS: [25, 50, 75, 100],
+  DEFAULT_SIZE_PERCENT: 50,
 } as const
 
 // Global transpose range in semitones

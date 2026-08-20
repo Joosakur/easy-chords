@@ -10,6 +10,7 @@ interface RootState {
   ui: UIState
   chordMap: ChordMapState
   piano: PianoState
+  ccPad: CcPadState
 }
 ```
 
@@ -43,10 +44,13 @@ Controls sidebar visibility.
 interface UIState {
   settingsOpen: boolean   // Right sidebar (settings panel)
   editorOpen: boolean     // Left sidebar (chord editor)
+  ccPadOpen: boolean      // CC pad, which replaces the chord grid and piano
 }
 ```
 
 The `editorOpen` state also affects piano behavior: when true, clicking keys edits the active chord's voicing instead of just playing notes.
+
+`toggleCcPad` closes the editor when the pad opens - the editor edits the chord grid, which the pad hides.
 
 ### chordMap
 
@@ -66,6 +70,31 @@ interface ChordMapState {
 - `'swap'` - Swap mode: next click swaps the active chord with that slot
 
 **Default chords:** The first row is pre-populated with C major diatonic triads (C, Dm, Em, F, G, Am, Bdim).
+
+### ccPad
+
+Per-axis configuration for the 2D Control Change controller, plus the last values sent.
+
+```typescript
+interface CcAxisState {
+  enabled: boolean
+  cc: number          // CC number 0-127
+  min: number         // Value at the left / bottom edge
+  max: number         // Value at the right / top edge; may be below min, which inverts the axis
+  sizePercent: number // Pad size along this axis, 25-100
+}
+
+interface CcPadState {
+  x: CcAxisState
+  y: CcAxisState
+  value: { x: number | null; y: number | null }  // null while nothing has been sent
+}
+```
+
+`value` is what the receiver is believed to hold, and the saga skips sending a value that matches
+it. It is cleared when MIDI output is switched off, since the receiver's state is then unknown, and
+a disabled axis reports `null` rather than a value it never sent. See
+[audio-output.md](audio-output.md#cc-pad).
 
 ### piano
 
@@ -109,6 +138,19 @@ Handles chord grid interactions and preset loading.
 | `importChordMap` | Parse JSON string and replace all chords |
 
 **Velocity calculation:** When clicking a chord button, velocity is based on horizontal click position (`50 + x * 60`) plus random variation (±7), creating expressive dynamics.
+
+### ccPadSaga
+
+Emits Control Change messages as the pointer moves across the CC pad.
+
+| Action | Behavior |
+|--------|----------|
+| `padPointerMoved` | Maps the 0-1 pointer position onto each axis' range and sends CC for enabled axes whose value changed |
+
+Unlike every other saga here it does **not** use `takeLatest`, which would cancel the saga but not
+the HTTP request already in flight, letting values arrive out of order. It serialises the pointer
+stream through an `actionChannel` with a sliding buffer of one instead - see
+[audio-output.md](audio-output.md#why-the-pad-does-not-use-takelatest).
 
 ### settingsSaga
 

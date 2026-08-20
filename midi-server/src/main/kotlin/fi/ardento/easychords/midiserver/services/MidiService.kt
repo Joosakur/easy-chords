@@ -67,7 +67,7 @@ class MidiService {
 
     fun sendCC(event: CCEvent) {
         val current = receiver ?: return
-        current.send(ShortMessage(CONTROL_CHANGE, event.cc, event.value), -1)
+        current.send(ShortMessage(CONTROL_CHANGE, event.channel, event.cc, event.value), -1)
     }
 }
 

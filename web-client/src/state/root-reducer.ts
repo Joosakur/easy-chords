@@ -1,4 +1,5 @@
 import { combineReducers } from 'redux'
+import ccPadReducer, { type CcPadState, initialCcPadState } from './cc-pad/cc-pad-slice'
 import chordMapReducer, {
   type ChordMapState,
   initialChordMapState,
@@ -15,6 +16,7 @@ export interface RootState {
   ui: UIState
   chordMap: ChordMapState
   piano: PianoState
+  ccPad: CcPadState
 }
 
 export const initialRootState: RootState = {
@@ -22,6 +24,7 @@ export const initialRootState: RootState = {
   ui: initialUIState,
   chordMap: initialChordMapState,
   piano: initialPianoState,
+  ccPad: initialCcPadState,
 }
 
 const rootReducer = combineReducers({
@@ -29,6 +32,7 @@ const rootReducer = combineReducers({
   ui: uiReducer,
   chordMap: chordMapReducer,
   piano: pianoReducer,
+  ccPad: ccPadReducer,
 })
 
 export default rootReducer

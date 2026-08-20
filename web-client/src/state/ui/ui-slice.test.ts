@@ -6,8 +6,10 @@ import reducer, {
   initialUIState,
   openEditor,
   openSettings,
+  selectIsCcPadOpen,
   selectIsEditorOpen,
   selectIsSettingsOpen,
+  toggleCcPad,
   toggleEditor,
   toggleSettings,
   type UIState,
@@ -88,6 +90,29 @@ describe('ui slice', () => {
         expect(state.editorOpen).toBe(true)
       })
     })
+
+    describe('cc pad', () => {
+      it('toggleCcPad toggles the pad on and off', () => {
+        let state = reducer(initialUIState, toggleCcPad())
+        expect(state.ccPadOpen).toBe(true)
+
+        state = reducer(state, toggleCcPad())
+        expect(state.ccPadOpen).toBe(false)
+      })
+
+      it('closes the chord editor when the pad opens, since the grid is hidden', () => {
+        const withEditor = reducer(initialUIState, openEditor())
+        const state = reducer(withEditor, toggleCcPad())
+        expect(state.ccPadOpen).toBe(true)
+        expect(state.editorOpen).toBe(false)
+      })
+
+      it('leaves the settings sidebar alone', () => {
+        const withSettings = reducer(initialUIState, openSettings())
+        const state = reducer(withSettings, toggleCcPad())
+        expect(state.settingsOpen).toBe(true)
+      })
+    })
   })
 
   describe('selectors', () => {
@@ -112,6 +137,16 @@ describe('ui slice', () => {
       it('returns true when settings is open', () => {
         const rootState = createRootState({ settingsOpen: true })
         expect(selectIsSettingsOpen(rootState)).toBe(true)
+      })
+    })
+
+    describe('selectIsCcPadOpen', () => {
+      it('returns false when the pad is closed', () => {
+        expect(selectIsCcPadOpen(createRootState({ ccPadOpen: false }))).toBe(false)
+      })
+
+      it('returns true when the pad is open', () => {
+        expect(selectIsCcPadOpen(createRootState({ ccPadOpen: true }))).toBe(true)
       })
     })
   })

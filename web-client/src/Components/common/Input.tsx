@@ -5,7 +5,11 @@ interface InputProps {
   value?: string
   placeholder?: string
   fluid?: boolean
+  type?: 'text' | 'number'
+  min?: number
+  max?: number
   className?: string
+  'data-test'?: string
   onChange?: (e: React.ChangeEvent<HTMLInputElement>, data: { value: string }) => void
 }
 
@@ -29,14 +33,27 @@ const StyledInput = styled.input<{ $fluid?: boolean }>`
   }
 `
 
-export function Input({ value, placeholder, fluid, className, onChange }: InputProps) {
+export function Input({
+  value,
+  placeholder,
+  fluid,
+  type = 'text',
+  min,
+  max,
+  className,
+  'data-test': dataTest,
+  onChange,
+}: InputProps) {
   return (
     <StyledInput
-      type="text"
+      type={type}
       value={value}
       placeholder={placeholder}
+      min={min}
+      max={max}
       $fluid={fluid}
       className={className}
+      data-test={dataTest}
       onChange={(e) => onChange?.(e, { value: e.target.value })}
     />
   )
