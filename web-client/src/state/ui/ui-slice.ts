@@ -4,11 +4,13 @@ import type { RootState } from '../root-reducer'
 export interface UIState {
   settingsOpen: boolean
   editorOpen: boolean
+  ccPadOpen: boolean
 }
 
 export const initialUIState: UIState = {
   settingsOpen: false,
   editorOpen: false,
+  ccPadOpen: false,
 }
 
 const uiSlice = createSlice({
@@ -33,11 +35,17 @@ const uiSlice = createSlice({
     toggleEditor: (state) => {
       state.editorOpen = !state.editorOpen
     },
+    toggleCcPad: (state) => {
+      state.ccPadOpen = !state.ccPadOpen
+      // The chord editor edits the grid, which the pad hides
+      if (state.ccPadOpen) state.editorOpen = false
+    },
   },
 })
 
 export const selectIsEditorOpen = (state: RootState) => state.ui.editorOpen
 export const selectIsSettingsOpen = (state: RootState) => state.ui.settingsOpen
+export const selectIsCcPadOpen = (state: RootState) => state.ui.ccPadOpen
 
 export const {
   openSettings,
@@ -46,6 +54,7 @@ export const {
   openEditor,
   closeEditor,
   toggleEditor,
+  toggleCcPad,
 } = uiSlice.actions
 
 export default uiSlice.reducer

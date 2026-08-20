@@ -1,17 +1,18 @@
-import { faCog, faMusic, faQuestion } from '@fortawesome/free-solid-svg-icons'
+import { faCog, faMusic, faQuestion, faSliders } from '@fortawesome/free-solid-svg-icons'
 import { darken, lighten, math, rem } from 'polished'
 import { useDispatch, useSelector } from 'react-redux'
 import styled from 'styled-components'
 import { BREAKPOINTS } from '../config/constants'
 import bg from '../images/bg.png'
-import { stopNotes, toggleEditor, toggleSettings } from '../state/actions'
-import { selectIsEditorOpen } from '../state/ui/ui-slice'
+import { stopNotes, toggleCcPad, toggleEditor, toggleSettings } from '../state/actions'
+import { selectIsCcPadOpen, selectIsEditorOpen } from '../state/ui/ui-slice'
 import ActionButton from './common/buttons/ActionButton'
 import { FixedSpacing } from './common/layout/flex'
 import { Gap } from './common/layout/white-space'
 import { Colors, SPACING_LENGTHS } from './common/style-constants'
 import { H1 } from './common/typography'
 import ActionBar from './main-view/ActionBar'
+import CcPad from './main-view/CcPad'
 import ChordMap from './main-view/ChordMap'
 import Piano from './main-view/Piano'
 
@@ -74,14 +75,22 @@ const Content = styled.div<ContentProps>`
   }
 `
 
+const FullWidth = styled.div`
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  min-width: 0;
+`
+
 function MainView() {
   const dispatch = useDispatch()
   const editorOpen = useSelector(selectIsEditorOpen)
+  const ccPadOpen = useSelector(selectIsCcPadOpen)
 
   return (
     <Container onMouseUp={() => dispatch(stopNotes())}>
       <TitleBar>
-        {!editorOpen ? (
+        {!editorOpen && !ccPadOpen ? (
           <ActionButton
             text="Edit Chords"
             icon={faMusic}
@@ -96,6 +105,13 @@ function MainView() {
         <H1 $fitted>EasyChords</H1>
 
         <FixedSpacing>
+          <ActionButton
+            text={ccPadOpen ? 'Chords' : 'CC Pad'}
+            icon={ccPadOpen ? faMusic : faSliders}
+            hideText={BREAKPOINTS.lg}
+            onClick={() => dispatch(toggleCcPad())}
+            data-test="cc-pad-button"
+          />
           <ActionButton
             text="Settings"
             icon={faCog}
@@ -114,16 +130,22 @@ function MainView() {
       </TitleBar>
 
       <Padded>
-        <Content $editorOpen={editorOpen}>
-          <ActionBar />
-          <Gap />
-          <div style={{ flexGrow: 3 }} />
-          <ChordMap />
-          <div style={{ flexGrow: 4 }} />
-        </Content>
+        {ccPadOpen ? (
+          <FullWidth>
+            <CcPad />
+          </FullWidth>
+        ) : (
+          <Content $editorOpen={editorOpen}>
+            <ActionBar />
+            <Gap />
+            <div style={{ flexGrow: 3 }} />
+            <ChordMap />
+            <div style={{ flexGrow: 4 }} />
+          </Content>
+        )}
       </Padded>
 
-      <Piano />
+      {!ccPadOpen && <Piano />}
     </Container>
   )
 }

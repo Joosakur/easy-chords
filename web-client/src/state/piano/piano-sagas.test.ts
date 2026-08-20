@@ -264,7 +264,7 @@ describe('piano sagas', () => {
         ])
         .put(pianoKeyDown(60))
         .call(api.playChord, {
-          playNotes: [{ note: 62, channel: 1, velocity: 80 }],
+          playNotes: [{ note: 62, channel: 0, velocity: 80 }],
           stopNotes: [],
         })
         .run()
@@ -295,8 +295,8 @@ describe('piano sagas', () => {
           [matchers.call.fn(api.playChord), undefined],
         ])
         .call(api.playChord, {
-          playNotes: [{ note: 69, channel: 1, velocity: 80 }],
-          stopNotes: [{ note: 62, channel: 1 }],
+          playNotes: [{ note: 69, channel: 0, velocity: 80 }],
+          stopNotes: [{ note: 62, channel: 0 }],
         })
         .run()
     })
@@ -312,8 +312,8 @@ describe('piano sagas', () => {
         .call(api.playChord, {
           playNotes: [],
           stopNotes: [
-            { note: 57, channel: 1 },
-            { note: 61, channel: 1 },
+            { note: 57, channel: 0 },
+            { note: 61, channel: 0 },
           ],
         })
         .run()
@@ -327,7 +327,7 @@ describe('piano sagas', () => {
           [matchers.call.fn(api.playNote), undefined],
         ])
         .put(pianoKeyDown(60))
-        .call(api.playNote, { note: 48, channel: 1, velocity: 80 })
+        .call(api.playNote, { note: 48, channel: 0, velocity: 80 })
         .run()
     })
 
@@ -347,7 +347,7 @@ describe('piano sagas', () => {
           [matchers.call.fn(api.playChord), undefined],
         ])
         .call(api.playChord, {
-          playNotes: [{ note: 124, channel: 1, velocity: 80 }],
+          playNotes: [{ note: 124, channel: 0, velocity: 80 }],
           stopNotes: [],
         })
         .run()

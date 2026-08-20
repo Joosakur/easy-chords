@@ -273,10 +273,10 @@ class MidiServerTest {
     }
 
     @Test
-    fun `POST cc sends CONTROL_CHANGE message`() {
+    fun `POST cc sends CONTROL_CHANGE message on the requested channel`() {
         val mockReceiver = setupMidiReceiver()
 
-        val response = noteController.sendCC(CCEvent(channel = 0, cc = 64, value = 127))
+        val response = noteController.sendCC(CCEvent(channel = 2, cc = 64, value = 127))
 
         assertEquals(HttpStatus.NO_CONTENT, response.statusCode)
 
@@ -285,6 +285,7 @@ class MidiServerTest {
 
         val message = messageCaptor.value
         assertEquals(ShortMessage.CONTROL_CHANGE, message.command)
+        assertEquals(2, message.channel)
         assertEquals(64, message.data1)
         assertEquals(127, message.data2)
     }

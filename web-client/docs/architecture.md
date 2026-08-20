@@ -5,6 +5,7 @@
 EasyChords is a web-based chord playing and editing application. It allows musicians to:
 
 - Play chords from a 7-column grid (rows vary by preset/import)
+- Send continuous MIDI Control Change from a 2D pad (vibrato, dynamics, expression)
 - Play individual notes on a visual piano keyboard
 - Create and edit chord voicings
 - Output sound via MIDI (to external synthesizers) or Web Audio (built-in fallback)
@@ -30,12 +31,13 @@ EasyChords is a web-based chord playing and editing application. It allows music
 
 ## State Architecture
 
-The application uses Redux with four state slices:
+The application uses Redux with five state slices:
 
 - **settings** - MIDI output configuration (host, device selection, enabled state)
-- **ui** - Sidebar visibility states
+- **ui** - Sidebar and CC pad visibility states
 - **chordMap** - The chord grid and edit mode state
 - **piano** - Currently pressed keys and sustain pedal state
+- **ccPad** - Per-axis CC assignment and range for the 2D controller
 
 Redux-Saga handles side effects: playing notes, MIDI communication, and chord map loading.
 
@@ -54,6 +56,9 @@ Redux-Saga handles side effects: playing notes, MIDI communication, and chord ma
 └─────────────┴───────────────────────────┴───────────────┘
    (Left)              (Center)               (Right)
 ```
+
+The CC pad is a mode rather than a panel: while it is open it replaces the chord grid and the piano
+in the centre column, so the pad gets the full width and height available.
 
 ## Audio Output
 

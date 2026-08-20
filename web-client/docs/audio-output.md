@@ -41,17 +41,17 @@ Default endpoint: `http://localhost:8080`
 ```typescript
 // Single note
 interface NoteEvent {
-  channel: number    // MIDI channel (1-16)
+  channel: number    // MIDI channel, 0-15 on the wire (0 is "channel 1" in a DAW)
   note: number       // MIDI note number (0-127)
   velocity: number   // Note velocity (0-127)
   duration?: number  // Optional auto-off duration
 }
 
-// Control Change (e.g., sustain pedal)
+// Control Change (sustain pedal, CC pad)
 interface CCEvent {
   channel: number
   cc: number         // CC number (64 = sustain pedal)
-  value: number      // 0 = off, 127 = on
+  value: number      // 0-127. For sustain: 0 = off, 127 = on
 }
 
 // Chord (batch operation)
@@ -134,6 +134,15 @@ Notes pushed outside 0-127 are dropped rather than clamped: a clamped note would
 pitch, and both backends reject out-of-range input (the server throws `InvalidMidiDataException`,
 and `numberToTone` throws on negatives).
 
+## MIDI Channel
+
+Everything the app sends - notes, sustain and CC pad values - goes out on `MIDI.CHANNEL`
+(`config/constants.ts`), which is `0`.
+
+`javax.sound.midi` numbers channels 0-15, while DAWs display them 1-16, so channel `0` is what a
+DAW shows as **channel 1**. There is no per-part or per-track routing and no UI to change the
+channel.
+
 ## Sustain Pedal
 
 The Space bar controls the sustain pedal:
@@ -141,3 +150,37 @@ The Space bar controls the sustain pedal:
 - Release: Sends CC#64 value 0 (pedal up)
 
 Only works with MIDI output; Web Audio fallback ignores sustain.
+
+## CC Pad
+
+A 2D controller for sending continuous Control Change data - vibrato, dynamics, expression - on top
+of a part the DAW is already playing back. The "CC Pad" button in the title bar swaps the chord grid
+and piano for the pad; the button swaps back.
+
+Each axis is independently configured (`state/cc-pad/cc-pad-slice.ts`):
+
+| Setting | Meaning |
+|---------|---------|
+| On / Off | Whether the axis sends anything |
+| CC | CC number 0-127. Defaults: X = 1 (modulation), Y = 11 (expression) |
+| Min / Max | Values at the two ends of the axis. Narrowing the range spreads fewer values over the same travel, which is how sensitivity is set. `min` above `max` inverts the axis |
+| Size | Pad size along that axis, 25-100% of the available area |
+
+Clicking jumps to a value, dragging sweeps through values, and **releasing latches the last value**
+- nothing is reset on pointer-up, the same as a mod wheel. Pointer capture keeps a drag tracking
+after it leaves the pad, so the ends of the range stay reachable.
+
+Values are sent only with MIDI output enabled; the pad shows a warning otherwise, though the
+readout still follows the pointer so the mapping can be checked without a server.
+
+### Why the pad does not use `takeLatest`
+
+Each CC message is a separate HTTP request. `takeLatest` cancels the saga but not the request it
+already sent, so values could land out of order. Instead `ccPadSaga` serialises the pointer stream
+through an `actionChannel` with a sliding buffer of one: at most one request is in flight and the
+buffer always holds the newest position. Positions are dropped only when the pointer outruns the
+round trip - on localhost that is a millisecond or two, so effectively nothing is dropped, and over
+a network it degrades smoothly instead of flooding.
+
+A value that rounds to the same number as the last one sent is skipped, which keeps duplicate
+points out of the DAW's automation lane.
